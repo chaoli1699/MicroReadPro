@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ElecCal</string>
+    <string name="account">账号</string>
+
+    <string name="empty_data">暂无数据</string>
+    <string name="net_error">网络错误，点击重试...</string>
+    <string name="loading_more">正在加载更多...</string>
+
+    <string name="insert_user">新增用户</string>
+    <string name="input_username">输入用户名</string>
+    <string name="complate">完成</string>
+
+    <string name="last_data">上期码数</string>
+    <string name="current_data">本期码数</string>
+    <string name="air_count">空调电量</string>
+    <string name="air_fee">空调电费(单价：0.55)</string>
+    <string name="total_fee">电费总计</string>
+    <string name="submit">提交</string>
+    <string name="calculate">计算</string>
+    <string name="should_pay">应付</string>
+</resources>

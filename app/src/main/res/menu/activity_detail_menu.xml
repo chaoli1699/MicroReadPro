@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/like"
+        android:title="@string/like"
+        android:icon="@mipmap/like"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/share"
+        android:title="@string/share"
+        android:icon="@mipmap/share_w"
+        app:showAsAction="always"/>
+
+    <group
+        android:id="@+id/chgSpeaker"
+        android:title="@string/changeSpeaker"
+        app:showAsAction="ifRoom">
+
+        <item
+            android:id="@+id/speaker0"
+            android:title="@string/speaker0"
+            app:showAsAction="never"/>
+
+        <item
+            android:id="@+id/speaker1"
+            android:title="@string/speaker1"
+            app:showAsAction="never"/>
+
+        <item
+            android:id="@+id/speaker2"
+            android:title="@string/speaker2"
+            app:showAsAction="never"/>
+
+        <item
+            android:id="@+id/speaker3"
+            android:title="@string/speaker3"
+            app:showAsAction="never"/>
+
+    </group>
+</menu>

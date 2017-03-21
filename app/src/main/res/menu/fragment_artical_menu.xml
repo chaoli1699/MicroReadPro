@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sanwen"
+        android:title="@string/sanwen"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/shige"
+        android:title="@string/shige"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/zawen"
+        android:title="@string/zawen"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/suibi"
+        android:title="@string/suibi"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/novel"
+        android:title="@string/novel"
+        app:showAsAction="never"/>
+
+</menu>

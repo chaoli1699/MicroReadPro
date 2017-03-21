@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/fragment_edit_sign_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_sign"
+        android:textSize="@dimen/text_title"
+        android:textColor="@color/mdColor_black"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp"/>
+
+    <!--<View-->
+        <!--android:id="@+id/fragment_edit_sign_line"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_below="@id/fragment_edit_sign_title"-->
+        <!--android:background="@color/colorAccent"/>-->
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/fragment_edit_sign_content"
+        android:inputType="text"
+        android:maxLength="18"
+        android:hint="@string/input_sign"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_edit_sign_title"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/fragment_edit_sign_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_edit_sign_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/ok"
+        android:textSize="@dimen/text_body"
+        android:textColor="@color/colorAccent"
+        android:background="@null"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/fragment_edit_sign_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_edit_sign_content"
+        android:layout_toLeftOf="@id/fragment_edit_sign_ok"
+        android:layout_marginBottom="10dp"
+        android:text="@string/cancel"
+        android:textSize="@dimen/text_body"
+        android:textColor="@color/colorAccent"
+        android:background="@null"/>
+
+</RelativeLayout>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mdColor_grey_light"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/activity_about_app_logo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="40dp"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/ic_launcher_m"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/activity_about_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_about_app_logo"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/app_name"
+                android:textSize="@dimen/text_subhead"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/activity_about_app_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_about_app_name"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="35dp"
+                android:layout_centerHorizontal="true"
+                android:text="v 1.0.1"
+                android:textSize="@dimen/text_body"/>
+
+        </RelativeLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/activity_about_app_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_subhead"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/activity_about_app_studio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_about_app_content"
+                android:layout_centerHorizontal="true"
+                android:text="小尛李工作室"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/activity_about_app_copyright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_about_app_studio"
+                android:layout_centerHorizontal="true"
+                android:text="Copyright © 2017 xiaomoli studio."/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/activity_about_app_last"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_about_app_copyright"
+                android:layout_centerHorizontal="true"
+                android:text="All Rights Reserved."/>
+
+        </RelativeLayout>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>

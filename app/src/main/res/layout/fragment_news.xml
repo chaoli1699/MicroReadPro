@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:background="@color/white">
+
+        <com.bigkoo.convenientbanner.ConvenientBanner
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:canLoop="true"
+            android:id="@+id/top_stories_banner"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+        </com.bigkoo.convenientbanner.ConvenientBanner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/actionBarSize"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/latest_topic"
+            android:textSize="18sp"
+            android:textColor="@color/mdColor_grey_dark"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="3dp"
+            android:background="@color/mdColor_grey_light"/>
+
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar_news_toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/actionBarSize"-->
+            <!--android:fitsSystemWindows="true"-->
+            <!--app:title="@string/latest_topic"-->
+            <!--app:theme="@style/AppTheme"-->
+            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"/>-->
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.jude.easyrecyclerview.EasyRecyclerView
+            android:id="@+id/fg_news_recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.jude.easyrecyclerview.EasyRecyclerView>
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/float_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            app:fab_addButtonColorNormal="@color/colorAccent"
+            app:fab_addButtonColorPressed="@color/mdColor_blue_accent_dark"
+            app:fab_addButtonSize="normal"
+            app:fab_addButtonPlusIconColor="@color/white"
+            app:fab_labelStyle="@style/menu_labels_style"
+            app:fab_labelsPosition="left"
+            app:fab_expandDirection="up"
+            android:layout_margin="20dp">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/user_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/person"
+                app:fab_title="@string/user_center"
+                app:fab_size="mini"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/artical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/artical"
+                app:fab_title="@string/artical"
+                app:fab_size="mini"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/game"
+                app:fab_title="@string/game"
+                app:fab_size="mini"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/my_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/collection"
+                app:fab_title="@string/my_collection"
+                app:fab_size="mini"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/about_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/robot"
+                app:fab_title="@string/about"
+                app:fab_size="mini"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/share"
+                app:fab_title="@string/share"
+                app:fab_size="mini"/>
+
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    </FrameLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

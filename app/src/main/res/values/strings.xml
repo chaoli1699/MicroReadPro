@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">MicroRead</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="latest_topic">最新话题</string>
+    <string name="artical">精美文章</string>
+    <string name="game">休闲游戏</string>
+    <string name="user_center">用户中心</string>
+    <string name="my_collection">我的收藏</string>
+    <string name="more">更多</string>
+    <string name="about">关于软件</string>
+    <string name="share">分享给朋友</string>
+    <string name="settings">设置</string>
+
+    <string name="top_stories">置顶文章：</string>
+
+    <string name="edit">编辑</string>
+    <string name="done">完成</string>
+    <string name="empty_data">暂无数据</string>
+    <string name="net_error">网络错误，点击重试...</string>
+    <string name="loading_more">正在加载更多...</string>
+    <string name="no_more_toload">已加载全部数据...</string>
+    <string name="default_userName">未登录</string>
+    <string name="default_userSign">此人很懒，尚未添加任何心情。</string>
+    <string name="notlogin_clickto">尚未登录任何账号，点击这里去登录-></string>
+
+    <string name="like">喜欢</string>
+    <string name="changeSpeaker">更换播音员</string>
+    <string name="resize">文字大小</string>
+    <string name="add_comment">添加评论</string>
+    <string name="read_comments">查看评论</string>
+    <string name="speaker0">小美</string>
+    <string name="speaker1">小明</string>
+    <string name="speaker2">冯小刚</string>
+    <string name="speaker3">赵忠祥</string>
+
+    <string name="account">输入账户名</string>
+    <string name="password">输入密码</string>
+    <string name="again_password">再次输入密码</string>
+    <string name="login">登录</string>
+    <string name="regist">注册</string>
+    <string name="toregist">还没账号？去注册-></string>
+    <string name="tologin">已有账号？去登录-></string>
+
+    <string name="sanwen">散文</string>
+    <string name="shige">诗歌</string>
+    <string name="zawen">杂文</string>
+    <string name="suibi">随笔</string>
+    <string name="novel">小小说</string>
+
+    <string name="edit_sign">编辑签名</string>
+    <string name="input_sign">输入签名</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="sign_isEmpty">签名为空</string>
+
+    <string name="clear_cache">清理游戏缓存</string>
+
+</resources>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/main.collapsing"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="@style/expandedTitle"
+            app:collapsedTitleTextAppearance="@style/collapsedTitle"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+
+            <ImageView
+                android:id="@+id/iv_web_img"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/actionBarSize"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:theme="@style/ToolbarTheme"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/tv_img_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textColor="@color/mdColor_grey_dark"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_speak_vioce"
+                android:layout_width="13dp"
+                android:layout_height="18dp"
+                android:layout_below="@id/tv_img_title"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/anim_voice"/>
+
+            <Button
+                android:id="@+id/btn_essay_speak"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_below="@id/tv_img_title"
+                android:layout_toLeftOf="@id/iv_speak_vioce"
+                android:layout_alignBaseline="@id/iv_speak_vioce"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/selector_btn_speak"/>
+
+            <TextView
+                android:id="@+id/tv_img_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/btn_essay_speak"
+                android:layout_alignBaseline="@id/btn_essay_speak"
+                android:layout_below="@id/tv_img_title"
+                android:gravity="end"
+                android:textColor="@color/mdColor_grey"
+                android:textSize="@dimen/text_caption" />
+
+        </RelativeLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <WebView
+                android:id="@+id/web_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"/>
+
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/float_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            app:fab_addButtonColorNormal="@color/colorAccent"
+            app:fab_addButtonColorPressed="@color/mdColor_blue_accent_dark"
+            app:fab_addButtonSize="normal"
+            app:fab_addButtonPlusIconColor="@color/white"
+            app:fab_labelStyle="@style/menu_labels_style"
+            app:fab_labelsPosition="left"
+            app:fab_expandDirection="up"
+            android:layout_margin="20dp">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/resize_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/resize"
+                app:fab_title="@string/resize"
+                app:fab_size="mini"/>
+
+            <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+                <!--android:id="@+id/read_comments"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:fab_colorNormal="@color/white"-->
+                <!--app:fab_colorPressed="@color/white_pressed"-->
+                <!--app:fab_icon="@mipmap/comment"-->
+                <!--app:fab_title="@string/read_comments"-->
+                <!--app:fab_size="mini"/>-->
+
+            <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+                <!--android:id="@+id/add_comment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:fab_colorNormal="@color/white"-->
+                <!--app:fab_colorPressed="@color/white_pressed"-->
+                <!--app:fab_icon="@mipmap/edit"-->
+                <!--app:fab_title="@string/add_comment"-->
+                <!--app:fab_size="mini"/>-->
+
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

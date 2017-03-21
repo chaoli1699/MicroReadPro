@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_latest"
+            android:checked="true"
+            android:icon="@mipmap/latest"
+            android:title="@string/latest_topic" />
+
+        <item
+            android:id="@+id/nav_artical"
+            android:checkable="true"
+            android:icon="@mipmap/artical"
+            android:title="@string/artical" />
+
+        <item
+            android:id="@+id/nav_game"
+            android:checkable="true"
+            android:icon="@mipmap/game"
+            android:title="@string/game" />
+
+        <!--<item-->
+            <!--android:id="@+id/nav_user"-->
+            <!--android:checkable="true"-->
+            <!--android:icon="@mipmap/person"-->
+            <!--android:title="@string/user_center"/>-->
+
+    </group>
+
+    <item android:title="@string/more">
+        <menu>
+            <item
+                android:id="@+id/nav_collect"
+                android:checked="true"
+                android:icon="@mipmap/collection"
+                android:title="@string/my_collection" />
+            
+            <item
+                android:id="@+id/nav_app"
+                android:icon="@mipmap/robot"
+                android:title="@string/about" />
+
+            <!--<item-->
+                <!--android:id="@+id/nav_about"-->
+                <!--android:icon="@mipmap/robot"-->
+                <!--android:title="@string/about_us" />-->
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@mipmap/share"
+                android:title="@string/share" />
+        </menu>
+    </item>
+</menu>

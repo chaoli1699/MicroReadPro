@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar_collection_toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/actionBarSize"-->
+            <!--android:fitsSystemWindows="true"-->
+            <!--app:title="@string/my_collection"-->
+            <!--app:theme="@style/AppTheme"-->
+            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"/>-->
+    <!--</android.support.design.widget.AppBarLayout>-->
+    <!--<include layout="@layout/toolbar_for_c_u"/>-->
+
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:id="@+id/fg_collection_recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </com.jude.easyrecyclerview.EasyRecyclerView>
+
+
+
+</android.support.design.widget.CoordinatorLayout>
