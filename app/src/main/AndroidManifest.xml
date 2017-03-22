@@ -130,7 +130,9 @@
         <activity
             android:name=".ui.activity.TypeArticalActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.UpdateWebActivity"></activity>
+
+        <activity android:name=".ui.activity.UpdateWebActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
