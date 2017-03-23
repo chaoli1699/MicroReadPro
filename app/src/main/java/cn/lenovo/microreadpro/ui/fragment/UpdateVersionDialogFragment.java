@@ -23,8 +23,8 @@ public class UpdateVersionDialogFragment extends DialogFragment implements Dialo
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity())
                 .setTitle("温馨提示")
-                .setMessage("有新版本，是否现在更新？！")
-                .setPositiveButton("更新",this)
+                .setMessage("有新版本，是否现在更新？")
+                .setPositiveButton("现在更新",this)
                 .setNegativeButton("下次再说",this);
         return builder.create();
     }
