@@ -1,20 +1,20 @@
 <?php
-header("Content-type: text/html; charset=gb2312");
+header("Content-type: text/html; charset=utf-8");
 
 /*
- * code 0:²Ù×÷³É¹¦
- * code 10009:´«µİ²ÎÊı´íÎó
- * code 10000:Ä¬ÈÏcode
- * code 10001:ÓÃ»§²»´æÔÚ(µÇÂ¼)
- * code 10002:ÃÜÂë´íÎó
- * code 10003:ÓÃ»§ÒÑ´æÔÚ(×¢²á)
- * code 10004:ÓÃ»§ÒÑÆúÓÃ
+ * code 0:æ“ä½œæˆåŠŸ
+ * code 10009:ä¼ é€’å‚æ•°é”™è¯¯
+ * code 10000:é»˜è®¤code
+ * code 10001:ç”¨æˆ·ä¸å­˜åœ¨(ç™»å½•)
+ * code 10002:å¯†ç é”™è¯¯
+ * code 10003:ç”¨æˆ·å·²å­˜åœ¨(æ³¨å†Œ)
+ * code 10004:ç”¨æˆ·å·²å¼ƒç”¨
  */
 function var_json($info='', $code=10000, $data=array()){
 
 	$out['code'] = $code ?: 0;
 	$out['info'] = $info ?: ($out['code'] ? 'error' : 'success');
-	$out['data'] = $data ?: array();
+	$out['user'] = $data ?: array();
 	header('Content-Type: application/json; charset=utf-8');
 	echo json_encode($out, JSON_HEX_TAG);
 	$GLOBALS['conn']->close();
@@ -26,12 +26,14 @@ function if_user_exists($username){
 	$sql="SELECT username FROM md_user";
 	$result=$GLOBALS['conn']->query($sql);
 	
-	while ($row=$result->fetch_assoc()){
-		if ($row["username"]==$username){
-			return true;
-		}
+	if ($result->num_rows>0) {
+		# code...
+		while ($row=$result->fetch_assoc()){
+		    if ($row["username"]==$username){
+			    return true;
+		    }
+	    }
 	}
-	
 	return false;
 }
 
@@ -40,18 +42,20 @@ function if_user_abandon($username){
 	$sql="SELECT can_use FROM md_user WHERE username='".$username."'";
 	$result=$GLOBALS['conn']->query($sql);
 	
-	while ($row=$result->fetch_assoc()){
-		if ($row["can_use"]==1){
-			return true;
-		}
+	if ($result->num_rows>0) {
+		# code...
+		while ($row=$result->fetch_assoc()){
+		    if ($row["can_use"]==1){
+			    return true;
+		    }
+	    }
 	}
-	
 	return false;
 }
 
-function update_user_info($username,$label, $value){
+function update_user_info($uid, $label, $value){
 	
-	$sql = "UPDATE md_user SET ".$label."='".$value."' WHERE username='".$username."'";
+	$sql = "UPDATE md_user SET ".$label."='".$value."' WHERE uid='".$uid."'";
 	
 	$retval = mysqli_query($GLOBALS['conn'],$sql);
 	if(! $retval )
@@ -59,14 +63,14 @@ function update_user_info($username,$label, $value){
 		die('Could not update data: ' . mysqli_errno($GLOBALS['conn']));
 	}
 	
-	get_user_info($username);
+	get_user_info($uid);
 // 	echo "Updated data successfully!\n";
 }
 
 function verity_user($username,$password){
 	
 	if (if_user_exists($username)){
-		$sql="SELECT password FROM md_user WHERE username='".$username."' AND can_use='0'";
+		$sql="SELECT uid, password FROM md_user WHERE username='".$username."' AND can_use='0'";
 		$result=$GLOBALS['conn']->query($sql);
 		
 		if ($result->num_rows>0){
@@ -74,34 +78,26 @@ function verity_user($username,$password){
 				if ($row["password"]==$password){
 					// 				echo "Verity pass!\n";
 					$current_time=date("Y-m-d H:i:s");
-					update_user_info($username,"last_login_time",$current_time);
+					update_user_info($row["uid"],"last_login_time",$current_time);
 				}else {
 					// 				echo "Password wrong!\n";
 					var_json("wrong password",10002);
 				}
 			}
-		}else {
-			var_json("user not exist",10001);
 		}
-		
 	}else {
 // 		echo "User not exists.\n";
 		var_json("user not exist",10001);
 	}
 }
 
-function get_user_info($username){
-	$sql="SELECT * FROM md_user WHERE username='".$username."'";
+function get_user_info($uid){
+	$sql="SELECT * FROM md_user WHERE uid='".$uid."'";
 	$result=$GLOBALS['conn']->query($sql);
 	
 	if ($result->num_rows>0){
 		while ($row=$result->fetch_assoc()){
-// 			if ($row["can_use"]==0){
-				var_json("success",0,$row);
-// 				return $row["can_use"];
-// 			}else {
-// 				return $row["can_use"];
-// 			}
+		    var_json("success",0,$row);
 		}
 	}else {
 // 		echo "0 result.";
@@ -112,7 +108,7 @@ function get_user_info($username){
 
 function get_user_uid(){
 	$pre_uid=rand(1000,9999);
-	$sql="SELECT uid FROM md_user";
+	$sql="SELECT uid FROM md_user LIMIT 0,9000";
 	$result=$GLOBALS['conn']->query($sql);
 	
 	if ($result->num_rows>0) {
@@ -124,7 +120,7 @@ function get_user_uid(){
 			}
 		}
 	}
-}
+} 
 
 function regist_user($username,$password){
 	
@@ -147,13 +143,14 @@ function regist_user($username,$password){
               VALUE('".$uid."','".$username."','".$password."','".$current_time."')";
 
 		if ($GLOBALS['conn']->query($sql) === TRUE) {
-			get_user_info($username,"regist");
+			get_user_info($uid);
 		} else {
 			echo "Error: ". mysqli_error($GLOBALS['conn']);
 		}
 	}
 }
 
+$uid=empty($_GET['uid'])?'':$_GET['uid'];
 $action=empty($_GET['action'])?'':$_GET['action'];
 $username=empty($_GET['username'])?'':$_GET['username'];
 $password=empty($_GET['password'])?'':$_GET['password'];
@@ -162,10 +159,10 @@ $city=empty($_GET['city'])?'':$_GET['city'];
 $sign=empty($_GET['sign'])?'':$_GET['sign'];
 $role=empty($_GET['role'])?'':$_GET['role'];
 
-//MysqliÁ¬½Ó
+//Mysqliè¿æ¥
 $conn = mysqli_connect('localhost', 'root', '' , 'md_db');
 if (!$conn) {
-	die("Êı¾İ¿âÁ¬½Ó´íÎó" . mysqli_connect_error());
+	die("æ•°æ®åº“è¿æ¥é”™è¯¯" . mysqli_connect_error());
 } 
 
 switch ($action) {
@@ -176,22 +173,28 @@ switch ($action) {
 		regist_user($username, $password);
 		break;
 	case 'chansex':
-		update_user_info($username, "sex", $sex);
+		update_user_info($uid, "sex", $sex);
 		break;
 	case 'chancity':
-		update_user_info($username, "district", $city);
+		update_user_info($uid, "district", $city);
 		break;
 	case 'chansign':
-		update_user_info($username, "introduce", $sign);
+		update_user_info($uid, "introduce", $sign);
 		break;
 	case 'abandon':
-		update_user_info($username, "can_use", 1);
+		update_user_info($uid, "can_use", 1);
 		break;
 	case 'reuse':
-		update_user_info($username, "can_use", 0);
+		update_user_info($uid, "can_use", 0);
 		break;
 	case 'role':
-		update_user_info($username, "role", $role);
+		update_user_info($uid, "role", $role);
+		break;
+	case 'channame':
+	    update_user_info($uid, "username", $username);
+		break;
+	case 'chanpwd':
+	    update_user_info($uid ,"password" ,$password);
 		break;
 	default:
 		var_json("request error",10009);
