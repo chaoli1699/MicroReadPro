@@ -145,7 +145,7 @@ function regist_user($username,$password){
 		if ($GLOBALS['conn']->query($sql) === TRUE) {
 			get_user_info($uid);
 		} else {
-			echo "Error: ". mysqli_error($GLOBALS['conn']);
+			die ("Could not insert to data: ". mysqli_error($GLOBALS['conn']));
 		}
 	}
 }

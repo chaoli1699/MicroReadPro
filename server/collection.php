@@ -36,7 +36,7 @@ function if_artical_exists($detail_path){
 	$sql="SELECT aid FROM md_artical WHERE detail_path='".$detail_path."'";
 	$result=$GLOBALS['conn']->query($sql);
 
-    echo "result: ".$result->num_rows;
+    // echo "result: ".$result->num_rows;
 	if($result->num_rows>0){
 		return true;
 	}
@@ -148,7 +148,7 @@ function add_collection_item($uid,$art){
             if($GLOBALS['conn']->query($sql)===TRUE){
 
             }else{
-            	echo "Error: ". mysqli_error($GLOBALS['conn']);
+            	die ("Could not insert to data: ". mysqli_error($GLOBALS['conn']));
             }
 		}
 
@@ -156,7 +156,7 @@ function add_collection_item($uid,$art){
       	if ($GLOBALS['conn']->query($sql) === TRUE) {
 			get_collection_items($uid);
 		} else {
-			echo "Error: ". mysqli_error($GLOBALS['conn']);
+			die ("Could not insert to data: ". mysqli_error($GLOBALS['conn']));
 		}
 	}
 

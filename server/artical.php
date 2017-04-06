@@ -4,7 +4,7 @@ header("Content-type: text/html; charset=utf-8");
  * code = 0 操作成功
  * code =10009 传递参数错误
  * code =10000 默认编码
- * code =10008 查询结果为空
+ * code =10008 查询文章列表为空
  */
 function var_json($info='', $code=10000, $data=array()){
 

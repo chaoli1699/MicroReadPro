@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-04-06 09:27:22
+-- Generation Time: 2017-04-06 09:27:28
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -23,23 +23,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 表的结构 `md_artical`
+-- 表的结构 `md_artype`
 --
 
-CREATE TABLE IF NOT EXISTS `md_artical` (
-  `aid` int(8) NOT NULL AUTO_INCREMENT,
-  `title` text NOT NULL,
-  `author` text NOT NULL,
-  `source` text NOT NULL,
-  `atid` int(2) NOT NULL DEFAULT '0',
-  `image_path` text NOT NULL,
-  `detail_path` text NOT NULL,
-  `content` text NOT NULL,
-  `com_count` int(4) NOT NULL,
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE IF NOT EXISTS `md_artype` (
+  `atid` int(8) NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(10) NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`aid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`atid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- 转存表中的数据 `md_artype`
+--
+
+INSERT INTO `md_artype` (`atid`, `type_name`, `can_use`) VALUES
+(1, '今日要闻', 0),
+(2, '热门话题', 0),
+(3, '生活百科', 0),
+(4, '内涵段子', 0),
+(5, '名家名篇', 0),
+(6, '法律法规', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

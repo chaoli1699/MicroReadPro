@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-04-06 09:27:22
+-- Generation Time: 2017-04-06 09:27:10
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -23,22 +23,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 表的结构 `md_artical`
+-- 表的结构 `md_artcomment`
 --
 
-CREATE TABLE IF NOT EXISTS `md_artical` (
-  `aid` int(8) NOT NULL AUTO_INCREMENT,
-  `title` text NOT NULL,
-  `author` text NOT NULL,
-  `source` text NOT NULL,
-  `atid` int(2) NOT NULL DEFAULT '0',
-  `image_path` text NOT NULL,
-  `detail_path` text NOT NULL,
-  `content` text NOT NULL,
-  `com_count` int(4) NOT NULL,
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE IF NOT EXISTS `md_artcomment` (
+  `acid` int(8) NOT NULL AUTO_INCREMENT,
+  `aid` int(8) NOT NULL,
+  `uid` int(8) NOT NULL,
+  `comment` varchar(20) NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`aid`)
+  PRIMARY KEY (`acid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
