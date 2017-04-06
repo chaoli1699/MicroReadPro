@@ -8,7 +8,7 @@
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+08:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -44,8 +44,7 @@ CREATE TABLE IF NOT EXISTS `md_user` (
 --
 
 INSERT INTO `md_user` (`uid`, `username`, `password`, `sex`, `regist_time`, `last_login_time`, `district`, `introduce`, `can_use`, `role`) VALUES
-('9999', 'admin', '123456', 1, '2017-03-31 03:10:08', '2017-03-31 08:19:59', '南京', '超级管理员', 0, 9),
-('4892', 'lichao', '123456', 1, '2017-04-01 04:52:25', '2017-04-01 10:52:25', '', '', 0, 0);
+('9999', 'admin', '123456', 1, '2017-03-31 03:10:08', '2017-03-31 08:19:59', '南京', '超级管理员', 0, 9);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

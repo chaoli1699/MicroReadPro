@@ -172,6 +172,12 @@ switch ($action) {
 	case 'regist':
 		regist_user($username, $password);
 		break;
+	case 'abandon':
+		update_user_info($uid, "can_use", 1);
+		break;
+	case 'reuse':
+		update_user_info($uid, "can_use", 0);
+		break;
 	case 'chansex':
 		update_user_info($uid, "sex", $sex);
 		break;
@@ -181,13 +187,7 @@ switch ($action) {
 	case 'chansign':
 		update_user_info($uid, "introduce", $sign);
 		break;
-	case 'abandon':
-		update_user_info($uid, "can_use", 1);
-		break;
-	case 'reuse':
-		update_user_info($uid, "can_use", 0);
-		break;
-	case 'role':
+	case 'chanrole':
 		update_user_info($uid, "role", $role);
 		break;
 	case 'channame':
