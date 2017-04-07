@@ -17,7 +17,7 @@ function var_json($info='', $code=10000, $data=array()){
 	exit(0);
 }
 
-function get_artical_comments($aid){
+function get_comment_items($aid){
 
 	$sql="SELECT acid, uid, comment FROM md_artcomment WHERE aid='".$aid."' AND can_use='0'";
 	$result=$GLOBALS['conn']->query($sql);
@@ -36,7 +36,7 @@ function get_artical_comments($aid){
 	}
 }
 
-function add_artical_comment($aid, $uid, $comment){
+function add_comment_item($aid, $uid, $comment){
 
 	update_artical_com_count($aid, get_artical_com_count($aid));
 
@@ -105,11 +105,11 @@ if (!$conn) {
 switch ($action) {
 	case 'query':
 		# code...
-	    get_artical_comments($aid);
+	    get_comment_items($aid);
 		break;
 	case 'add':
 		# code...
-	    add_artical_comment($aid, $uid, $comment);
+	    add_comment_item($aid, $uid, $comment);
 		break;
 	default:
 		# code...

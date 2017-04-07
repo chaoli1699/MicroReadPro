@@ -11,11 +11,11 @@ header("Content-type: text/html;  charset=utf-8");
 
 class artical{
 
-	var $title;
-	var $author;
-	var $source;
-	var $image_path;
-	var $detail_path;
+	private $title;
+	private $author;
+	private $source;
+	private $image_path;
+	private $detail_path;
 
 	function __construct(){}
 }
@@ -142,7 +142,7 @@ function add_collection_item($uid,$art){
 
 		if(!if_artical_exists($art->detail_path)){
 			//将被收藏文章加入数据库
-            $sql="INSERT INTO md_artical(title,author,source,image_path,detail_path) 
+            $sql="INSERT INTO md_artical(title, author, source, image_path, detail_path) 
             VALUES ('".$art->title."','".$art->author."','".$art->source."','".$art->image_path."','".$art->detail_path."')";
 
             if($GLOBALS['conn']->query($sql)===TRUE){
