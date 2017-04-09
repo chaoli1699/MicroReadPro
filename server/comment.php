@@ -1,4 +1,4 @@
-<?php  
+﻿<?php  
 header("Content-type: text/html; charset=utf-8");  
 /*
  * code = 0 操作成功
@@ -35,7 +35,7 @@ function if_artical_exists($detail_path){
 	$sql="SELECT aid FROM md_artical WHERE detail_path='".$detail_path."'";
 	$result=$GLOBALS['conn']->query($sql);
 
-    // echo "result: ".$result->num_rows;
+     //echo "result: ".$result->num_rows;
 	if($result->num_rows>0){
 		return true;
 	}
@@ -80,10 +80,10 @@ function add_comment_item($art, $uid, $comment){
 
 	update_artical_com_count($art->detail_path, get_artical_com_count($art->detail_path));
 
-	$sql="INSERT INTO md_artcomment(aid, uid, comment) VALUES ('".get_artical_aid($detail_path)."','".$uid."','".$comment."')";
+	$sql="INSERT INTO md_artcomment(aid, uid, comment) VALUES ('".get_artical_aid($art->detail_path)."','".$uid."','".$comment."')";
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 		# code...
-		get_artical_comments(get_artical_aid($detail_path));
+		get_comment_items(get_artical_aid($art->detail_path));
 	}else{
 		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
 	}
@@ -162,10 +162,11 @@ $art=json_decode($artical);
 switch ($action) {
 	case 'query':
 		# code...
-	    if (!if_artical_exists($detail_path)) {
+	    if (if_artical_exists($detail_path)) {
 	    	# code...
 	    	get_comment_items(get_artical_aid($detail_path));
 	    }else {
+                //echo("not exists");
 	    	var_json("no comments",10010);
 	    }
 	    
