@@ -14,6 +14,7 @@ class artical{
 	private $title;
 	private $author;
 	private $source;
+	private $atid;
 	private $image_path;
 	private $detail_path;
 
@@ -84,9 +85,9 @@ function if_collection_abandon($uid, $detail_path){
 	return false;
 }
 
-function get_collection_items($uid){
+function get_collection_items($uid, $atid){
 
-	$sql="SELECT * FROM md_artical WHERE detail_path IN (SELECT detail_path FROM md_collection WHERE uid='".$uid."' AND can_use='0') AND can_use='0'";
+	$sql="SELECT * FROM md_artical WHERE detail_path IN (SELECT detail_path FROM md_collection WHERE uid='".$uid."' AND can_use='0') AND atid='".$atid."' AND can_use='0'";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -126,7 +127,7 @@ function remove_collection_item($uid, $art){
         var_json("not collected",10005);
     }
 	
-	get_collection_items($uid);
+	get_collection_items($uid, $art->atid);
 }
 
 function add_collection_item($uid,$art){
@@ -142,8 +143,9 @@ function add_collection_item($uid,$art){
 
 		if(!if_artical_exists($art->detail_path)){
 			//将被收藏文章加入数据库
-            $sql="INSERT INTO md_artical(title, author, source, image_path, detail_path) 
-            VALUES ('".$art->title."','".$art->author."','".$art->source."','".$art->image_path."','".$art->detail_path."')";
+            $sql="INSERT INTO md_artical(title, author, source, atid, image_path, detail_path) 
+            VALUES ('".$art->title."','".$art->author."','".$art->source."', '".$art->atid."', 
+            '".$art->image_path."','".$art->detail_path."')";
 
             if($GLOBALS['conn']->query($sql)===TRUE){
 
@@ -154,21 +156,22 @@ function add_collection_item($uid,$art){
 
 		$sql="INSERT INTO md_collection(uid, detail_path) VALUES ('".$uid."','".$art->detail_path."')";
       	if ($GLOBALS['conn']->query($sql) === TRUE) {
-			get_collection_items($uid);
+			get_collection_items($uid ,$art->atid);
 		} else {
 			die ("Could not insert to data: ". mysqli_error($GLOBALS['conn']));
 		}
 	}
 
-	get_collection_items($uid);
+	get_collection_items($uid, $art->atid);
 }
 
 
 $action=empty($_GET['action'])?'':$_GET['action'];
 $uid=empty($_GET['uid'])?'':$_GET['uid'];
+$atid=empty($_GET['atid'])?'':$_GET['atid'];
 $artical=empty($_GET['artical'])?'':$_GET['artical'];//json
 
-$art=new artical();
+$art=new artical;
 $art=json_decode($artical);
 
 //Mysqli连接
@@ -180,7 +183,7 @@ if (!$conn) {
 switch ($action) {
 	case 'query':
 		# code...
-	    get_collection_items($uid);
+	    get_collection_items($uid, $atid);
 		break;
 	case 'add':
 		# code...
