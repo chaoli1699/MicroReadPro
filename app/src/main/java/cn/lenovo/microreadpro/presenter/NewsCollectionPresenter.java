@@ -59,16 +59,8 @@ public class NewsCollectionPresenter extends BasePresenter<NewsCollectionView> {
         addSubscription(SystermParams.microReadApiStores.query_collection("query", mApp.currentUser.getUid(), -1), new ApiCallback<MCollection>() {
             @Override
             public void onSuccess(MCollection model) {
-
-                if (model.getCode().equals("0")){
-                    String collectionJson=new Gson().toJson(model.getCollections());
-                    mApp.aCache.put("news",collectionJson);
-//                    view.getCollectionSuccess(model.getCollections());
-                }else {
-                    view.getCollectionFail(model.getInfo());
-                }
-
-
+                String collectionJson=new Gson().toJson(model.getCollections());
+                mApp.aCache.put("news",collectionJson);
             }
 
             @Override
@@ -85,10 +77,10 @@ public class NewsCollectionPresenter extends BasePresenter<NewsCollectionView> {
         view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
     }
 
-//    /**
-//     * 移除所选收藏
-//     * @param removeS
-//     */
+    /**
+     * 移除所选收藏
+     * @param artical
+     */
     public void removeCollection(String artical){
 
         addSubscription(SystermParams.microReadApiStores.remove_collection("remove", mApp.currentUser.getUid(), artical), new ApiCallback<MCollection>() {
@@ -97,11 +89,8 @@ public class NewsCollectionPresenter extends BasePresenter<NewsCollectionView> {
                 if (model.getCode().equals("0")){
                     String collectionJson=new Gson().toJson(model.getCollections());
                     mApp.aCache.put("news",collectionJson);
-                }else {
-                    view.getCollectionFail(model.getInfo());
                 }
                 view.getCollectionSuccess(model.getCollections());
-//                view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
             }
 
             @Override
@@ -114,7 +103,5 @@ public class NewsCollectionPresenter extends BasePresenter<NewsCollectionView> {
 
             }
         });
-
-//        view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
     }
 }

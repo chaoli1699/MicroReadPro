@@ -329,9 +329,7 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
         mCArtical.setAuthor("作者："+mArtical.getAuthor());
         mCArtical.setSource("美文收藏");
         mCArtical.setAtid(-2);
-        if (mArtical.getImagePath()!=null){
-            mCArtical.setImage_path(mArtical.getImagePath());
-        }
+        mCArtical.setImage_path((mArtical.getImagePath()==null)? "":mArtical.getImagePath());
         mCArtical.setDetail_path(artical.getDetailPath());
     }
 
