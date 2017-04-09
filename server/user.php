@@ -10,6 +10,18 @@ header("Content-type: text/html; charset=utf-8");
  * code 10003:用户已存在(注册)
  * code 10004:用户已弃用
  */
+class user{
+	private $uid;
+	private $username;
+	private $password;
+	private $sex;
+	private $regist_time;
+	private $last_login_time;
+	private $district;
+	private $can_use;
+	private $role;
+}
+
 function var_json($info='', $code=10000, $data=array()){
 
 	$out['code'] = $code ?: 0;
@@ -81,13 +93,14 @@ function verity_user($username,$password){
 					update_user_info($row["uid"],"last_login_time",$current_time);
 				}else {
 					// 				echo "Password wrong!\n";
-					var_json("wrong password",10002);
+					var_json("wrong password",10002,new user);
+					// throw new Exception("password error");
 				}
 			}
 		}
 	}else {
 // 		echo "User not exists.\n";
-		var_json("user not exist",10001);
+		var_json("user not exist",10001,new user);
 	}
 }
 
@@ -101,7 +114,7 @@ function get_user_info($uid){
 		}
 	}else {
 // 		echo "0 result.";
-		var_json("user not exists",10001);
+		var_json("user not exists",10001,new user);
 	}
 	
 }
@@ -127,9 +140,9 @@ function regist_user($username,$password){
 	if (if_user_exists($username)){
 // 		echo "user exists!"
 		if (if_user_abandon($username)){
-			var_json("user abandon",10004);
+			var_json("user abandon",10004,new user);
 		}else {
-			var_json("user exists",10003);
+			var_json("user exists",10003,new user);
 		}
 		
 	}else {
@@ -197,7 +210,7 @@ switch ($action) {
 	    update_user_info($uid ,"password" ,$password);
 		break;
 	default:
-		var_json("request error",10009);
+		var_json("request error",10009,new user);
 		break;
 }
 
