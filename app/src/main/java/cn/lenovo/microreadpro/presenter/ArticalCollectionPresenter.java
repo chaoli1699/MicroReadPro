@@ -61,6 +61,7 @@ public class ArticalCollectionPresenter extends BasePresenter<ArticalCollectionV
 
                 String collectionJson=new Gson().toJson(model.getCollections());
                 mApp.aCache.put("artical",collectionJson);
+                view.getCollectionSuccess(SystermParams.getTotalCollection("artical"));
             }
 
             @Override
@@ -74,7 +75,7 @@ public class ArticalCollectionPresenter extends BasePresenter<ArticalCollectionV
             }
         });
 
-        view.getCollectionSuccess(SystermParams.getTotalCollection("artical"));
+//        view.getCollectionSuccess(SystermParams.getTotalCollection("artical"));
     }
 
     /**

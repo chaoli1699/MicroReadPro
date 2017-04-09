@@ -6,6 +6,19 @@ header("Content-type: text/html; charset=utf-8");
  * code =10000 默认编码
  * code =10010 查询评论列表为空
  */
+
+class artical{
+
+	private $title;
+	private $author;
+	private $source;
+	private $atid;
+	private $image_path;
+	private $detail_path;
+
+	function __construct(){}
+}
+
 function var_json($info='', $code=10000, $data=array()){
 
 	$out['code'] = $code ?: 0;
@@ -15,6 +28,19 @@ function var_json($info='', $code=10000, $data=array()){
 	echo json_encode($out, JSON_HEX_TAG);
 	$GLOBALS['conn']->close();
 	exit(0);
+}
+
+function if_artical_exists($detail_path){
+
+	$sql="SELECT aid FROM md_artical WHERE detail_path='".$detail_path."'";
+	$result=$GLOBALS['conn']->query($sql);
+
+    // echo "result: ".$result->num_rows;
+	if($result->num_rows>0){
+		return true;
+	}
+
+	return false;
 }
 
 function get_comment_items($aid){
@@ -36,23 +62,37 @@ function get_comment_items($aid){
 	}
 }
 
-function add_comment_item($aid, $uid, $comment){
+function add_comment_item($art, $uid, $comment){
 
-	update_artical_com_count($aid, get_artical_com_count($aid));
+	if (!if_artical_exists($art->detail_path)) {
+		# code...
+		//将被收藏文章加入数据库
+            $sql="INSERT INTO md_artical(title, author, source, atid, image_path, detail_path) 
+            VALUES ('".$art->title."','".$art->author."','".$art->source."', '".$art->atid."', 
+            '".$art->image_path."','".$art->detail_path."')";
 
-	$sql="INSERT INTO md_artcomment(aid, uid, comment) VALUES ('".$aid."','".$uid."','".$comment."')";
+            if($GLOBALS['conn']->query($sql)===TRUE){
+
+            }else{
+            	die ("Could not insert to data: ". mysqli_error($GLOBALS['conn']));
+            }
+	}
+
+	update_artical_com_count($art->detail_path, get_artical_com_count($art->detail_path));
+
+	$sql="INSERT INTO md_artcomment(aid, uid, comment) VALUES ('".get_artical_aid($detail_path)."','".$uid."','".$comment."')";
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 		# code...
-		get_artical_comments($aid);
+		get_artical_comments(get_artical_aid($detail_path));
 	}else{
 		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
 	}
 }
 
-function update_artical_com_count($aid, $com_count){
+function update_artical_com_count($detail_path, $com_count){
 
     $com_count++;
-    $sql="UPDATE md_artical SET com_count='".$com_count."' WHERE aid='".$aid."'";
+    $sql="UPDATE md_artical SET com_count='".$com_count."' WHERE detail_path='".$detail_path."'";
 
     $retval = mysqli_query($GLOBALS['conn'],$sql);
 	if(! $retval )
@@ -61,9 +101,9 @@ function update_artical_com_count($aid, $com_count){
 	}
 }
 
-function get_artical_com_count($aid){
+function get_artical_com_count($detail_path){
 
-	$sql="SELECT com_count FROM md_artical WHERE aid='".$aid."'";
+	$sql="SELECT com_count FROM md_artical WHERE detail_path='".$detail_path."'";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -71,6 +111,19 @@ function get_artical_com_count($aid){
 		while ($row=$result->fetch_assoc()) {
 			# code...
 			return $row["com_count"];	
+		}
+	}
+}
+
+function get_artical_aid($detail_path){
+	$sql="SELECT aid FROM md_artical WHERE detail_path='".$detail_path."'";
+	$result=$GLOBALS['conn']->query($sql);
+
+	if ($result->num_rows>0) {
+		# code...
+		while ($row=$result->fetch_assoc()) {
+			# code...
+			return $row["aid"];	
 		}
 	}
 }
@@ -92,7 +145,8 @@ function get_user_name($uid){
 }
 
 $action=empty($_GET['action'])?'':$_GET['action'];
-$aid=empty($_GET['aid'])?'':$_GET['aid'];
+$detail_path=empty($_GET['detail_path'])?'':$_GET['detail_path'];
+$artical=empty($_GET['artical'])?'':$_GET['artical'];
 $uid=empty($_GET['uid'])?'':$_GET['uid'];
 $comment=empty($_GET['comment'])?'':$_GET['comment'];
 
@@ -102,14 +156,23 @@ if (!$conn) {
 	die("数据库连接错误" . mysqli_connect_error());
 } 
 
+$art=new artical;
+$art=json_decode($artical);
+
 switch ($action) {
 	case 'query':
 		# code...
-	    get_comment_items($aid);
+	    if (!if_artical_exists($detail_path)) {
+	    	# code...
+	    	get_comment_items(get_artical_aid($detail_path));
+	    }else {
+	    	var_json("no comments",10010);
+	    }
+	    
 		break;
 	case 'add':
 		# code...
-	    add_comment_item($aid, $uid, $comment);
+	    add_comment_item($art, $uid, $comment);
 		break;
 	default:
 		# code...

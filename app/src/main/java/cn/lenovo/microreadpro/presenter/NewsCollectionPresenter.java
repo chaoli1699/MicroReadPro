@@ -61,6 +61,7 @@ public class NewsCollectionPresenter extends BasePresenter<NewsCollectionView> {
             public void onSuccess(MCollection model) {
                 String collectionJson=new Gson().toJson(model.getCollections());
                 mApp.aCache.put("news",collectionJson);
+                view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
             }
 
             @Override
@@ -74,7 +75,7 @@ public class NewsCollectionPresenter extends BasePresenter<NewsCollectionView> {
             }
         });
 
-        view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
+//        view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
     }
 
     /**
