@@ -92,8 +92,8 @@ public class LoginFragment extends MRFragment<LoginPresenter> implements LoginVi
     public void onClick(View view) {
         int id=view.getId();
         if (id==R.id.fg_login_check){
-            String username=name.getText().toString();
-            String password=pwd.getText().toString();
+            String username=name.getText().toString().trim();
+            String password=pwd.getText().toString().trim();
             if (TextUtils.isEmpty(username)){
                 name.setError("账户名为空");
                 return;

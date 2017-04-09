@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/edit"
-        android:title="@string/edit"
+        android:id="@+id/add_comment"
+        android:title="@string/add_comment"
         app:showAsAction="always"/>
 
 </menu>

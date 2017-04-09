@@ -68,14 +68,14 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
     @Bind(R.id.iv_speak_vioce)
     ImageView speakerVoice;
 
-//    @Bind(R.id.scroll_view)
-//    NestedScrollView scrollView;
-//    @Bind(R.id.float_menu)
-//    FloatingActionsMenu float_menu;
+    @Bind(R.id.scroll_view)
+    NestedScrollView scrollView;
+    @Bind(R.id.float_menu)
+    FloatingActionsMenu float_menu;
 //    @Bind(R.id.resize_text)
 //    FloatingActionButton resize_text;
-//    @Bind(R.id.add_comment)
-//    FloatingActionButton add_comment;
+    @Bind(R.id.news_comments)
+    FloatingActionButton comments;
 
 //    private CStoriedBean mStoriesBean;
     private MCollection.Artical mCArtical;
@@ -131,7 +131,7 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
 
         essaySpeak.setOnClickListener(this);
 //        resize_text.setOnClickListener(this);
-//        add_comment.setOnClickListener(this);
+        comments.setOnClickListener(this);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -158,22 +158,22 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
             }
         });
 
-//        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                if (float_menu.isExpanded()){
-//                    float_menu.collapse();
-//                }
-//
-//                if (scrollY>oldScrollY){
-//                    //up
-//                    float_menu.setVisibility(View.VISIBLE);
-//                }else {
-//                    //down
-//                    float_menu.setVisibility(View.GONE);
-//                }
-//            }
-//        });
+        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (float_menu.isExpanded()){
+                    float_menu.collapse();
+                }
+
+                if (scrollY>oldScrollY){
+                    //up
+                    float_menu.setVisibility(View.VISIBLE);
+                }else {
+                    //down
+                    float_menu.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
@@ -202,9 +202,13 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
             case R.id.resize_text:
                 new EditTextSizeDialogFragment().show(getSupportFragmentManager(),"edit_textSize");
                 break;
-//            case R.id.add_comment:
-//
-//                break;
+            case R.id.news_comments:
+                Intent intent=new Intent(NewsDetailActivity.this,CommentActivity.class);
+                Bundle b=new Bundle();
+                b.putSerializable("mcart",mCArtical);
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
         }
     }
 

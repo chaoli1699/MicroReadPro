@@ -97,7 +97,7 @@ public class CollectionActivity extends MRActivity<CollectionContainerPresenter>
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 ////        return super.onCreateOptionsMenu(menu);
-//        getMenuInflater().inflate(R.menu.fragment_collection_menu,menu);
+//        getMenuInflater().inflate(R.menu.activity_comment_menu,menu);
 //        return true;
 //    }
 //

@@ -114,19 +114,19 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-        <!--<com.getbase.floatingactionbutton.FloatingActionsMenu-->
-            <!--android:id="@+id/float_menu"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom|right"-->
-            <!--app:fab_addButtonColorNormal="@color/colorAccent"-->
-            <!--app:fab_addButtonColorPressed="@color/mdColor_blue_accent_dark"-->
-            <!--app:fab_addButtonSize="normal"-->
-            <!--app:fab_addButtonPlusIconColor="@color/white"-->
-            <!--app:fab_labelStyle="@style/menu_labels_style"-->
-            <!--app:fab_labelsPosition="left"-->
-            <!--app:fab_expandDirection="up"-->
-            <!--android:layout_margin="20dp">-->
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/float_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            app:fab_addButtonColorNormal="@color/colorAccent"
+            app:fab_addButtonColorPressed="@color/mdColor_blue_accent_dark"
+            app:fab_addButtonSize="normal"
+            app:fab_addButtonPlusIconColor="@color/white"
+            app:fab_labelStyle="@style/menu_labels_style"
+            app:fab_labelsPosition="left"
+            app:fab_expandDirection="up"
+            android:layout_margin="20dp">
 
             <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
                 <!--android:id="@+id/resize_text"-->
@@ -138,15 +138,15 @@
                 <!--app:fab_title="@string/resize"-->
                 <!--app:fab_size="mini"/>-->
 
-            <!--&lt;!&ndash;<com.getbase.floatingactionbutton.FloatingActionButton&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/read_comments"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:fab_colorNormal="@color/white"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:fab_colorPressed="@color/white_pressed"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:fab_icon="@mipmap/comment"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:fab_title="@string/read_comments"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:fab_size="mini"/>&ndash;&gt;-->
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/news_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/comment"
+                app:fab_title="@string/read_comments"
+                app:fab_size="mini"/>
 
             <!--&lt;!&ndash;<com.getbase.floatingactionbutton.FloatingActionButton&ndash;&gt;-->
                 <!--&lt;!&ndash;android:id="@+id/add_comment"&ndash;&gt;-->
@@ -159,7 +159,7 @@
                 <!--&lt;!&ndash;app:fab_size="mini"/>&ndash;&gt;-->
 
 
-        <!--</com.getbase.floatingactionbutton.FloatingActionsMenu>-->
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 
     </FrameLayout>

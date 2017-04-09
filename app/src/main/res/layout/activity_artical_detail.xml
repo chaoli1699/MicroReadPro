@@ -138,25 +138,15 @@
                 app:fab_title="@string/resize"
                 app:fab_size="mini"/>
 
-            <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
-                <!--android:id="@+id/read_comments"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--app:fab_colorNormal="@color/white"-->
-                <!--app:fab_colorPressed="@color/white_pressed"-->
-                <!--app:fab_icon="@mipmap/comment"-->
-                <!--app:fab_title="@string/read_comments"-->
-                <!--app:fab_size="mini"/>-->
-
-            <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
-                <!--android:id="@+id/add_comment"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--app:fab_colorNormal="@color/white"-->
-                <!--app:fab_colorPressed="@color/white_pressed"-->
-                <!--app:fab_icon="@mipmap/edit"-->
-                <!--app:fab_title="@string/add_comment"-->
-                <!--app:fab_size="mini"/>-->
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/artical_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_colorPressed="@color/white_pressed"
+                app:fab_icon="@mipmap/comment"
+                app:fab_title="@string/read_comments"
+                app:fab_size="mini"/>
 
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>

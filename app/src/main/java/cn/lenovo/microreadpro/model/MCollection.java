@@ -37,7 +37,7 @@ public class MCollection {
         this.collections = collections;
     }
 
-    public static class Artical {
+    public static class Artical implements Serializable {
 
         private int aid;
         private String title;

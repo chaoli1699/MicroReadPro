@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.TimeUtils;
 import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -35,7 +34,6 @@ import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.base.MRActivity;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.ArticalBox;
-import cn.lenovo.microreadpro.model.CArticalBean;
 import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.ShareBean;
 import cn.lenovo.microreadpro.net.ArticalMWApiStores;
@@ -73,8 +71,8 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
     FloatingActionsMenu float_menu;
     @Bind(R.id.resize_text)
     FloatingActionButton resize_text;
-//    @Bind(R.id.add_comment)
-//    FloatingActionButton add_comment;
+    @Bind(R.id.artical_comments)
+    FloatingActionButton comments;
 
     private String str;
     private Intent serviceIntent;
@@ -134,7 +132,7 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
 
         essaySpeak.setOnClickListener(this);
         resize_text.setOnClickListener(this);
-//        add_comment.setOnClickListener(this);
+        comments.setOnClickListener(this);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -206,9 +204,13 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
             case R.id.resize_text:
                 new EditTextSizeDialogFragment().show(getSupportFragmentManager(),"edit_textSize");
                 break;
-//            case R.id.add_comment:
-//
-//                break;
+            case R.id.artical_comments:
+                Intent intent=new Intent(ArticalDetailActivity.this,CommentActivity.class);
+                Bundle b=new Bundle();
+                b.putSerializable("mcart",mCArtical);
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
         }
     }
 

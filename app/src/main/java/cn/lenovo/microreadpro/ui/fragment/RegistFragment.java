@@ -89,9 +89,9 @@ public class RegistFragment extends MRFragment<RegistPresenter> implements Regis
     public void onClick(View view) {
         int id=view.getId();
         if (id==R.id.fg_regist_check){
-            String username=name.getText().toString();
-            String password=pwd.getText().toString();
-            String again_password=pwd2.getText().toString();
+            String username=name.getText().toString().trim();
+            String password=pwd.getText().toString().trim();
+            String again_password=pwd2.getText().toString().trim();
             if (TextUtils.isEmpty(username)){
                 name.setError("账户名为空");
                 return;
