@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mcxiaoke.bus.Bus;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.lenovo.microreadpro.R;
@@ -63,10 +65,9 @@ public class EditSignDialogFragment extends DialogFragment implements View.OnCli
             case R.id.fragment_edit_sign_ok:
 
                 if (content.getText().length()>0){
-                    mApp.currentUser.setSign(content.getText().toString());
-                    Intent intent=new Intent(SystermParams.action);
-                    intent.putExtra("user","change");
-                    getActivity().sendBroadcast(intent);
+//                    mApp.currentUser.setSign(content.getText().toString());
+                    mApp.currentUser.setIntroduce(content.getText().toString());
+                    Bus.getDefault().post("chansign");
                     dismiss();
                 }else {
                     content.setError(getResources().getString(R.string.sign_isEmpty));

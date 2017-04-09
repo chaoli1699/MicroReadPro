@@ -36,6 +36,7 @@ import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.base.MRActivity;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.CStoriedBean;
+import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.NewsDetailEntity;
 import cn.lenovo.microreadpro.model.ShareBean;
 import cn.lenovo.microreadpro.presenter.NewsDetailPresenter;
@@ -67,16 +68,17 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
     @Bind(R.id.iv_speak_vioce)
     ImageView speakerVoice;
 
-    @Bind(R.id.scroll_view)
-    NestedScrollView scrollView;
-    @Bind(R.id.float_menu)
-    FloatingActionsMenu float_menu;
-    @Bind(R.id.resize_text)
-    FloatingActionButton resize_text;
+//    @Bind(R.id.scroll_view)
+//    NestedScrollView scrollView;
+//    @Bind(R.id.float_menu)
+//    FloatingActionsMenu float_menu;
+//    @Bind(R.id.resize_text)
+//    FloatingActionButton resize_text;
 //    @Bind(R.id.add_comment)
 //    FloatingActionButton add_comment;
 
-    private CStoriedBean mStoriesBean;
+//    private CStoriedBean mStoriesBean;
+    private MCollection.Artical mCArtical;
     private String str;
     private Intent serviceIntent;
     private int type=0;
@@ -128,7 +130,7 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
         AnimVoice.stop();
 
         essaySpeak.setOnClickListener(this);
-        resize_text.setOnClickListener(this);
+//        resize_text.setOnClickListener(this);
 //        add_comment.setOnClickListener(this);
 
         WebSettings settings = webView.getSettings();
@@ -156,22 +158,22 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
             }
         });
 
-        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (float_menu.isExpanded()){
-                    float_menu.collapse();
-                }
-
-                if (scrollY>oldScrollY){
-                    //up
-                    float_menu.setVisibility(View.VISIBLE);
-                }else {
-                    //down
-                    float_menu.setVisibility(View.GONE);
-                }
-            }
-        });
+//        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                if (float_menu.isExpanded()){
+//                    float_menu.collapse();
+//                }
+//
+//                if (scrollY>oldScrollY){
+//                    //up
+//                    float_menu.setVisibility(View.VISIBLE);
+//                }else {
+//                    //down
+//                    float_menu.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -218,13 +220,13 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
         }else if (event.equals("exit")){
             finish();
         }else if (event.equals("resize")){
-            if (float_menu.isExpanded()){
-                float_menu.collapse();
-            }
-            if (mApp.isLogin){
-                mApp.getCurrentUser();
-            }
-            mPresenter.getNewsDetail(id);
+//            if (float_menu.isExpanded()){
+//                float_menu.collapse();
+//            }
+//            if (mApp.isLogin){
+////                mApp.getCurrentUser();
+//            }
+//            mPresenter.getNewsDetail(id);
         }
     }
 
@@ -254,10 +256,10 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
             onBackPressed();
         }else if (id==R.id.like){
             if (isCollected){
-                mPresenter.removeCollection(mStoriesBean);
+//                mPresenter.removeCollection(mStoriesBean);
             }else {
-                if (mStoriesBean!=null){
-                    mPresenter.addCollection(mStoriesBean);
+                if (mCArtical!=null){
+                    mPresenter.addCollection(mCArtical);
                 }
             }
         }else if (id==R.id.share){
@@ -304,15 +306,23 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
     }
 
     private void setCStoriesBean(NewsDetailEntity newsDetailEntity){
-        mStoriesBean=new CStoriedBean();
-        ArrayList<String> images=new ArrayList<>();
-        images.add(newsDetailEntity.getImage());
-        mStoriesBean.setId(Integer.valueOf(newsDetailEntity.getId()));
-        mStoriesBean.setTitle(newsDetailEntity.getTitle());
-        mStoriesBean.setImages(images);
-        mStoriesBean.setGa_prefix(newsDetailEntity.getGa_prefix());
-        mStoriesBean.setType(Integer.valueOf(newsDetailEntity.getType()));
-        mStoriesBean.setBelongs(mApp.currentUser);
+//        mStoriesBean=new CStoriedBean();
+//        ArrayList<String> images=new ArrayList<>();
+//        images.add(newsDetailEntity.getImage());
+//        mStoriesBean.setId(Integer.valueOf(newsDetailEntity.getId()));
+//        mStoriesBean.setTitle(newsDetailEntity.getTitle());
+//        mStoriesBean.setImages(images);
+//        mStoriesBean.setGa_prefix(newsDetailEntity.getGa_prefix());
+//        mStoriesBean.setType(Integer.valueOf(newsDetailEntity.getType()));
+////        mStoriesBean.setBelongs(mApp.currentUser);
+
+        mCArtical=new MCollection.Artical();
+        mCArtical.setTitle(newsDetailEntity.getTitle());
+        mCArtical.setAuthor(newsDetailEntity.getImage_source());
+        mCArtical.setSource("知乎话题");
+        mCArtical.setAtid(-1);
+        mCArtical.setImage_path(newsDetailEntity.getImage());
+        mCArtical.setDetail_path(id);
     }
 
     private void setShareBean(NewsDetailEntity newsDetailEntity){
@@ -342,7 +352,7 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
         imgSource.setText("来自:" + newsDetailEntity.getImage_source());
         Glide.with(this).load(newsDetailEntity.getImage()).into(webImg);
 
-        if (mApp.isLogin&&mPresenter.isCollected(mStoriesBean)){
+        if (mApp.isLogin&&mPresenter.isCollected(mCArtical)){
             setCollectStatus(1);
         }
 

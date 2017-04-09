@@ -10,7 +10,10 @@ import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import cn.lenovo.microreadpro.model.FontBean;
+import cn.lenovo.microreadpro.model.MUser;
 import cn.lenovo.microreadpro.model.UserBean;
 import cn.lenovo.microreadpro.utils.ACache;
 import cn.lenovo.microreadpro.utils.LogUtil;
@@ -35,8 +39,9 @@ public class MyApplication extends Application {
     public static Context mContext;
     public Set<Activity> allActivities;
     public boolean isLogin=false;
-    public List<UserBean> users;
-    public UserBean currentUser;
+//    public List<UserBean> users;
+//    public UserBean currentUser;
+    public MUser.User currentUser;
     public ACache aCache;
     public FontBean font=new FontBean();
     public boolean isLatest=true;
@@ -86,11 +91,11 @@ public class MyApplication extends Application {
     }
 
     /**
-     * 获取版本号
+     * 获取版本名
      *
-     * @return 当前应用的版本号
+     * @return 当前应用的版本名
      */
-    public static String getVersion() {
+    public static String getVersionName() {
         try {
             PackageManager manager = mInstance.getPackageManager();
             PackageInfo info = manager.getPackageInfo(mInstance.getPackageName(), 0);
@@ -103,54 +108,77 @@ public class MyApplication extends Application {
     }
 
     /**
-     * 判断用户是否存在
-     * @param name
-     * @return
+     * 获取版本号
+     *
+     * @return 当前应用的版本号
      */
-    public boolean isUserExist(String name){
-
-        if (name!=null&&name.length()>0){
-            for (UserBean user: users){
-                if (user.getUsername().equals(name)){
-                    currentUser=user;
-                    return true;
-                }
-            }
+    public static int getVersionCode() {
+        try {
+            PackageManager manager = mInstance.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(mInstance.getPackageName(), 0);
+            int version = info.versionCode;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
-        return false;
     }
 
-    /**
-     * 重置用户列表
-     */
-    public void resetUsers(UserBean user){
-        if (isUserExist(user.getUsername())){
-            for (UserBean u:users){
-                if (user.getUsername().equals(u.getUsername())){
-                    u.setLoginStatus(user.getLoginStatus());
-                }
-            }
-        }else {
-            users.add(user);
-        }
-        aCache.put("users",new Gson().toJson(users));
+//    /**
+//     * 判断用户是否存在
+//     * @param name
+//     * @return
+//     */
+//    public boolean isUserExist(String name){
+//
+//        if (name!=null&&name.length()>0){
+//            for (UserBean user: users){
+//                if (user.getUsername().equals(name)){
+//                    currentUser=user;
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+
+//    /**
+//     * 重置用户列表
+//     */
+    public void resetCurrentUsers(MUser.User user){
+//        if (isUserExist(user.getUsername())){
+//            for (UserBean u:users){
+//                if (user.getUsername().equals(u.getUsername())){
+//                    u.setLoginStatus(user.getLoginStatus());
+//                }
+//            }
+//        }else {
+//            users.add(user);
+//        }
+        aCache.put("currentUser",new Gson().toJson(user));
     }
 
     /**
      * 获取登录用户信息
      */
     public void getCurrentUser(){
+//
+//        if (users==null){
+//            users=SystermParams.getUsers();
+//        }
+//
+//        for (UserBean user: users){
+//            if (user.getLoginStatus()==1){
+//                currentUser=user;
+//                font=currentUser.getFont();
+//                isLogin=true;
+//            }
+//        }
 
-        if (users==null){
-            users=SystermParams.getUsers();
-        }
-
-        for (UserBean user: users){
-            if (user.getLoginStatus()==1){
-                currentUser=user;
-                font=currentUser.getFont();
-                isLogin=true;
-            }
+        JSONObject currentUserStr=aCache.getAsJSONObject("currentUser");
+        if (currentUserStr!=null&&!currentUserStr.equals("")){
+            isLogin=true;
+            currentUser=new Gson().fromJson(currentUserStr+"", MUser.User.class);
         }
     }
 

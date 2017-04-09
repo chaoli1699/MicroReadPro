@@ -22,6 +22,7 @@ import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.adapter.NewsCollectionRecyclerAdapter;
 import cn.lenovo.microreadpro.base.MRFragment;
 import cn.lenovo.microreadpro.model.CStoriedBean;
+import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.presenter.NewsCollectionPresenter;
 import cn.lenovo.microreadpro.ui.activity.NewsDetailActivity;
 import cn.lenovo.microreadpro.utils.SystermParams;
@@ -38,7 +39,8 @@ public class NewsCollectionFragment extends MRFragment<NewsCollectionPresenter> 
     private View rootView;
     private GridLayoutManager mGridLayoutManager;
     private NewsCollectionRecyclerAdapter mNewsCollectionRecyclerAdapter;
-    private List<CStoriedBean> collectedStoriesBeans;
+//    private List<CStoriedBean> collectedStoriesBeans;
+    private List<MCollection.Artical> mCArtical;
 
     @Nullable
     @Override
@@ -60,9 +62,13 @@ public class NewsCollectionFragment extends MRFragment<NewsCollectionPresenter> 
     @BusReceiver
     public void onStringEvent(String event) {
         // handle your event
-        if (event.equals("news_changed")){
-            mNewsCollectionRecyclerAdapter.clear();
-            mPresenter.getCollection();
+//        if (event.equals("news_changed")){
+//            mNewsCollectionRecyclerAdapter.clear();
+//            mPresenter.getCollection();
+//        }
+        if (event.contains("removeN:")){
+            String artical=event.substring(8);
+            mPresenter.removeCollection(artical);
         }
     }
 
@@ -82,7 +88,7 @@ public class NewsCollectionFragment extends MRFragment<NewsCollectionPresenter> 
 
                 if (SystermParams.COLLECTION_STATUS.equals("read")){
                     Intent intent=new Intent(getActivity(), NewsDetailActivity.class);
-                    intent.putExtra("id", collectedStoriesBeans.get(position).getId()+"");
+                    intent.putExtra("id", mCArtical.get(position).getDetail_path()+"");
                     startActivity(intent);
                 }
             }
@@ -97,9 +103,11 @@ public class NewsCollectionFragment extends MRFragment<NewsCollectionPresenter> 
     }
 
     @Override
-    public void getCollectionSuccess(List<CStoriedBean> storiesBeans) {
+    public void getCollectionSuccess(List<MCollection.Artical> storiesBeans) {
 
-        collectedStoriesBeans =storiesBeans;
+//        collectedStoriesBeans =storiesBeans;
+        mCArtical=storiesBeans;
+        mNewsCollectionRecyclerAdapter.clear();
         mNewsCollectionRecyclerAdapter.addAll(storiesBeans);
     }
 

@@ -1,11 +1,15 @@
 package cn.lenovo.microreadpro.presenter;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.lenovo.microreadpro.base.BasePresenter;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.CStoriedBean;
+import cn.lenovo.microreadpro.model.MCollection;
+import cn.lenovo.microreadpro.net.ApiCallback;
 import cn.lenovo.microreadpro.utils.SystermParams;
 import cn.lenovo.microreadpro.view.NewsCollectionView;
 
@@ -16,8 +20,9 @@ import cn.lenovo.microreadpro.view.NewsCollectionView;
 public class NewsCollectionPresenter extends BasePresenter<NewsCollectionView> {
 
     private MyApplication mApp;
-    private List<CStoriedBean> collection;
-    private List<CStoriedBean> uCollection;
+//    private List<CStoriedBean> collection;
+//    private List<CStoriedBean> uCollection;
+    private List<MCollection.Artical> mCArtical;
 
     public NewsCollectionPresenter(NewsCollectionView view){
         attachView(view);
@@ -30,45 +35,86 @@ public class NewsCollectionPresenter extends BasePresenter<NewsCollectionView> {
      */
     public void getCollection() {
 
-//        if (collection==null){
-            collection= SystermParams.getTotalNewsCollection();
+////        if (collection==null){
+//            collection= SystermParams.getTotalNewsCollection();
+////        }
+//
+//        if (uCollection==null){
+//            uCollection=new ArrayList<>();
+//        }else {
+//            uCollection.clear();
+//        }
+//
+//        if (collection.size()>0){
+//            for (CStoriedBean s:collection){
+//                if (s.getBelongs().getUsername().equals(mApp.currentUser.getUsername())){
+//                    uCollection.add(s);
+//                }
+//            }
+//            view.getCollectionSuccess(uCollection);
+//        }else {
+//            view.getCollectionFail("您还未收藏任何文章");
 //        }
 
-        if (uCollection==null){
-            uCollection=new ArrayList<>();
-        }else {
-            uCollection.clear();
-        }
+        addSubscription(SystermParams.microReadApiStores.query_collection("query", mApp.currentUser.getUid(), -1), new ApiCallback<MCollection>() {
+            @Override
+            public void onSuccess(MCollection model) {
 
-        if (collection.size()>0){
-            for (CStoriedBean s:collection){
-                if (s.getBelongs().getUsername().equals(mApp.currentUser.getUsername())){
-                    uCollection.add(s);
+                if (model.getCode().equals("0")){
+                    String collectionJson=new Gson().toJson(model.getCollections());
+                    mApp.aCache.put("news",collectionJson);
+//                    view.getCollectionSuccess(model.getCollections());
+                }else {
+                    view.getCollectionFail(model.getInfo());
                 }
+
+
             }
-            view.getCollectionSuccess(uCollection);
-        }else {
-            view.getCollectionFail("您还未收藏任何文章");
-        }
+
+            @Override
+            public void onFailure(String msg) {
+                view.getCollectionFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+
+        view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
     }
 
 //    /**
 //     * 移除所选收藏
 //     * @param removeS
 //     */
-//    public void removeCollection(List<CStoriedBean> removeS){
-//
-//        for(CStoriedBean rs: removeS){
-//            for (int i=0;i<collection.size();i++){
-//                 CStoriedBean cs=collection.get(i);
-//                if (rs.getId()==cs.getId()
-//                        && rs.getBelongs().getUsername().equals(cs.getBelongs().getUsername())){
-//                    collection.remove(i);
-//                }
-//            }
-//        }
-//
-//        mApp.aCache.put("colletcion",new Gson().toJson(collection));
-////        view.removeCollectionSuccess();
-//    }
+    public void removeCollection(String artical){
+
+        addSubscription(SystermParams.microReadApiStores.remove_collection("remove", mApp.currentUser.getUid(), artical), new ApiCallback<MCollection>() {
+            @Override
+            public void onSuccess(MCollection model) {
+                if (model.getCode().equals("0")){
+                    String collectionJson=new Gson().toJson(model.getCollections());
+                    mApp.aCache.put("news",collectionJson);
+                }else {
+                    view.getCollectionFail(model.getInfo());
+                }
+                view.getCollectionSuccess(model.getCollections());
+//                view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                view.getCollectionFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+
+//        view.getCollectionSuccess(SystermParams.getTotalCollection("news"));
+    }
 }

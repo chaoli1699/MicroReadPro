@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.umeng.analytics.MobclickAgent;
 import com.zaaach.citypicker.CityPickerActivity;
 
@@ -26,6 +28,7 @@ import cn.lenovo.microreadpro.base.MRFragment;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.ListBean;
 import cn.lenovo.microreadpro.presenter.UserCenterPresenter;
+import cn.lenovo.microreadpro.utils.EventUtil;
 import cn.lenovo.microreadpro.utils.SystermParams;
 import cn.lenovo.microreadpro.view.UserCenterView;
 
@@ -112,7 +115,6 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
                         new EditSignDialogFragment().show(getFragmentManager(),"edit_sign_fragment");
                         break;
                     case 5:
-                        mApp.currentUser.setLoginStatus(0);
                         Intent intent=new Intent(SystermParams.action);
                         intent.putExtra("user","logout");
                         getActivity().sendBroadcast(intent);
@@ -126,6 +128,18 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
 
     }
 
+    @BusReceiver
+    public void onStringEvent(String event) {
+        // handle your event
+        if (event.equals("chansex")){
+            mPresenter.chan_sex();
+        }else if (event.equals("chancity")){
+            mPresenter.chan_city();
+        }else if (event.equals("chansign")){
+           mPresenter.chan_sign();
+        }
+    }
+
     @Override
     protected UserCenterPresenter createPresenter() {
         return new UserCenterPresenter(this);
@@ -137,9 +151,28 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
     }
 
     @Override
+    public void chanInfoSuccess() {
+        Intent intent=new Intent(SystermParams.action);
+        intent.putExtra("user","change");
+        getActivity().sendBroadcast(intent);
+    }
+
+    @Override
+    public void chanInfoFail(String msg) {
+        EventUtil.showToast(getActivity(),msg);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        Bus.getDefault().register(this);
         MobclickAgent.onPageStart("UserCenterFragment");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Bus.getDefault().unregister(this);
     }
 
     @Override

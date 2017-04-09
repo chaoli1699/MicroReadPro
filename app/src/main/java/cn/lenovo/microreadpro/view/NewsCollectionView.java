@@ -5,6 +5,7 @@ import java.util.Set;
 
 import cn.lenovo.microreadpro.base.BaseView;
 import cn.lenovo.microreadpro.model.CStoriedBean;
+import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.NewsEntity;
 
 /**
@@ -13,7 +14,7 @@ import cn.lenovo.microreadpro.model.NewsEntity;
 
 public interface NewsCollectionView extends BaseView {
 
-    void getCollectionSuccess(List<CStoriedBean> storiesBeens);
+    void getCollectionSuccess(List<MCollection.Artical> mCArtical);
     void getCollectionFail(String msg);
 //    void removeCollectionSuccess();
 }

@@ -1,11 +1,15 @@
 package cn.lenovo.microreadpro.presenter;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.lenovo.microreadpro.base.BasePresenter;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.CArticalBean;
+import cn.lenovo.microreadpro.model.MCollection;
+import cn.lenovo.microreadpro.net.ApiCallback;
 import cn.lenovo.microreadpro.utils.SystermParams;
 import cn.lenovo.microreadpro.view.ArticalCollectionView;
 
@@ -30,45 +34,86 @@ public class ArticalCollectionPresenter extends BasePresenter<ArticalCollectionV
      */
     public void getCollection() {
 
-//        if (collection==null){
-            collection= SystermParams.getTotalArticalCollection();
-//        }
-
-        if (uCollection==null){
-            uCollection=new ArrayList<>();
-        }else {
-            uCollection.clear();
-        }
-
-        if (collection.size()>0){
-            for (CArticalBean s:collection){
-                if (s.getBelongs().getUsername().equals(mApp.currentUser.getUsername())){
-                    uCollection.add(s);
-                }
-            }
-            view.getCollectionSuccess(uCollection);
-        }else {
-            view.getCollectionFail("您还未收藏任何文章");
-        }
-    }
-
-//    /**
-//     * 移除所选收藏
-//     * @param removeS
-//     */
-//    public void removeCollection(List<CArticalBean> removeS){
+////        if (collection==null){
+//            collection= SystermParams.getTotalArticalCollection();
+////        }
 //
-//        for(CArticalBean rs: removeS){
-//            for (int i=0;i<collection.size();i++){
-//                 CArticalBean cs=collection.get(i);
-//                if (rs.getUrl()==cs.getUrl()
-//                        && rs.getBelongs().getUsername().equals(cs.getBelongs().getUsername())){
-//                    collection.remove(i);
+//        if (uCollection==null){
+//            uCollection=new ArrayList<>();
+//        }else {
+//            uCollection.clear();
+//        }
+//
+//        if (collection.size()>0){
+//            for (CArticalBean s:collection){
+//                if (s.getBelongs().getUsername().equals(mApp.currentUser.getUsername())){
+//                    uCollection.add(s);
 //                }
 //            }
+//            view.getCollectionSuccess(uCollection);
+//        }else {
+//            view.getCollectionFail("您还未收藏任何文章");
 //        }
-//
-//        mApp.aCache.put("colletcion_artical",new Gson().toJson(collection));
-////        view.removeCollectionSuccess();
-//    }
+
+        addSubscription(SystermParams.microReadApiStores.query_collection("query", mApp.currentUser.getUid(), -2), new ApiCallback<MCollection>() {
+            @Override
+            public void onSuccess(MCollection model) {
+
+                if (model.getCode().equals("0")){
+                    String collectionJson=new Gson().toJson(model.getCollections());
+                    mApp.aCache.put("artical",collectionJson);
+//                    view.getCollectionSuccess(model.getCollections());
+                }else {
+                    view.getCollectionFail(model.getInfo());
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                view.getCollectionFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+
+        view.getCollectionSuccess(SystermParams.getTotalCollection("artical"));
+    }
+
+    /**
+     * 移除所选收藏
+     * @param artical
+     */
+    public void removeCollection(String artical){
+
+        addSubscription(SystermParams.microReadApiStores.remove_collection("remove", mApp.currentUser.getUid(), artical), new ApiCallback<MCollection>() {
+            @Override
+            public void onSuccess(MCollection model) {
+                if (model.getCode().equals("0")){
+                    String collectionJson=new Gson().toJson(model.getCollections());
+                    mApp.aCache.put("artical",collectionJson);
+                }else {
+                    view.getCollectionFail(model.getInfo());
+                }
+                view.getCollectionSuccess(model.getCollections());
+//                view.getCollectionSuccess(SystermParams.getTotalCollection("artical"));
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                view.getCollectionFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+
+//        view.getCollectionSuccess(SystermParams.getTotalCollection("artical"));
+    }
 }

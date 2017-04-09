@@ -14,6 +14,7 @@ import cn.lenovo.microreadpro.base.BasePresenter;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.ArticalBox;
 import cn.lenovo.microreadpro.model.CArticalBean;
+import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.net.ApiCallback;
 import cn.lenovo.microreadpro.utils.SystermParams;
 import cn.lenovo.microreadpro.view.ArticalDetailView;
@@ -25,7 +26,7 @@ import cn.lenovo.microreadpro.view.ArticalDetailView;
 public class ArticalDetailPresenter extends BasePresenter<ArticalDetailView> {
 
     private MyApplication mApp;
-    private List<CArticalBean> collection;
+    private List<MCollection.Artical> collection;
 
     public ArticalDetailPresenter(ArticalDetailView view){
         attachView(view);
@@ -74,50 +75,98 @@ public class ArticalDetailPresenter extends BasePresenter<ArticalDetailView> {
 
     }
 
+//    /**
+//     * 判断是否已被收藏
+//     * @param mArticalBean
+//     * @return
+//     */
+//    public boolean isCollected(CArticalBean mArticalBean){
+//
+//        if(collection==null){
+//            collection=SystermParams.getTotalArticalCollection();
+//        }
+//
+//        if (collection.size()>0){
+//            for (CArticalBean s:collection) {
+//                String str1=s.getDetailPath()+";"+mArticalBean.getDetailPath();
+//                String str2=s.getBelongs().getUsername()+","+mArticalBean.getBelongs().getUsername();
+//                Log.i("s.url vs art.url",str1);
+//                Log.i("s.name vs art.name",str2);
+//                if (s.getDetailPath().equals(mArticalBean.getDetailPath())
+//                        && s.getBelongs().getUsername().equals(mArticalBean.getBelongs().getUsername())){
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+
     /**
      * 判断是否已被收藏
-     * @param mArticalBean
+     * @param artical
      * @return
      */
-    public boolean isCollected(CArticalBean mArticalBean){
+    public boolean isCollected(MCollection.Artical artical){
 
         if(collection==null){
-            collection=SystermParams.getTotalArticalCollection();
+            collection=SystermParams.getTotalCollection("artical");
         }
 
         if (collection.size()>0){
-            for (CArticalBean s:collection) {
-                String str1=s.getDetailPath()+";"+mArticalBean.getDetailPath();
-                String str2=s.getBelongs().getUsername()+","+mArticalBean.getBelongs().getUsername();
-                Log.i("s.url vs art.url",str1);
-                Log.i("s.name vs art.name",str2);
-                if (s.getDetailPath().equals(mArticalBean.getDetailPath())
-                        && s.getBelongs().getUsername().equals(mArticalBean.getBelongs().getUsername())){
+            for (MCollection.Artical a:collection) {
+                if (a.getDetail_path().equals(artical.getDetail_path())){
+//                        && s.getBelongs().getUsername().equals(mStoriedBean.getBelongs().getUsername())){
                     return true;
                 }
             }
         }
+
         return false;
     }
 
     /**
      * 加入收藏
-     * @param articalBean
+     * @param artical
      */
-    public void addCollection(CArticalBean articalBean){
+    public void addCollection(MCollection.Artical artical){
 
-        if (mApp.isLogin){
-            if (!isCollected(articalBean)){
-                collection.add(articalBean);
-                mApp.aCache.put("colletcion_artical",new Gson().toJson(collection));
-                view.addArticalCollectionSuccess();
-            }else {
-                view.addArticalCollectionFail("您已收藏过该文章");
+//        if (mApp.isLogin){
+//            if (!isCollected(articalBean)){
+//                collection.add(articalBean);
+//                mApp.aCache.put("colletcion_artical",new Gson().toJson(collection));
+//                view.addArticalCollectionSuccess();
+//            }else {
+//                view.addArticalCollectionFail("您已收藏过该文章");
+//            }
+//
+//        }else {
+//            view.addArticalCollectionFail("登录后方能添加收藏");
+//        }
+
+        String articalJson=new Gson().toJson(artical);
+        addSubscription(SystermParams.microReadApiStores.add_collection("add", mApp.currentUser.getUid(), articalJson), new ApiCallback<MCollection>() {
+            @Override
+            public void onSuccess(MCollection model) {
+
+                if (model.getCode().equals("0")){
+                    String collectionJson=new Gson().toJson(model.getCollections());
+                    mApp.aCache.put("artical",collectionJson);
+                    view.addArticalCollectionSuccess();
+                }else {
+                    view.addArticalCollectionFail(model.getInfo());
+                }
             }
 
-        }else {
-            view.addArticalCollectionFail("登录后方能添加收藏");
-        }
+            @Override
+            public void onFailure(String msg) {
+                view.addArticalCollectionFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
     }
 
     /**
@@ -126,17 +175,17 @@ public class ArticalDetailPresenter extends BasePresenter<ArticalDetailView> {
      */
     public void removeCollection(CArticalBean rs){
 
-//        for(CArticalBean rs: removeS){
-            for (int i=0;i<collection.size();i++){
-                 CArticalBean cs=collection.get(i);
-                if (rs.getDetailPath().equals(cs.getDetailPath())
-                        && rs.getBelongs().getUsername().equals(cs.getBelongs().getUsername())){
-                    collection.remove(i);
-                }
-            }
-//        }
-
-        mApp.aCache.put("colletcion_artical",new Gson().toJson(collection));
-        view.removeArticalCollectionSuccess();
+////        for(CArticalBean rs: removeS){
+//            for (int i=0;i<collection.size();i++){
+//                 CArticalBean cs=collection.get(i);
+//                if (rs.getDetailPath().equals(cs.getDetailPath())
+//                        && rs.getBelongs().getUsername().equals(cs.getBelongs().getUsername())){
+//                    collection.remove(i);
+//                }
+//            }
+////        }
+//
+//        mApp.aCache.put("colletcion_artical",new Gson().toJson(collection));
+//        view.removeArticalCollectionSuccess();
     }
 }

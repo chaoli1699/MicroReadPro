@@ -26,14 +26,13 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="2dp" />
 
-        <!--<ImageView-->
-            <!--android:id="@+id/item_collection_mark"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:visibility="gone"-->
-            <!--android:src="@mipmap/check"/>-->
+        <ImageView
+            android:id="@+id/item_collection_more"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/more"/>
 
         <TextView
             android:id="@+id/item_collection_title"

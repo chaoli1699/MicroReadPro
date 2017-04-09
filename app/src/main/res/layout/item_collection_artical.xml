@@ -26,14 +26,13 @@
             <!--android:layout_gravity="center_vertical"-->
             <!--android:layout_margin="2dp" />-->
 
-        <!--<ImageView-->
-            <!--android:id="@+id/item_collection_actical_mark"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:visibility="gone"-->
-            <!--android:src="@mipmap/check"/>-->
+        <ImageView
+            android:id="@+id/item_collection_actical_more"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/more"/>
 
         <TextView
             android:id="@+id/item_collection_actical_title"
@@ -52,9 +51,10 @@
             android:id="@+id/item_collection_artical_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_below="@id/item_collection_actical_title"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginBottom="5dp"
             android:textSize="@dimen/text_body"
             android:textColor="@color/mdColor_grey_dark"/>
@@ -70,18 +70,19 @@
             <!--android:maxLines="3"-->
             <!--android:textSize="@dimen/text_body"/>-->
 
-        <TextView
-            android:id="@+id/item_collection_actical_coltime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_collection_artical_author"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="@dimen/text_body"
-            android:textColor="@color/mdColor_grey_dark"/>
+        <!--<TextView-->
+            <!--android:id="@+id/item_collection_actical_coltime"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/item_collection_artical_author"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:textSize="@dimen/text_body"-->
+            <!--android:textColor="@color/mdColor_grey_dark"-->
+            <!--android:visibility="gone"/>-->
 
     </RelativeLayout>
 

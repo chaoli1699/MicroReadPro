@@ -6,6 +6,7 @@ import java.util.List;
 import cn.lenovo.microreadpro.base.BasePresenter;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.CStoriedBean;
+import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.NewsDetailEntity;
 import cn.lenovo.microreadpro.net.ApiCallback;
 import cn.lenovo.microreadpro.utils.LogUtil;
@@ -19,7 +20,7 @@ import cn.lenovo.microreadpro.view.NewsDetailView;
 public class NewsDetailPresenter extends BasePresenter<NewsDetailView> {
 
     private MyApplication mApp;
-    private List<CStoriedBean> collection;
+    private List<MCollection.Artical> collection;
 
     public NewsDetailPresenter(NewsDetailView view){
         attachView(view);
@@ -33,7 +34,7 @@ public class NewsDetailPresenter extends BasePresenter<NewsDetailView> {
             public void onSuccess(NewsDetailEntity model) {
 
                 String head = "<head>\n" +
-//                        "\t<link rel=\"stylesheet\" href=\"" + model.getCss()[0] + "\"/>\n" +
+                        "\t<link rel=\"stylesheet\" href=\"" + model.getCss()[0] + "\"/>\n" +
                         "</head>";
                 String img = "<div class=\"headline\">";
 
@@ -68,19 +69,19 @@ public class NewsDetailPresenter extends BasePresenter<NewsDetailView> {
 
     /**
      * 判断是否已被收藏
-     * @param mStoriedBean
+     * @param artical
      * @return
      */
-    public boolean isCollected(CStoriedBean mStoriedBean){
+    public boolean isCollected(MCollection.Artical artical){
 
         if(collection==null){
-            collection=SystermParams.getTotalNewsCollection();
+            collection=SystermParams.getTotalCollection("news");
         }
 
         if (collection.size()>0){
-            for (CStoriedBean s:collection) {
-                if (s.getId()==mStoriedBean.getId()
-                        && s.getBelongs().getUsername().equals(mStoriedBean.getBelongs().getUsername())){
+            for (MCollection.Artical a:collection) {
+                if (a.getDetail_path().equals(artical.getDetail_path())){
+//                        && s.getBelongs().getUsername().equals(mStoriedBean.getBelongs().getUsername())){
                     return true;
                 }
             }
@@ -91,22 +92,46 @@ public class NewsDetailPresenter extends BasePresenter<NewsDetailView> {
 
     /**
      * 加入收藏
-     * @param storiesBean
+     * @param artical
      */
-    public void addCollection(CStoriedBean storiesBean){
+    public void addCollection(MCollection.Artical artical){
 
-        if (mApp.isLogin){
-            if (!isCollected(storiesBean)){
-                collection.add(storiesBean);
-                mApp.aCache.put("colletcion",new Gson().toJson(collection));
-                view.addCollectionSuccess();
-            }else {
-                view.addCollectionFail("您已收藏过该文章");
+//        if (mApp.isLogin){
+//            if (!isCollected(storiesBean)){
+//                collection.add(storiesBean);
+//                mApp.aCache.put("colletcion",new Gson().toJson(collection));
+//                view.addCollectionSuccess();
+//            }else {
+//                view.addCollectionFail("您已收藏过该文章");
+//            }
+//
+//        }else {
+//            view.addCollectionFail("登录后方能添加收藏");
+//        }
+        String articalJson=new Gson().toJson(artical);
+        addSubscription(SystermParams.microReadApiStores.add_collection("add", mApp.currentUser.getUid(), articalJson), new ApiCallback<MCollection>() {
+            @Override
+            public void onSuccess(MCollection model) {
+
+                if (model.getCode().equals("0")){
+                    String collectionJson=new Gson().toJson(model.getCollections());
+                    mApp.aCache.put("news",collectionJson);
+                    view.addCollectionSuccess();
+                }else {
+                    view.addCollectionFail(model.getInfo());
+                }
             }
 
-        }else {
-            view.addCollectionFail("登录后方能添加收藏");
-        }
+            @Override
+            public void onFailure(String msg) {
+                view.addCollectionFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
     }
 
     /**
@@ -115,18 +140,18 @@ public class NewsDetailPresenter extends BasePresenter<NewsDetailView> {
      */
     public void removeCollection(CStoriedBean rs){
 
-//        for(CStoriedBean rs: removeS){
-            for (int i=0;i<collection.size();i++){
-                 CStoriedBean cs=collection.get(i);
-                if (rs.getId()==cs.getId()
-                        && rs.getBelongs().getUsername().equals(cs.getBelongs().getUsername())){
-                    collection.remove(i);
-                }
-            }
-//        }
-
-        mApp.aCache.put("colletcion",new Gson().toJson(collection));
-        view.removeCollectionSuccess();
+////        for(CStoriedBean rs: removeS){
+//            for (int i=0;i<collection.size();i++){
+//                 CStoriedBean cs=collection.get(i);
+//                if (rs.getId()==cs.getId()
+//                        && rs.getBelongs().getUsername().equals(cs.getBelongs().getUsername())){
+//                    collection.remove(i);
+//                }
+//            }
+////        }
+//
+//        mApp.aCache.put("colletcion",new Gson().toJson(collection));
+//        view.removeCollectionSuccess();
     }
 
 }

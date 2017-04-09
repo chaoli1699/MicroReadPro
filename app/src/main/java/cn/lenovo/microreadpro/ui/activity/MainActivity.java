@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mcxiaoke.bus.Bus;
 import com.umeng.analytics.MobclickAgent;
 import com.zaaach.citypicker.CityPickerActivity;
 
@@ -23,6 +24,7 @@ import butterknife.Bind;
 import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.base.BaseActivity;
 import cn.lenovo.microreadpro.base.MyApplication;
+import cn.lenovo.microreadpro.model.MUser;
 import cn.lenovo.microreadpro.model.ShareBean;
 import cn.lenovo.microreadpro.ui.fragment.ArticalFragment;
 import cn.lenovo.microreadpro.ui.fragment.GameFragment;
@@ -59,18 +61,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 if (user.equals("logout")){
                     mApp.isLogin=false;
                     EventUtil.showToast(MainActivity.this,"您已退出登录！");
-                    mApp.resetUsers(mApp.currentUser);
+                    mApp.resetCurrentUsers(null);
                     setMainDisplay("news");
                 }else if (user.equals("login")){
                     mApp.isLogin=true;
-                    mApp.getCurrentUser();
                     EventUtil.showToast(MainActivity.this,"登录成功！");
-                    mApp.resetUsers(mApp.currentUser);
+                    mApp.resetCurrentUsers(mApp.currentUser);
                     setMainDisplay("news");
                 }else if (user.equals("change")){
-                    mApp.getCurrentUser();
                     EventUtil.showToast(MainActivity.this,"修改成功！");
-                    mApp.resetUsers(mApp.currentUser);
+                    mApp.resetCurrentUsers(mApp.currentUser);
                     setMainDisplay("center");
                 }
             }else if (page!=null){
@@ -83,7 +83,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void setMainDisplay(String page){
         if (mApp.isLogin){
             userName.setText(mApp.currentUser.getUsername());
-            userSign.setText(mApp.currentUser.getSign());
+//            userSign.setText(mApp.currentUser.getSign());
+            userSign.setText((mApp.currentUser.getIntroduce().equals("")? getResources().getString(R.string.default_userSign):mApp.currentUser.getIntroduce()));
         }else {
             userName.setText(getResources().getString(R.string.default_userName));
             userSign.setText(getResources().getString(R.string.default_userSign));
@@ -200,10 +201,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (data != null){
                 String city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
 //                resultTV.setText("当前选择：" + city);
-                mApp.currentUser.setDistance(city);
-                Intent intent=new Intent(SystermParams.action);
-                intent.putExtra("user","change");
-                this.sendBroadcast(intent);
+                mApp.currentUser.setDistrict(city);
+                Bus.getDefault().post("chancity");
             }
         }
     }

@@ -51,12 +51,12 @@ public class EditTextSizeDialogFragment extends DialogFragment implements Dialog
 
         switch (i){
             case -1:
-                if (mApp.currentUser==null){
+//                if (mApp.currentUser==null){
                     mApp.font.setFont_size(fontSize);
-                }else {
-                    mApp.currentUser.getFont().setFont_size(fontSize);
-                    mApp.resetUsers(mApp.currentUser);
-                }
+//                }else {
+//                    mApp.currentUser.getFont().setFont_size(fontSize);
+//                    mApp.resetUsers(mApp.currentUser);
+//                }
                 Bus.getDefault().post("resize");
                 break;
             case 0:

@@ -39,7 +39,7 @@ public class AboutAppActivity extends BaseActivity {
             // Convert the buffer into a string.
             String text = new String(buffer, "GB2312");
 
-            version.setText(mApp.getVersion());
+            version.setText(mApp.getVersionName());
             content.setText(text);
         } catch (IOException e) {
             e.printStackTrace();

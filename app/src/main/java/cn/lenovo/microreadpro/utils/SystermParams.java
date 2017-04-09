@@ -14,11 +14,13 @@ import java.util.List;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.CArticalBean;
 import cn.lenovo.microreadpro.model.CStoriedBean;
+import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.UserBean;
 import cn.lenovo.microreadpro.net.AppClientGB2312;
 import cn.lenovo.microreadpro.net.AppInfoApiStores;
 import cn.lenovo.microreadpro.net.ArticalMWApiStores;
 import cn.lenovo.microreadpro.net.GameApiStores;
+import cn.lenovo.microreadpro.net.MicroReadApiStores;
 import cn.lenovo.microreadpro.net.NewsApiStores;
 import cn.lenovo.microreadpro.net.AppClient;
 
@@ -32,6 +34,7 @@ public class SystermParams {
     public static GameApiStores gameApiStores=AppClient.getRetrofitForUTF_8HTML(GameApiStores.API_GAME_URL).create(GameApiStores.class);
     public static ArticalMWApiStores articalMWApiStores= AppClientGB2312.getRetrofitForGB2312HTML(ArticalMWApiStores.API_MEIWEN_URL).create(ArticalMWApiStores.class);
     public static AppInfoApiStores appInfoApiStores= AppClient.getRetrofitForUTF_8HTML(AppInfoApiStores.API_APPINFO_URL).create(AppInfoApiStores.class);
+    public static MicroReadApiStores microReadApiStores =AppClient.getRetrofit(MicroReadApiStores.API_MICROREAD_URL).create(MicroReadApiStores.class);
 
     public static String FILE_PATH= Environment.getExternalStorageDirectory().getAbsolutePath()+"/MicroView/";
     public static String COLLECTION_STATUS="read";
@@ -71,18 +74,18 @@ public class SystermParams {
     }
 
     /**
-     * 获取收藏列表 news
+     * 获取收藏列表
      * @return
      */
-    public static List<CStoriedBean> getTotalNewsCollection() {
+    public static List<MCollection.Artical> getTotalCollection(String atid) {
 
         MyApplication mApp= (MyApplication) MyApplication.getInstance();
-        List<CStoriedBean> collection=new ArrayList<>();
+        List<MCollection.Artical> collection=new ArrayList<>();
 
-        JSONArray collectionJson=mApp.aCache.getAsJSONArray("colletcion");
+        JSONArray collectionJson=mApp.aCache.getAsJSONArray(atid);
         if (collectionJson!=null){
             for(int i=0;i<collectionJson.length();i++){
-                CStoriedBean mStories=new Gson().fromJson(collectionJson.optString(i), CStoriedBean.class);
+                MCollection.Artical mStories=new Gson().fromJson(collectionJson.optString(i), MCollection.Artical.class);
 //                if (mStories.getBelongs().getUsername().equals(mApp.currentUser.getUsername())){
                 collection.add(mStories);
 //                }
@@ -91,74 +94,4 @@ public class SystermParams {
         return collection;
     }
 
-    /**
-     * 获取收藏列表 artical
-     * @return
-     */
-    public static List<CArticalBean> getTotalArticalCollection() {
-
-        MyApplication mApp= (MyApplication) MyApplication.getInstance();
-        List<CArticalBean> collection=new ArrayList<>();
-
-        JSONArray collectionJson=mApp.aCache.getAsJSONArray("colletcion_artical");
-        if (collectionJson!=null){
-            for(int i=0;i<collectionJson.length();i++){
-                CArticalBean mArticals=new Gson().fromJson(collectionJson.optString(i), CArticalBean.class);
-//                if (mStories.getBelongs().getUsername().equals(mApp.currentUser.getUsername())){
-                collection.add(mArticals);
-//                }
-            }
-        }
-        return collection;
-    }
-
-    /**
-     * 清理缓存
-     */
-    public static void clearWebViewCache(Context context){
-        try {
-            context.deleteDatabase("webview.db");
-            context.deleteDatabase("webviewCache.db");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        File appCacheDir = new File(context.getFilesDir().getAbsolutePath()+APP_CACHE_DIRNAME);
-        File webviewCacheDir=new File(context.getCacheDir().getAbsolutePath()+"/webviewCache");
-
-        if (appCacheDir.exists()){
-            delateFile(appCacheDir);
-        }
-
-        if (webviewCacheDir.exists()){
-            if (delateFile(webviewCacheDir)){
-                EventUtil.showToast(context,"清理缓存成功！");
-            }else {
-                EventUtil.showToast(context,"清理缓存失败！");
-            }
-        }
-    }
-
-    /**
-     * 递归删除file
-     * @param file
-     */
-    public static boolean delateFile(File file){
-
-        if (file.exists()){
-            if (file.isFile()){
-                file.delete();
-            }else if (file.isDirectory()){
-                File files[]=file.listFiles();
-                for (int i=0;i<files.length;i++){
-                    delateFile(files[i]);
-                }
-            }
-            file.delete();
-            return true;
-        }else {
-            LogUtil.i("File doesn't exit");
-            return false;
-        }
-    }
 }

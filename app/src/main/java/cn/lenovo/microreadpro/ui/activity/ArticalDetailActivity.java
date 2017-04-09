@@ -36,6 +36,7 @@ import cn.lenovo.microreadpro.base.MRActivity;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.ArticalBox;
 import cn.lenovo.microreadpro.model.CArticalBean;
+import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.ShareBean;
 import cn.lenovo.microreadpro.net.ArticalMWApiStores;
 import cn.lenovo.microreadpro.presenter.ArticalDetailPresenter;
@@ -83,7 +84,8 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
     private AnimationDrawable AnimVoice;
     private ShareBean shareBean;
 
-    private CArticalBean mArticalBean;
+//    private CArticalBean mArticalBean;
+    private MCollection.Artical mCArtical;
     private ArticalBox.Artical artical;
     private boolean isCollected=false;
     private boolean isSpeaking=false;
@@ -227,7 +229,7 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
                 float_menu.collapse();
             }
             if (mApp.isLogin){
-                mApp.getCurrentUser();
+//                mApp.getCurrentUser();
             }
             mPresenter.getArticalDetail(artical);
         }
@@ -261,10 +263,10 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
         }else if (id==R.id.like){
 
             if (isCollected){
-                mPresenter.removeCollection(mArticalBean);
+//                mPresenter.removeCollection(mArticalBean);
             }else {
-                if (mArticalBean!=null){
-                    mPresenter.addCollection(mArticalBean);
+                if (mCArtical!=null){
+                    mPresenter.addCollection(mCArtical);
                 }
             }
         }else if(id==R.id.share){
@@ -312,15 +314,25 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
     }
 
     private void setCArticalBean(ArticalBox.Artical mArtical){
-        mArticalBean=new CArticalBean();
-        mArticalBean.setTitle(mArtical.getTitle());
-        mArticalBean.setAuthor("作者："+mArtical.getAuthor());
-        mArticalBean.setCol_time("收藏于"+TimeUtils.date2String(TimeUtils.getCurTimeDate()));
+//        mArticalBean=new CArticalBean();
+//        mArticalBean.setTitle(mArtical.getTitle());
+//        mArticalBean.setAuthor("作者："+mArtical.getAuthor());
+//        mArticalBean.setCol_time("收藏于"+TimeUtils.date2String(TimeUtils.getCurTimeDate()));
+//        if (mArtical.getImagePath()!=null){
+//            mArticalBean.setImagePath(mArtical.getImagePath());
+//        }
+//        mArticalBean.setDetailPath(artical.getDetailPath());
+////        mArticalBean.setBelongs(mApp.currentUser);
+
+        mCArtical=new MCollection.Artical();
+        mCArtical.setTitle(mArtical.getTitle());
+        mCArtical.setAuthor("作者："+mArtical.getAuthor());
+        mCArtical.setSource("美文收藏");
+        mCArtical.setAtid(-2);
         if (mArtical.getImagePath()!=null){
-            mArticalBean.setImagePath(mArtical.getImagePath());
+            mCArtical.setImage_path(mArtical.getImagePath());
         }
-        mArticalBean.setDetailPath(artical.getDetailPath());
-        mArticalBean.setBelongs(mApp.currentUser);
+        mCArtical.setDetail_path(artical.getDetailPath());
     }
 
     private void setShareBean(ArticalBox.Artical mArtical){
@@ -349,7 +361,7 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
         imgSource.setText("文/" + artical.getAuthor());
         Glide.with(this).load(ArticalMWApiStores.API_MEIWEN_URL+artical.getImagePath()).into(webImg);
 
-        if (mApp.isLogin&&mPresenter.isCollected(mArticalBean)){
+        if (mApp.isLogin&&mPresenter.isCollected(mCArtical)){
             setCollectStatus(1);
         }
 

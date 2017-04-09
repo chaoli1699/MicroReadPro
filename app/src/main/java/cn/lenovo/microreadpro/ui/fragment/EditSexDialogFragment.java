@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+import com.mcxiaoke.bus.Bus;
+
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.UserBean;
 import cn.lenovo.microreadpro.utils.SystermParams;
@@ -23,7 +25,8 @@ import static cn.lenovo.microreadpro.model.UserBean.SEX.男;
 public class EditSexDialogFragment extends DialogFragment implements DialogInterface.OnClickListener{
 
     private String[] items={"男","女"};
-    private UserBean.SEX chosed=男;
+//    private UserBean.SEX chosed=男;
+    private int chosed=1;
     private int position=0;
     private MyApplication mApp;
 
@@ -33,9 +36,9 @@ public class EditSexDialogFragment extends DialogFragment implements DialogInter
 //        return super.onCreateDialog(savedInstanceState);
         mApp= (MyApplication) MyApplication.getInstance();
 
-        if (mApp.currentUser.getSex()==男){
+        if (mApp.currentUser.getSex()>0){
             position=0;
-        }else if(mApp.currentUser.getSex()==女){
+        }else {
             position=1;
         }
 
@@ -54,15 +57,13 @@ public class EditSexDialogFragment extends DialogFragment implements DialogInter
         switch (i){
             case -1:
                 mApp.currentUser.setSex(chosed);
-                Intent intent=new Intent(SystermParams.action);
-                intent.putExtra("user","change");
-                getActivity().sendBroadcast(intent);
+                Bus.getDefault().post("chansex");
                 break;
             case 0:
-                chosed=男;
+                chosed=1;
                 break;
             case 1:
-                chosed=女;
+                chosed=0;
                 break;
         }
 

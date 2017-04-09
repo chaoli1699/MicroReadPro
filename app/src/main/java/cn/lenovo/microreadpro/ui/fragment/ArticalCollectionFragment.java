@@ -14,6 +14,7 @@ import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -22,8 +23,11 @@ import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.adapter.ArticalCollectionRecyclerAdapter;
 import cn.lenovo.microreadpro.base.MRFragment;
 import cn.lenovo.microreadpro.model.CArticalBean;
+import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.presenter.ArticalCollectionPresenter;
 import cn.lenovo.microreadpro.ui.activity.ArticalDetailActivity;
+import cn.lenovo.microreadpro.utils.EventUtil;
+import cn.lenovo.microreadpro.utils.LogUtil;
 import cn.lenovo.microreadpro.view.ArticalCollectionView;
 
 /**
@@ -39,6 +43,7 @@ public class ArticalCollectionFragment extends MRFragment<ArticalCollectionPrese
     private LinearLayoutManager mLinearLayoutManager;
     private ArticalCollectionRecyclerAdapter mArticalCollectionRecyclerAdapter;
     private List<CArticalBean> collectedArticalBeans;
+//    private List<MCollection.Artical> mCArtical;
 
     @Nullable
     @Override
@@ -65,9 +70,13 @@ public class ArticalCollectionFragment extends MRFragment<ArticalCollectionPrese
     @BusReceiver
     public void onStringEvent(String event) {
         // handle your event
-        if (event.equals("artical_changed")){
-            mArticalCollectionRecyclerAdapter.clear();
-            mPresenter.getCollection();
+//        if (event.equals("artical_changed")){
+//            mArticalCollectionRecyclerAdapter.clear();
+//            mPresenter.getCollection();
+//        }
+        if (event.contains("removeA:")){
+            String artical=event.substring(8);
+            mPresenter.removeCollection(artical);
         }
     }
 
@@ -96,10 +105,20 @@ public class ArticalCollectionFragment extends MRFragment<ArticalCollectionPrese
     }
 
     @Override
-    public void getCollectionSuccess(List<CArticalBean> carticalBean) {
+    public void getCollectionSuccess(List<MCollection.Artical> artical) {
 
-        collectedArticalBeans =carticalBean;
-        mArticalCollectionRecyclerAdapter.addAll(carticalBean);
+        collectedArticalBeans=new ArrayList<>();
+        for(MCollection.Artical a:artical){
+            CArticalBean ca=new CArticalBean();
+            ca.setTitle(a.getTitle());
+            ca.setAuthor(a.getAuthor());
+            ca.setImagePath(a.getImage_path());
+            ca.setDetailPath(a.getDetail_path());
+            collectedArticalBeans.add(ca);
+        }
+
+        mArticalCollectionRecyclerAdapter.clear();
+        mArticalCollectionRecyclerAdapter.addAll(artical);
     }
 
     @Override

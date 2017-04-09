@@ -18,8 +18,8 @@ android {
         applicationId "cn.lenovo.microreadpro"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 9
-        versionName "V 1.0.9"
+        versionCode 10
+        versionName "V 1.0.10"
 
         //语言资源，仅支持中文
         resConfigs "zh"
@@ -81,4 +81,7 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.10.1'
 
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+
+    compile 'com.example.zhouwei.library:library:1.0.0'
+
 }

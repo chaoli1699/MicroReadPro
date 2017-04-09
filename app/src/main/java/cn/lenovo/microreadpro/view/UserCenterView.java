@@ -11,4 +11,7 @@ import cn.lenovo.microreadpro.model.ListBean;
 public interface UserCenterView {
 
     void getUserInfoSuccess(List<ListBean> myListObjs);
+
+    void chanInfoSuccess();
+    void chanInfoFail(String msg);
 }
