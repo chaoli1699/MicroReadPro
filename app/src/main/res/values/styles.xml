@@ -65,4 +65,14 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="MyOverflowText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">#f3672b</item>
+    </style>
+
+    <style name="MyErrorStyle">
+        <item name="android:textColor">#ec4722</item>
+    </style>
+
+
+
 </resources>

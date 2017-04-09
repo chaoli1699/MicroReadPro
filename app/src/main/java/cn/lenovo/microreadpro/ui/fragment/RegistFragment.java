@@ -2,12 +2,14 @@ package cn.lenovo.microreadpro.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mcxiaoke.bus.Bus;
@@ -27,15 +29,21 @@ import cn.lenovo.microreadpro.view.RegistView;
 public class RegistFragment extends MRFragment<RegistPresenter> implements RegistView,View.OnClickListener {
 
     @Bind(R.id.fg_regist_name)
-    AppCompatEditText name;
+    EditText name;
     @Bind(R.id.fg_regist_pwd)
-    AppCompatEditText pwd;
+    EditText pwd;
     @Bind(R.id.fg_regist_pwd2)
-    AppCompatEditText pwd2;
+    EditText pwd2;
     @Bind(R.id.fg_regist_check)
     Button check;
     @Bind(R.id.fg_regist_toLogin)
     TextView tologin;
+    @Bind(R.id.fg_regist_layout_name)
+    TextInputLayout layout_name;
+    @Bind(R.id.fg_regist_layout_pwd)
+    TextInputLayout layout_pwd;
+    @Bind(R.id.fg_regist_layout_pwd2)
+    TextInputLayout layout_pwd2;
 
     private View rootView;
 
@@ -93,15 +101,27 @@ public class RegistFragment extends MRFragment<RegistPresenter> implements Regis
             String password=pwd.getText().toString().trim();
             String again_password=pwd2.getText().toString().trim();
             if (TextUtils.isEmpty(username)){
-                name.setError("账户名为空");
+                layout_name.setErrorEnabled(true);
+                layout_name.setError("账户名为空");
                 return;
+            }else {
+                layout_name.setErrorEnabled(false);
             }
+
             if (TextUtils.isEmpty(password)){
-                pwd.setError("密码为空");
+                layout_pwd.setErrorEnabled(true);
+                layout_pwd.setError("密码为空");
                 return;
+            }else {
+                layout_pwd.setErrorEnabled(false);
             }
+
             if (TextUtils.isEmpty(again_password)){
-                pwd2.setError("再次输入为空");
+                layout_pwd2.setErrorEnabled(true);
+                layout_pwd2.setError("再次输入为空");
+                return;
+            }else {
+                layout_pwd2.setErrorEnabled(false);
             }
 
             if (password.equals(again_password)){

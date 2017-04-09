@@ -45,35 +45,6 @@ public class SystermParams {
     public static final String APP_CACHE_DIRNAME="/MRWebCache";
 
     /**
-     * 获取用户列表
-     */
-    public static List<UserBean> getUsers(){
-
-        MyApplication mApp= (MyApplication) MyApplication.getInstance();
-        List<UserBean> users=new ArrayList<>();
-        if (users==null){
-            users=new ArrayList<>();
-        }else {
-            users.clear();
-        }
-
-        JSONArray usersJson=mApp.aCache.getAsJSONArray("users");
-        if (usersJson!=null){
-
-            try {
-                for(int i=0;i<usersJson.length();i++){
-                    UserBean user=new Gson().fromJson(usersJson.optString(i), UserBean.class);
-                    users.add(user);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-        }
-        return users;
-    }
-
-    /**
      * 获取收藏列表
      * @return
      */

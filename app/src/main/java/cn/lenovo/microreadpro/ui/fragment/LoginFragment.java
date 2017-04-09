@@ -3,12 +3,14 @@ package cn.lenovo.microreadpro.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mcxiaoke.bus.Bus;
@@ -30,13 +32,17 @@ import cn.lenovo.microreadpro.view.LoginView;
 public class LoginFragment extends MRFragment<LoginPresenter> implements LoginView,View.OnClickListener {
 
     @Bind(R.id.fg_login_name)
-    AppCompatEditText name;
+    EditText name;
     @Bind(R.id.fg_login_pwd)
-    AppCompatEditText pwd;
+    EditText pwd;
     @Bind(R.id.fg_login_check)
     Button check;
     @Bind(R.id.fg_login_toRegist)
     TextView toregist;
+    @Bind(R.id.fg_login_layout_name)
+    TextInputLayout layout_name;
+    @Bind(R.id.fg_login_layout_pwd)
+    TextInputLayout layout_pwd;
 
     private View rootView;
 
@@ -95,13 +101,20 @@ public class LoginFragment extends MRFragment<LoginPresenter> implements LoginVi
             String username=name.getText().toString().trim();
             String password=pwd.getText().toString().trim();
             if (TextUtils.isEmpty(username)){
-                name.setError("账户名为空");
+                layout_name.setErrorEnabled(true);
+                layout_name.setError("账户名为空");
                 return;
+            }else {
+                layout_name.setErrorEnabled(false);
             }
             if (TextUtils.isEmpty(password)){
-                pwd.setError("密码为空");
+                layout_pwd.setErrorEnabled(true);
+                layout_pwd.setError("密码为空");
                 return;
+            }else {
+                layout_pwd.setErrorEnabled(false);
             }
+
             mPresenter.login(username,password);
         }else if (id==R.id.fg_login_toRegist){
             Bus.getDefault().post("注册");

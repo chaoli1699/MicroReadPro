@@ -1,49 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/fg_regist_name"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/fg_regist_layout_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:hint="@string/account"
-        android:textColor="@color/colorAccent"
-        android:inputType="text"/>
+        android:layout_marginTop="15dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="17"
+        app:counterOverflowTextAppearance="@style/MyOverflowText"
+        app:errorTextAppearance="@style/MyErrorStyle">
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/fg_regist_pwd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:hint="@string/password"
-        android:textColor="@color/colorAccent"
-        android:inputType="text"/>
+        <EditText
+            android:id="@+id/fg_regist_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/account"
+            android:inputType="text"/>
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/fg_regist_pwd2"
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/fg_regist_layout_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:hint="@string/again_password"
-        android:textColor="@color/colorAccent"
-        android:inputType="text"/>
+        app:counterEnabled="true"
+        app:counterMaxLength="17"
+        app:counterOverflowTextAppearance="@style/MyOverflowText"
+        app:errorTextAppearance="@style/MyErrorStyle">
+
+        <EditText
+            android:id="@+id/fg_regist_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textPassword"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/fg_regist_layout_pwd2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="17"
+        app:counterOverflowTextAppearance="@style/MyOverflowText"
+        app:errorTextAppearance="@style/MyErrorStyle">
+
+        <EditText
+            android:id="@+id/fg_regist_pwd2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/again_password"
+            android:inputType="textPassword"/>
+
+    </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:id="@+id/fg_regist_toLogin"
