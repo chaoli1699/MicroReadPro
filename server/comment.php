@@ -30,9 +30,16 @@ function var_json($info='', $code=10000, $data=array()){
 	exit(0);
 }
 
-function time_to_now($uid, $aid){
+function time_to_now($uid, $aid, $tab){
 
-	$begin_time=get_comment_time($uid, $aid);
+    $begin_time="";
+    if ($tab=="parent") {
+    	# code...
+    	$begin_time=get_comment_time($uid, $aid);
+    }else if ($tab=="child") {
+    	# code...
+    	$begin_time=get_childcom_time($uid, $aid);
+    }
 	$end_time=date("Y-m-d H:i:s");
 
 	$timediff = strtotime($end_time)-strtotime($begin_time);
@@ -91,9 +98,9 @@ function if_artical_exists($detail_path){
 	return false;
 }
 
-function get_artical_com_count($detail_path){
+function get_artical_com_count($aid){
 
-	$sql="SELECT com_count FROM md_artical WHERE detail_path='".$detail_path."'";
+	$sql="SELECT com_count FROM md_artical WHERE aid='".$aid."'";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -118,10 +125,24 @@ function get_artical_aid($detail_path){
 	}
 }
 
-function update_artical_com_count($detail_path, $com_count){
+function get_artical_aid_wacid($acid){
+	$sql="SELECT aid FROM md_comment WHERE acid='".$acid."'";
+	$result=$GLOBALS['conn']->query($sql);
+
+	if ($result->num_rows>0) {
+		# code...
+		while ($row=$result->fetch_assoc()) {
+			# code...
+			// echo "aid:".$row["aid"].'</br>';
+			return $row["aid"];	
+		}
+	}
+}
+
+function update_artical_com_count($aid, $com_count){
 
     $com_count++;
-    $sql="UPDATE md_artical SET com_count='".$com_count."' WHERE detail_path='".$detail_path."'";
+    $sql="UPDATE md_artical SET com_count='".$com_count."' WHERE aid='".$aid."'";
 
     $retval = mysqli_query($GLOBALS['conn'],$sql);
 	if(! $retval )
@@ -146,6 +167,43 @@ function get_comment_time($uid, $aid){
     return "";
 }
 
+function get_childcom_time($uid, $acid){
+
+	$sql="SELECT com_time FROM md_childcom WHERE uid='".$uid."' AND acid='".$acid."'";
+    $result=$GLOBALS['conn']->query($sql);
+
+    if($result->num_rows>0){
+
+    	while ($row=$result->fetch_assoc()) {
+    		# code...
+    		return $row["com_time"];
+    	}
+    }
+
+    return "";
+}
+
+function get_childcom_items($acid){
+
+	$sql="SELECT accid, uid, comment, com_time FROM md_childcom WHERE acid='".$acid."' AND can_use='0' ORDER BY com_time DESC";
+	$result=$GLOBALS['conn']->query($sql);
+
+	if ($result->num_rows>0) {
+		# code...
+		$arr=array();
+		while ($row=$result->fetch_assoc()) {
+			# code...
+			$arr[]=array('accid'=>$row["accid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $acid, "child"));
+		}
+
+		// var_json("success",0,$arr);
+		return $arr;
+	}else{
+		// var_json("no comments",10010);
+		return array();
+	}
+}
+
 function get_comment_items($aid){
 
 	$sql="SELECT acid, uid, comment, com_time FROM md_comment WHERE aid='".$aid."' AND can_use='0' ORDER BY com_time DESC";
@@ -156,12 +214,27 @@ function get_comment_items($aid){
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
 			# code...
-			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $aid));
+			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $aid, "parent")
+				, 'child_com'=>get_childcom_items($row["acid"])
+				);
 		}
 
 		var_json("success",0,$arr);
 	}else{
 		var_json("no comments",10010);
+	}
+}
+
+function add_childcom_item($acid, $uid, $comment){
+
+    // update_artical_com_count(get_artical_aid_wacid($acid), get_artical_com_count(get_artical_aid_wacid($acid)));
+
+	$sql="INSERT INTO md_childcom(acid, uid, comment) VALUES ('".$acid."','".$uid."','".$comment."')";
+	if ($GLOBALS['conn']->query($sql)===TRUE) {
+		# code...
+		get_comment_items(get_artical_aid_wacid($acid));
+	}else{
+		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
 	}
 }
 
@@ -181,7 +254,7 @@ function add_comment_item($art, $uid, $comment){
             }
 	}
 
-	update_artical_com_count($art->detail_path, get_artical_com_count($art->detail_path));
+	update_artical_com_count(get_artical_aid($art->detail_path), get_artical_com_count(get_artical_aid($art->detail_path)));
 
 	$sql="INSERT INTO md_comment(aid, uid, comment) VALUES ('".get_artical_aid($art->detail_path)."','".$uid."','".$comment."')";
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
@@ -195,6 +268,7 @@ function add_comment_item($art, $uid, $comment){
 $action=empty($_GET['action'])?'':$_GET['action'];
 $detail_path=empty($_GET['detail_path'])?'':$_GET['detail_path'];
 $artical=empty($_GET['artical'])?'':$_GET['artical'];
+$acid=empty($_GET['acid'])?'':$_GET['acid'];
 $uid=empty($_GET['uid'])?'':$_GET['uid'];
 $comment=empty($_GET['comment'])?'':$_GET['comment'];
 
@@ -222,6 +296,10 @@ switch ($action) {
 	case 'add':
 		# code...
 	    add_comment_item($art, $uid, $comment);
+		break;
+	case 'addc':
+		# code...
+	    add_childcom_item($acid, $uid, $comment);
 		break;
 	default:
 		# code...
