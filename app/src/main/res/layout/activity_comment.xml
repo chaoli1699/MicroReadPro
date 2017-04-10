@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include layout="@layout/toolbar_for_c_u"/>
@@ -9,6 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_comment_comCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="@dimen/text_subhead"
+            android:text="@string/str_com_count"
+            android:textColor="@color/mdColor_black_light"/>
 
         <com.jude.easyrecyclerview.EasyRecyclerView
             android:id="@+id/activity_comment_recycleView"
@@ -29,7 +43,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/mdColor_grey_dark"/>
+                android:background="@color/mdColor_blue_accent"/>
 
             <Button
                 android:id="@+id/add_comment"
@@ -38,8 +52,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:drawableRight="@mipmap/send"
-                android:text="@string/add_comment"
-                android:textColor="@color/mdColor_blue_accent_light"
+                android:text="@string/send_comment"
+                android:textColor="@color/mdColor_blue"
                 android:layout_margin="5dp"/>
 
             <EditText
@@ -48,7 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/add_comment"
                 android:layout_alignTop="@id/add_comment"
-                android:layout_alignParentLeft="true"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentLeft="true" />
+
 
         </RelativeLayout>
 

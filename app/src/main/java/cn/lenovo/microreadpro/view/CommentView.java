@@ -11,7 +11,7 @@ import cn.lenovo.microreadpro.model.MComment;
 
 public interface CommentView extends BaseView {
 
-    void getCommentsSuccess(List<MComment.Comment> commentList);
+    void getCommentsSuccess(int comCount, List<MComment.PComment> commentList);
     void getCommentsFail(String msg);
 
 //    void addCommentSuccess();

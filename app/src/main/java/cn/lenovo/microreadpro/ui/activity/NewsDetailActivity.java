@@ -259,13 +259,19 @@ public class NewsDetailActivity extends MRActivity<NewsDetailPresenter> implemen
         if (id==android.R.id.home){
             onBackPressed();
         }else if (id==R.id.like){
-            if (isCollected){
+
+            if (mApp.isLogin){
+                if (isCollected){
 //                mPresenter.removeCollection(mStoriesBean);
-            }else {
-                if (mCArtical!=null){
-                    mPresenter.addCollection(mCArtical);
+                }else {
+                    if (mCArtical!=null){
+                        mPresenter.addCollection(mCArtical);
+                    }
                 }
+            }else {
+                EventUtil.showToast(NewsDetailActivity.this,"请先登录再添加收藏");
             }
+
         }else if (id==R.id.share){
             if (shareBean!=null){
                 ShareUtil.showShare(this,shareBean);

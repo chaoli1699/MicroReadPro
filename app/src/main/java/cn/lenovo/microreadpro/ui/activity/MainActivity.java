@@ -61,7 +61,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 if (user.equals("logout")){
                     mApp.isLogin=false;
                     EventUtil.showToast(MainActivity.this,"您已退出登录！");
-                    mApp.resetCurrentUsers(null);
+                    mApp.currentUser=null;
+                    mApp.resetCurrentUsers(mApp.currentUser);
                     setMainDisplay("news");
                 }else if (user.equals("login")){
                     mApp.isLogin=true;

@@ -11,9 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -46,12 +49,15 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     Button add_comment;
     @Bind(R.id.comment_container)
     RelativeLayout container;
+    @Bind(R.id.activity_comment_comCount)
+    TextView com_ount;
 
     private MCollection.Artical mcart;
     private LinearLayoutManager mLinearLayoutManager;
     private CommentRecyclerAdapter mCommentRecyclerAdapter;
     private MyApplication mApp;
-    private List<MComment.Comment> comments=new ArrayList<>();
+//    private List<MComment.Comment> comments=new ArrayList<>();
+    private int acid=-1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,18 +86,29 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
         mCommentRecyclerAdapter.setError(R.layout.view_error);
 //        mRecyclerView.setRefreshListener(this);
         mRecyclerView.setEmptyView(R.layout.view_empty);
-        mCommentRecyclerAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                if (container.getVisibility()==View.GONE){
-                    container.setVisibility(View.VISIBLE);
-                }
-                content.setText("@"+comments.get(position).getUsername()+": ");
-            }
-        });
+//        mCommentRecyclerAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                if (container.getVisibility()==View.GONE){
+//                    container.setVisibility(View.VISIBLE);
+//                }
+//                content.setText("@"+comments.get(position).getUsername()+": ");
+//            }
+//        });
 
         add_comment.setOnClickListener(this);
         mPresenter.getComments(mcart.getDetail_path());
+    }
+
+    @BusReceiver
+    public void onStringEvent(String event) {
+        // handle your event
+        if (event.contains("addc")){
+            acid=Integer.valueOf(event.substring(5));
+            if (container.getVisibility()==View.GONE){
+                container.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -107,6 +124,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
         int id=item.getItemId();
         switch (id){
             case R.id.add_comment:
+                acid=-1;
                 if (container.getVisibility()==View.GONE){
                     container.setVisibility(View.VISIBLE);
                 }
@@ -116,15 +134,17 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     }
 
     @Override
-    public void getCommentsSuccess(List<MComment.Comment> commentList) {
+    public void getCommentsSuccess(int comCount, List<MComment.PComment> commentList) {
+
+        com_ount.setText("最新评论("+comCount+")");
 
         if (container.getVisibility()==View.VISIBLE){
             content.setText("");
             container.setVisibility(View.GONE);
         }
 
-        comments.clear();
-        comments=commentList;
+//        comments.clear();
+//        comments=commentList;
 
         mCommentRecyclerAdapter.clear();
         mCommentRecyclerAdapter.addAll(commentList);
@@ -143,6 +163,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     @Override
     protected void onResume() {
         super.onResume();
+        Bus.getDefault().register(this);
         MobclickAgent.onResume(this);
     }
 
@@ -154,6 +175,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Bus.getDefault().unregister(this);
     }
 
     @Override
@@ -164,9 +186,15 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
                 if (mApp.isLogin){
                     String str=content.getText().toString().trim();
                     if (TextUtils.isEmpty(str)){
-                        content.setError("评论内容为空！");
+//                        content.setError("评论内容为空！");
+                        EventUtil.showSnackbar(view,"评论内容不能为空");
                     }else {
-                        mPresenter.addComment(mcart, str);
+                        EventUtil.closeInputKeyBoard(CommentActivity.this,content);
+                        if (acid<0){
+                            mPresenter.addComment(mcart, str);
+                        }else {
+                            mPresenter.addChildcom(acid, str);
+                        }
                     }
                 }else {
                     EventUtil.showSnackbar(view,"请先登录再发表评论");

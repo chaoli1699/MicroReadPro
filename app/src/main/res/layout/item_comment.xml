@@ -14,7 +14,9 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/item_comment_head"
@@ -50,6 +52,40 @@
             android:layout_marginBottom="2dp"
             android:textSize="@dimen/text_body"
             android:textColor="@color/mdColor_grey_dark"/>
+
+        <TextView
+            android:id="@+id/item_comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_comment_content"
+            android:layout_alignLeft="@id/item_comment_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="12sp"
+            android:textColor="@color/mdColor_grey"/>
+
+        <Button
+            android:id="@+id/btn_comment_response"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBaseline="@id/item_comment_time"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp"
+            android:background="@mipmap/comment"/>
+
+        <com.jude.easyrecyclerview.EasyRecyclerView
+            android:id="@+id/item_comment_childcom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_comment_time"
+            android:layout_alignLeft="@id/item_comment_time"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp" >
+
+        </com.jude.easyrecyclerview.EasyRecyclerView>
 
     </RelativeLayout>
 

@@ -22,18 +22,18 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         mApp= (MyApplication) MyApplication.getInstance();
     }
 
-    /**
-     * 验证密码是否正确
-     * @param pwd
-     * @return
-     */
-    private boolean checkPwd(String pwd){
-
-        if (mApp.currentUser.getPassword().equals(pwd)){
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * 验证密码是否正确
+//     * @param pwd
+//     * @return
+//     */
+//    private boolean checkPwd(String pwd){
+//
+//        if (mApp.currentUser.getPassword().equals(pwd)){
+//            return true;
+//        }
+//        return false;
+//    }
 
     /**
      * 登录
