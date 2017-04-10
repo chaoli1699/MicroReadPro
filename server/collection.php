@@ -32,12 +32,43 @@ function var_json($info='', $code=10000, $data=array()){
 	exit(0);
 }
 
+function time_to_now($uid, $aid){
+
+	$begin_time=get_collection_time($uid, $aid);
+	$end_time=date("Y-m-d H:i:s");
+
+	$timediff = strtotime($end_time)-strtotime($begin_time);
+	$days = intval( $timediff / 86400 );
+	$remain = $timediff % 86400;
+	$hours = intval( $remain / 3600 );
+	$remain = $remain % 3600;
+	$mins = intval( $remain / 60 );
+	$secs = $remain % 60;
+
+	if($days>0){
+		return $days."天前";
+	}
+
+	if($hours>0){
+		return $hours."小时前";
+	}
+
+	if($mins>0){
+		return $mins."分钟前";
+	}
+
+	if($secs>0){
+		return "刚刚";
+	}
+
+	return "未知";
+}
+
 function if_artical_exists($detail_path){
 
 	$sql="SELECT aid FROM md_artical WHERE detail_path='".$detail_path."'";
 	$result=$GLOBALS['conn']->query($sql);
 
-    // echo "result: ".$result->num_rows;
 	if($result->num_rows>0){
 		return true;
 	}
@@ -45,38 +76,44 @@ function if_artical_exists($detail_path){
 	return false;
 }
 
-function if_collection_exists($uid, $detail_path){
+function get_artical_aid($detail_path){
 
-    $sql="SELECT detail_path FROM md_collection WHERE uid='".$uid."'";
+    $sql="SELECT aid FROM md_artical WHERE detail_path='".$detail_path."'";
+    $result=$GLOBALS['conn']->query($sql);
+
+    if($result->num_rows>0){
+    	while ($row=$result->fetch_assoc()) {
+    		return $row["aid"];
+    	}
+    }
+
+    return "-1";
+}
+
+function if_collection_exists($uid, $aid){
+
+    $sql="SELECT aid FROM md_collection WHERE uid='".$uid."'";
     $result=$GLOBALS['conn']->query($sql);
 
     if ($result->num_rows>0) {
-    	# code...
     	while ($row=$result->fetch_assoc()) {
-    		# code...
-    		if ($row["detail_path"]==$detail_path) {
-    			# code...
+    		if ($row["aid"]==$aid) {
     			return true;
     		}
     	}
-    	// return true;
     }
 
     return false;
 }
 
-function if_collection_abandon($uid, $detail_path){
+function if_collection_abandon($uid, $aid){
 
-	$sql="SELECT can_use FROM md_collection WHERE uid='".$uid."' AND detail_path='".$detail_path."'";
+	$sql="SELECT can_use FROM md_collection WHERE uid='".$uid."' AND aid='".$aid."'";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
-		# code...
 		while ($row=$result->fetch_assoc()) {
-			# code...
 			if ($row["can_use"]==1) {
-				# code...
-				// echo $row["can_use"];
 				return true;
 			}
 		}
@@ -85,19 +122,38 @@ function if_collection_abandon($uid, $detail_path){
 	return false;
 }
 
+function get_collection_time($uid, $aid){
+	$sql="SELECT col_time FROM md_collection WHERE uid='".$uid."' AND aid='".$aid."'";
+    $result=$GLOBALS['conn']->query($sql);
+
+    if($result->num_rows>0){
+    	while ($row=$result->fetch_assoc()) {
+    		return $row["col_time"];
+    	}
+    }
+
+    return "";
+}
+
+function update_collection_item($uid, $aid, $value){
+
+	$sql="UPDATE md_collection SET can_use='".$value."' WHERE uid='".$uid."' AND aid='".$aid."'";
+	$retval = mysqli_query($GLOBALS['conn'],$sql);
+	if(! $retval )
+	{
+		die('Could not update data: ' . mysqli_errno($GLOBALS['conn']));
+	}
+}
+
 function get_collection_items($uid, $atid){
 
-	$sql="SELECT * FROM md_artical WHERE detail_path IN (SELECT detail_path FROM md_collection WHERE uid='".$uid."' AND can_use='0') AND atid='".$atid."' AND can_use='0'";
+	$sql="SELECT * FROM md_artical WHERE aid IN (SELECT aid FROM md_collection WHERE uid='".$uid."' AND can_use='0') AND atid='".$atid."' AND can_use='0'";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
-		# code
-
 		$arr=array();
 		while ( $row=$result->fetch_assoc()) {
-			# code...
-			// echo $row["title"]."\n";
-	        $arr[]=$row;
+	        $arr[]=array('aid'=>$row["aid"], 'title'=>$row["title"], 'author'=>$row["author"] , 'source'=>$row["source"], 'image_path'=>$row["image_path"], 'detail_path'=>$row["detail_path"], 'content'=>$row["content"], 'com_count'=>$row["com_count"], 'time_to_now'=>time_to_now($uid, $row["aid"]));
 		}
 
 		var_json("success",0,$arr);
@@ -106,22 +162,12 @@ function get_collection_items($uid, $atid){
 	}
 }
 
-function update_collection_item($uid, $detail_path, $value){
-
-	$sql="UPDATE md_collection SET can_use='".$value."' WHERE uid='".$uid."' AND detail_path='".$detail_path."'";
-	$retval = mysqli_query($GLOBALS['conn'],$sql);
-	if(! $retval )
-	{
-		die('Could not update data: ' . mysqli_errno($GLOBALS['conn']));
-	}
-}
-
 function remove_collection_item($uid, $art){
 
-    if (if_collection_exists($uid, $art->detail_path)) {
-    	# code...
-    	if(!if_collection_abandon($uid, $art->detail_path)){
-            update_collection_item($uid, $art->detail_path , 1);
+    if (if_collection_exists($uid, get_artical_aid($art->detail_path))) {
+
+    	if(!if_collection_abandon($uid, get_artical_aid($art->detail_path))){
+            update_collection_item($uid, get_artical_aid($art->detail_path), 1);
     	}
     }else{
         var_json("not collected",10005);
@@ -132,10 +178,10 @@ function remove_collection_item($uid, $art){
 
 function add_collection_item($uid,$art){
 
-	if(if_collection_exists($uid, $art->detail_path)){
-        # code...
-		if(if_collection_abandon($uid, $art->detail_path)){
-			update_collection_item($uid, $art->detail_path, 0);
+	if(if_collection_exists($uid, get_artical_aid($art->detail_path))){
+       
+		if(if_collection_abandon($uid, get_artical_aid($art->detail_path))){
+			update_collection_item($uid, get_artical_aid($art->detail_path), 0);
 		}else{
 			var_json("has collected",10007);
 		}
@@ -154,7 +200,7 @@ function add_collection_item($uid,$art){
             }
 		}
 
-		$sql="INSERT INTO md_collection(uid, detail_path) VALUES ('".$uid."','".$art->detail_path."')";
+		$sql="INSERT INTO md_collection(uid, aid) VALUES ('".$uid."','".get_artical_aid($art->detail_path)."')";
       	if ($GLOBALS['conn']->query($sql) === TRUE) {
 			get_collection_items($uid ,$art->atid);
 		} else {

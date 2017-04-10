@@ -8,7 +8,7 @@
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+00:08";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `md_artype` (
   `atid` int(8) NOT NULL AUTO_INCREMENT,
-  `type_name` varchar(10) NOT NULL,
+  `type_name` varchar(4) NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`atid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;

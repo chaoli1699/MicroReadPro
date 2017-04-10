@@ -8,7 +8,7 @@
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+00:08";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,11 +26,12 @@ SET time_zone = "+00:00";
 -- 表的结构 `md_artcomment`
 --
 
-CREATE TABLE IF NOT EXISTS `md_artcomment` (
+CREATE TABLE IF NOT EXISTS `md_comment` (
   `acid` int(8) NOT NULL AUTO_INCREMENT,
   `aid` int(8) NOT NULL,
   `uid` int(8) NOT NULL,
-  `comment` varchar(20) NOT NULL,
+  `comment` varchar(80) NOT NULL,
+  `com_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`acid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -8,7 +8,7 @@
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+00:08";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,14 +27,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `md_user` (
-  `uid` int(8) NOT NULL DEFAULT '10000',
-  `username` varchar(15) NOT NULL DEFAULT 'username',
+  `uid` int(8) NOT NULL DEFAULT '1000',
+  `username` varchar(10) NOT NULL DEFAULT 'username',
   `password` varchar(15) NOT NULL DEFAULT '123456',
   `sex` int(1) NOT NULL DEFAULT '1',
   `regist_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `district` text NOT NULL,
-  `introduce` text NOT NULL,
+  `district` varchar(8) NOT NULL,
+  `introduce` varchar(20) NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
   `role` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -8,7 +8,7 @@
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+00:08";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `md_artical` (
   `aid` int(8) NOT NULL AUTO_INCREMENT,
-  `title` text NOT NULL,
-  `author` text NOT NULL,
-  `source` text NOT NULL,
+  `title` varchar(10) NOT NULL,
+  `author` varchar(10) NOT NULL,
+  `source` varchar(10) NOT NULL,
   `atid` int(2) NOT NULL DEFAULT '0',
   `image_path` text NOT NULL,
   `detail_path` text NOT NULL,

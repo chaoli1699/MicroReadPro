@@ -8,7 +8,7 @@
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+00:08";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `md_version` (
   `vid` int(4) NOT NULL AUTO_INCREMENT,
-  `version_code` int(2) NOT NULL,
+  `version_code` int(2) NOT NULL DEFAULT '0',
   `version_name` varchar(10) NOT NULL,
-  `introduce` text NOT NULL,
+  `introduce` varchar(30) NOT NULL,
   `download_path` text NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vid`)

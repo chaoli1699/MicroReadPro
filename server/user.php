@@ -65,6 +65,37 @@ function if_user_abandon($username){
 	return false;
 }
 
+function get_user_info($uid){
+	$sql="SELECT uid, username, sex, last_login_time, district, introduce, role FROM md_user WHERE uid='".$uid."'";
+	$result=$GLOBALS['conn']->query($sql);
+	
+	if ($result->num_rows>0){
+		while ($row=$result->fetch_assoc()){
+		    var_json("success",0,$row);
+		}
+	}else {
+// 		echo "0 result.";
+		var_json("user not exists",10001,new user);
+	}
+	
+}
+
+function get_user_uid(){
+	$pre_uid=rand(1000,9999);
+	$sql="SELECT uid FROM md_user LIMIT 0,9000";
+	$result=$GLOBALS['conn']->query($sql);
+	
+	if ($result->num_rows>0) {
+		while ($row=$result->fetch_assoc()){
+			if ($row["uid"]==$pre_uid){
+				return -1;
+			}else {
+				return $pre_uid;
+			}
+		}
+	}
+} 
+
 function update_user_info($uid, $label, $value){
 	
 	$sql = "UPDATE md_user SET ".$label."='".$value."' WHERE uid='".$uid."'";
@@ -104,37 +135,6 @@ function verity_user($username,$password){
 	}
 }
 
-function get_user_info($uid){
-	$sql="SELECT * FROM md_user WHERE uid='".$uid."'";
-	$result=$GLOBALS['conn']->query($sql);
-	
-	if ($result->num_rows>0){
-		while ($row=$result->fetch_assoc()){
-		    var_json("success",0,$row);
-		}
-	}else {
-// 		echo "0 result.";
-		var_json("user not exists",10001,new user);
-	}
-	
-}
-
-function get_user_uid(){
-	$pre_uid=rand(1000,9999);
-	$sql="SELECT uid FROM md_user LIMIT 0,9000";
-	$result=$GLOBALS['conn']->query($sql);
-	
-	if ($result->num_rows>0) {
-		while ($row=$result->fetch_assoc()){
-			if ($row["uid"]==$pre_uid){
-				return -1;
-			}else {
-				return $pre_uid;
-			}
-		}
-	}
-} 
-
 function regist_user($username,$password){
 	
 	if (if_user_exists($username)){
@@ -151,9 +151,8 @@ function regist_user($username,$password){
 			$uid=get_user_uid();
 		}
 		
-		$current_time=date("Y-m-d H:i:s");
-		$sql="INSERT INTO md_user(uid, username, password, regist_time)
-              VALUE('".$uid."','".$username."','".$password."','".$current_time."')";
+		$sql="INSERT INTO md_user(uid, username, password)
+              VALUE('".$uid."','".$username."','".$password."')";
 
 		if ($GLOBALS['conn']->query($sql) === TRUE) {
 			get_user_info($uid);

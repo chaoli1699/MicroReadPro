@@ -8,7 +8,7 @@
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+00:08";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `md_collection` (
   `cid` int(8) NOT NULL AUTO_INCREMENT,
-  `uid` varchar(10) NOT NULL,
-  `detail_path` text NOT NULL,
+  `aid` varchar(8) NOT NULL,
+  `uid` varchar(8) NOT NULL,
   `col_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cid`)
