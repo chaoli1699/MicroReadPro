@@ -19,7 +19,7 @@ function var_json($info='', $code=10000, $data=array()){
 
 function get_latest_articals(){
 
-	$sql="SELECT * FROM md_artical WHERE can_use='0'";
+	$sql="SELECT aid, title, author, source, atid, image_path, detail_path, content, com_count, create_time FROM md_artical WHERE can_use='0'";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if($result->num_rows>0){
