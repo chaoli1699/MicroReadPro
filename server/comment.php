@@ -19,10 +19,11 @@ class artical{
 	function __construct(){}
 }
 
-function var_json($info='', $code=10000, $data=array()){
+function var_json($info='', $code=10000, $com_count=0, $data=array()){
 
 	$out['code'] = $code ?: 0;
 	$out['info'] = $info ?: ($out['code'] ? 'error' : 'success');
+	$out['com_count']=$com_count ?:$com_count;
 	$out['comments'] = $data ?: array();
 	header('Content-Type: application/json; charset=utf-8');
 	echo json_encode($out, JSON_HEX_TAG);
@@ -219,7 +220,7 @@ function get_comment_items($aid){
 				);
 		}
 
-		var_json("success",0,$arr);
+		var_json("success", 0, get_artical_com_count($aid), $arr);
 	}else{
 		var_json("no comments",10010);
 	}
@@ -227,7 +228,7 @@ function get_comment_items($aid){
 
 function add_childcom_item($acid, $uid, $comment){
 
-    // update_artical_com_count(get_artical_aid_wacid($acid), get_artical_com_count(get_artical_aid_wacid($acid)));
+    update_artical_com_count(get_artical_aid_wacid($acid), get_artical_com_count(get_artical_aid_wacid($acid)));
 
 	$sql="INSERT INTO md_childcom(acid, uid, comment) VALUES ('".$acid."','".$uid."','".$comment."')";
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
