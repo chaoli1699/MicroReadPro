@@ -1,4 +1,4 @@
-﻿<?php  
+﻿<?php  include 'model/articalClass.php';
 header("Content-type: text/html; charset=utf-8");  
 /*
  * code = 0 操作成功
@@ -6,19 +6,6 @@ header("Content-type: text/html; charset=utf-8");
  * code =10000 默认编码
  * code =10010 查询评论列表为空
  */
-
-class artical{
-
-	private $title;
-	private $author;
-	private $source;
-	private $atid;
-	private $image_path;
-	private $detail_path;
-
-	function __construct(){}
-}
-
 function var_json($info='', $code=10000, $com_count=0, $data=array()){
 
 	$out['code'] = $code ?: 0;
@@ -184,6 +171,48 @@ function get_childcom_time($uid, $acid){
     return "";
 }
 
+function get_personal_moment_items($uid){
+
+	$sql="SELECT acid, uid, comment, com_time FROM md_comment WHERE aid='-".$uid."' AND can_use='0' ORDER BY com_time DESC";
+	$result=$GLOBALS['conn']->query($sql);
+
+	if ($result->num_rows>0) {
+		# code...
+		$arr=array();
+		while ($row=$result->fetch_assoc()) {
+			# code...
+			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], -$row["uid"], "parent")
+				, 'child_com'=>get_childcom_items($row["acid"])
+				);
+		}
+
+		var_json("success", 0 , 0, $arr);
+	}else{
+		var_json("no comments",10010);
+	}
+}
+
+function get_moment_items(){
+    
+    $sql="SELECT acid, uid, comment, com_time FROM md_comment WHERE aid<0 AND can_use='0' ORDER BY com_time";
+	$result=$GLOBALS['conn']->query($sql);
+
+	if ($result->num_rows>0) {
+		# code...
+		$arr=array();
+		while ($row=$result->fetch_assoc()) {
+			# code...
+			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], -$row["uid"], "parent")
+				, 'child_com'=>get_childcom_items($row["acid"])
+				);
+		}
+
+		var_json("success", 0 , 0, $arr);
+	}else{
+		var_json("no comments",10010);
+	}
+}
+
 function get_childcom_items($acid){
 
 	$sql="SELECT accid, uid, comment, com_time FROM md_childcom WHERE acid='".$acid."' AND can_use='0' ORDER BY com_time DESC";
@@ -223,6 +252,17 @@ function get_comment_items($aid){
 		var_json("success", 0, get_artical_com_count($aid), $arr);
 	}else{
 		var_json("no comments",10010);
+	}
+}
+
+function add_moment_item($uid, $comment){
+
+	$sql="INSERT INTO md_comment(aid, uid, comment) VALUES ('-".$uid."','".$uid."','".$comment."')";
+	if ($GLOBALS['conn']->query($sql)===TRUE) {
+		# code...
+		get_moment_items(0);
+	}else{
+		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
 	}
 }
 
@@ -272,6 +312,7 @@ $artical=empty($_GET['artical'])?'':$_GET['artical'];
 $acid=empty($_GET['acid'])?'':$_GET['acid'];
 $uid=empty($_GET['uid'])?'':$_GET['uid'];
 $comment=empty($_GET['comment'])?'':$_GET['comment'];
+$currentPage=empty($_GET['currentPage'])? '0':$_GET['currentPage'];
 
 //Mysqli连接
 $conn = mysqli_connect('localhost', 'root', '' , 'md_db');
@@ -294,6 +335,14 @@ switch ($action) {
 	    }
 	    
 		break;
+	case 'querym':
+		# code...
+	    get_moment_items($currentPage);
+		break;
+	case 'querypm':
+		# code...
+        get_personal_moment_items($uid, $currentPage);
+		break;
 	case 'add':
 		# code...
 	    add_comment_item($art, $uid, $comment);
@@ -301,6 +350,10 @@ switch ($action) {
 	case 'addc':
 		# code...
 	    add_childcom_item($acid, $uid, $comment);
+		break;
+	case 'addm':
+		# code...
+        add_moment_item($uid, $comment);
 		break;
 	default:
 		# code...

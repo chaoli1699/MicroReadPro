@@ -1,4 +1,4 @@
-<?php
+<?php include 'model/articalClass.php';
 header("Content-type: text/html;  charset=utf-8");
 /*
  * code = 0 操作成功
@@ -8,19 +8,6 @@ header("Content-type: text/html;  charset=utf-8");
  * code =10006 收藏列表为空
  * code =10007 已收藏
  */
-
-class artical{
-
-	private $title;
-	private $author;
-	private $source;
-	private $atid;
-	private $image_path;
-	private $detail_path;
-
-	function __construct(){}
-}
-
 function var_json($info='', $code=10000, $data=array()){
 
 	$out['code'] = $code ?: 0;
