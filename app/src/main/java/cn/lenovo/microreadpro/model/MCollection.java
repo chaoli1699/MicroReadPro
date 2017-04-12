@@ -48,7 +48,7 @@ public class MCollection {
         private String detail_path;
         private String content;
         private int com_count;
-        private String create_time;
+        private String time_to_now;
 
         public int getAid() {
             return aid;
@@ -122,12 +122,12 @@ public class MCollection {
             this.com_count = com_count;
         }
 
-        public String getCreate_time() {
-            return create_time;
+        public String getTime_to_now() {
+            return time_to_now;
         }
 
-        public void setCreate_time(String create_time) {
-            this.create_time = create_time;
+        public void setTime_to_now(String time_to_now) {
+            this.time_to_now = time_to_now;
         }
     }
 }

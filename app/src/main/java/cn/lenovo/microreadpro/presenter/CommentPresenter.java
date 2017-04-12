@@ -29,7 +29,7 @@ public class CommentPresenter extends BasePresenter<CommentView> {
             @Override
             public void onSuccess(MComment model) {
                 if (model.getCode().equals("0")){
-                    view.getCommentsSuccess(model.getComments());
+                    view.getCommentsSuccess(model.getCom_count(), model.getComments());
                 }else {
                     view.getCommentsFail(model.getInfo());
                 }
@@ -54,7 +54,7 @@ public class CommentPresenter extends BasePresenter<CommentView> {
             @Override
             public void onSuccess(MComment model) {
                 if (model.getCode().equals("0")){
-                    view.getCommentsSuccess(model.getComments());
+                    view.getCommentsSuccess(model.getCom_count(), model.getComments());
                 }else {
                     view.getCommentsFail(model.getInfo());
                 }
@@ -63,6 +63,30 @@ public class CommentPresenter extends BasePresenter<CommentView> {
             @Override
             public void onFailure(String msg) {
                 view.getCommentsFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    public void addChildcom(int acid,String comment){
+
+        addSubscription(SystermParams.microReadApiStores.add_childcom("addc", mApp.currentUser.getUid(), acid, comment), new ApiCallback<MComment>() {
+            @Override
+            public void onSuccess(MComment model) {
+                if (model.getCode().equals("0")){
+                    view.getCommentsSuccess(model.getCom_count(), model.getComments());
+                }else {
+                    view.getCommentsFail(model.getInfo());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
             }
 
             @Override

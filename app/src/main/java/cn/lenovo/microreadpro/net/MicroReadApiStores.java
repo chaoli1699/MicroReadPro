@@ -47,4 +47,8 @@ public interface MicroReadApiStores {
     @GET("comment.php")
     Observable<MComment> add_comment(@Query("action") String action, @Query("uid") int uid, @Query("artical") String artical, @Query("comment") String comment);
 
+    @GET("comment.php")
+    Observable<MComment> add_childcom(@Query("action") String action, @Query("uid") int uid, @Query("acid") int acid, @Query("comment") String comment);
+
+
 }

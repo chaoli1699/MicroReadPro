@@ -264,13 +264,18 @@ public class ArticalDetailActivity extends MRActivity<ArticalDetailPresenter> im
             onBackPressed();
         }else if (id==R.id.like){
 
-            if (isCollected){
+            if (mApp.isLogin){
+                if (isCollected){
 //                mPresenter.removeCollection(mArticalBean);
-            }else {
-                if (mCArtical!=null){
-                    mPresenter.addCollection(mCArtical);
+                }else {
+                    if (mCArtical!=null){
+                        mPresenter.addCollection(mCArtical);
+                    }
                 }
+            }else {
+                EventUtil.showToast(ArticalDetailActivity.this,"请先登录再添加收藏");
             }
+
         }else if(id==R.id.share){
             if (shareBean!=null) {
                 ShareUtil.showShare(this, shareBean);
