@@ -303,12 +303,16 @@ function get_comment_items($aid){
 	}
 }
 
-function add_moment_item($uid, $comment){
+function add_moment_item($uid, $comment $sync_comment){
 
 	$sql="INSERT INTO md_comment(aid, uid, comment) VALUES ('-".$uid."','".$uid."','".$comment."')";
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 		# code...
-		get_moment_items(0);
+		if (!$sync_comment) {
+			# code...
+			get_moment_items(0);
+		}
+		
 	}else{
 		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
 	}
@@ -349,6 +353,8 @@ function add_comment_item($art, $uid, $comment){
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 		# code...
 		get_comment_items(get_artical_aid($art->detail_path));
+		$comment="我阅读并评论了文章《".$art->title."》，你也来看看吧！";
+		add_moment_item($uid, $comment, true);
 	}else{
 		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
 	}
@@ -401,7 +407,7 @@ switch ($action) {
 		break;
 	case 'addm':
 		# code...
-        add_moment_item($uid, $comment);
+        add_moment_item($uid, $comment, false);
 		break;
 	case 'addr':
 		# code...
