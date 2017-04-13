@@ -171,9 +171,49 @@ function get_childcom_time($uid, $acid){
     return "";
 }
 
+function set_moment_complate($acid){
+
+	$sql="UPDATE md_comment SET complate='1' WHERE acid='".$acid."'";
+
+	$retval = mysqli_query($GLOBALS['conn'],$sql);
+	if(! $retval )
+	{
+		die ("Could not update data: " . mysqli_error($GLOBALS['conn']));
+	}
+
+	get_moment_items();
+}
+
+function add_moment_response_user($acid, $uid, $comment){
+
+	$sql="INSERT INTO md_childcom(acid, uid, comment, response) VALUES ('".$acid."','".$uid."','".$comment."','1')";
+	if ($GLOBALS['conn']->query($sql)===TRUE) {
+		# code...
+		get_moment_items();
+	}else{
+		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
+	}
+}
+
+function get_moment_response_user($acid){
+
+    $sql="SELECT uid FROM md_childcom WHERE acid='".$acid."' AND response=1";
+    $result=$GLOBALS['conn']->query($sql);
+
+    if ($result->num_rows>0) {
+    	
+    	while ($row=$result->fetch_assoc()) {
+    		# code...
+    		return get_user_name($row["uid"]);
+    	}
+    }else{
+    	return "";
+    }
+}
+
 function get_personal_moment_items($uid){
 
-	$sql="SELECT acid, uid, comment, com_time FROM md_comment WHERE aid='-".$uid."' AND can_use='0' ORDER BY com_time DESC";
+	$sql="SELECT acid, uid, comment, com_time, complate FROM md_comment WHERE aid='-".$uid."' AND can_use='0' ORDER BY com_time DESC";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -181,9 +221,13 @@ function get_personal_moment_items($uid){
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
 			# code...
-			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], -$row["uid"], "parent")
-				, 'child_com'=>get_childcom_items($row["acid"])
-				);
+			$arr[]=array('acid'=>$row["acid"],
+				'username'=>get_user_name($row["uid"]),
+				'comment'=>$row["comment"], 
+				'response_user'=>get_moment_response_user($row["acid"]), 
+				'complate'=>$row["complate"], 
+				'time_to_now'=>time_to_now($row["uid"], -$row["uid"], "parent") , 
+				'child_com'=>get_childcom_items($row["acid"]));
 		}
 
 		var_json("success", 0 , 0, $arr);
@@ -194,7 +238,7 @@ function get_personal_moment_items($uid){
 
 function get_moment_items(){
     
-    $sql="SELECT acid, uid, comment, com_time FROM md_comment WHERE aid<0 AND can_use='0' ORDER BY com_time";
+    $sql="SELECT acid, uid, comment, com_time, complate FROM md_comment WHERE aid<0 AND can_use='0' ORDER BY com_time";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -202,9 +246,13 @@ function get_moment_items(){
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
 			# code...
-			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], -$row["uid"], "parent")
-				, 'child_com'=>get_childcom_items($row["acid"])
-				);
+			$arr[]=array('acid'=>$row["acid"],
+			 'username'=>get_user_name($row["uid"]),
+			 'comment'=>$row["comment"],
+			 'response_user'=>get_moment_response_user($row["acid"]),
+			 'complate'=>$row["complate"], 
+			 'time_to_now'=>time_to_now($row["uid"], -$row["uid"], "parent") ,
+			 'child_com'=>get_childcom_items($row["acid"]));
 		}
 
 		var_json("success", 0 , 0, $arr);
@@ -354,6 +402,14 @@ switch ($action) {
 	case 'addm':
 		# code...
         add_moment_item($uid, $comment);
+		break;
+	case 'addr':
+		# code...
+	    add_moment_response_user($acid, $uid, $comment);
+		break;
+	case 'close':
+		# code...
+	    set_moment_complate($acid);
 		break;
 	default:
 		# code...
