@@ -54,7 +54,7 @@ function time_to_now($uid, $aid, $tab){
 		return "刚刚";
 	}
 
-	return "未知";
+	return "发送中";
 }
 
 function get_user_name($uid){
@@ -98,6 +98,8 @@ function get_artical_com_count($aid){
 			return $row["com_count"];	
 		}
 	}
+
+	return 0;
 }
 
 function get_artical_aid($detail_path){
@@ -111,6 +113,8 @@ function get_artical_aid($detail_path){
 			return $row["aid"];	
 		}
 	}
+
+	return null;
 }
 
 function get_artical_aid_wacid($acid){
@@ -121,10 +125,11 @@ function get_artical_aid_wacid($acid){
 		# code...
 		while ($row=$result->fetch_assoc()) {
 			# code...
-			// echo "aid:".$row["aid"].'</br>';
 			return $row["aid"];	
 		}
 	}
+
+	return null;
 }
 
 function update_artical_com_count($aid, $com_count){
@@ -273,11 +278,9 @@ function get_childcom_items($acid){
 			# code...
 			$arr[]=array('accid'=>$row["accid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $acid, "child"));
 		}
-
-		// var_json("success",0,$arr);
+		
 		return $arr;
 	}else{
-		// var_json("no comments",10010);
 		return array();
 	}
 }
@@ -303,15 +306,15 @@ function get_comment_items($aid){
 	}
 }
 
-function add_moment_item($uid, $comment $sync_comment){
+function add_moment_item($uid, $comment){
 
 	$sql="INSERT INTO md_comment(aid, uid, comment) VALUES ('-".$uid."','".$uid."','".$comment."')";
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 		# code...
-		if (!$sync_comment) {
+		// if (!$sync_comment) {
 			# code...
-			get_moment_items(0);
-		}
+			get_moment_items();
+		// }
 		
 	}else{
 		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
@@ -353,8 +356,7 @@ function add_comment_item($art, $uid, $comment){
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 		# code...
 		get_comment_items(get_artical_aid($art->detail_path));
-		$comment="我阅读并评论了文章《".$art->title."》，你也来看看吧！";
-		add_moment_item($uid, $comment, true);
+	
 	}else{
 		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
 	}
@@ -391,11 +393,11 @@ switch ($action) {
 		break;
 	case 'querym':
 		# code...
-	    get_moment_items($currentPage);
+	    get_moment_items();
 		break;
 	case 'querypm':
 		# code...
-        get_personal_moment_items($uid, $currentPage);
+        get_personal_moment_items($uid);
 		break;
 	case 'add':
 		# code...
@@ -407,7 +409,7 @@ switch ($action) {
 		break;
 	case 'addm':
 		# code...
-        add_moment_item($uid, $comment, false);
+        add_moment_item($uid, $comment);
 		break;
 	case 'addr':
 		# code...

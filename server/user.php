@@ -1,4 +1,4 @@
-<?php
+<?php include 'model/userClass.php';
 header("Content-type: text/html; charset=utf-8");
 
 /*
@@ -10,18 +10,6 @@ header("Content-type: text/html; charset=utf-8");
  * code 10003:用户已存在(注册)
  * code 10004:用户已弃用
  */
-class user{
-	private $uid;
-	private $username;
-	private $password;
-	private $sex;
-	private $regist_time;
-	private $last_login_time;
-	private $district;
-	private $can_use;
-	private $role;
-}
-
 function var_json($info='', $code=10000, $data=array()){
 
 	$out['code'] = $code ?: 0;
