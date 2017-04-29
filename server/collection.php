@@ -48,7 +48,7 @@ function time_to_now($uid, $aid){
 		return "刚刚";
 	}
 
-	return "未知";
+	return "发送中";
 }
 
 function if_artical_exists($detail_path){
