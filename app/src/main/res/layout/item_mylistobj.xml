@@ -14,7 +14,7 @@
         android:layout_height="@dimen/userImageSize"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_margin="10dp"
+        android:layout_margin="15dp"
         android:visibility="gone"/>
 
     <TextView
@@ -22,10 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/item_usercenter_head"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@id/item_usercenter_head"
         android:gravity="center_vertical"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:textColor="@color/mdColor_grey_dark"
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/item_usercenter_title"
-        android:layout_below="@id/item_usercenter_title"
+        android:layout_alignBottom="@id/item_usercenter_head"
         android:gravity="center_vertical"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"

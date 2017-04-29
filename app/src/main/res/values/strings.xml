@@ -30,7 +30,7 @@
     <string name="changeSpeaker">更换播音员</string>
     <string name="resize">文字大小</string>
     <string name="add_comment">添加评论</string>
-    <string name="add_moment">添加心愿</string>
+    <string name="add_moment">新增状态</string>
     <string name="send_comment">发表</string>
     <string name="send_moment">发布</string>
     <string name="read_comments">查看评论</string>

@@ -70,7 +70,7 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
 
         mApp= (MyApplication) MyApplication.getInstance();
 
-        toolbar.setTitle("时间轴");
+        toolbar.setTitle("时光轴");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -38,7 +38,7 @@ public class UserCenterPresenter extends BasePresenter<UserCenterView> {
         listItems.add(myListObj2);
 
         ListBean myListObj3=new ListBean();
-        myListObj3.setTitle("时间轴");
+        myListObj3.setTitle("时光轴");
         myListObj3.setIconShow(true);
         listItems.add(myListObj3);
 

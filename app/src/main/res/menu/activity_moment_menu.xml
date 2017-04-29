@@ -5,6 +5,7 @@
     <item
         android:id="@+id/add_moment"
         android:title="@string/add_moment"
+        android:icon="@android:drawable/ic_menu_camera"
         app:showAsAction="always"/>
 
 </menu>
