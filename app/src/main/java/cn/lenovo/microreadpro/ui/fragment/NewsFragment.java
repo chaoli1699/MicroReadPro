@@ -58,8 +58,8 @@ public class NewsFragment extends MRFragment<NewsPresenter> implements NewsView,
     FloatingActionButton artical;
     @Bind(R.id.game)
     FloatingActionButton game;
-    @Bind(R.id.my_collection)
-    FloatingActionButton my_collection;
+//    @Bind(R.id.my_collection)
+//    FloatingActionButton my_collection;
     @Bind(R.id.about_app)
     FloatingActionButton about_app;
     @Bind(R.id.share)
@@ -153,7 +153,7 @@ public class NewsFragment extends MRFragment<NewsPresenter> implements NewsView,
         user_center.setOnClickListener(this);
         artical.setOnClickListener(this);
         game.setOnClickListener(this);
-        my_collection.setOnClickListener(this);
+//        my_collection.setOnClickListener(this);
         about_app.setOnClickListener(this);
         share.setOnClickListener(this);
 
@@ -175,13 +175,15 @@ public class NewsFragment extends MRFragment<NewsPresenter> implements NewsView,
             page="artical";
         } else if (id==R.id.game){
             page="game";
-        } else if (id == R.id.my_collection){
-            if (mApp.isLogin){
-                page="collection";
-            }else {
-                page="none";
-            }
-        } else if (id == R.id.about_app){
+        }
+//        else if (id == R.id.my_collection){
+//            if (mApp.isLogin){
+//                page="collection";
+//            }else {
+//                page="none";
+//            }
+//        }
+        else if (id == R.id.about_app){
             page="app";
         } else if (id == R.id.share) {
             page="share";

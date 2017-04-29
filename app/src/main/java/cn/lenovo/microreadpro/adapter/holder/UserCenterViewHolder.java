@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 
 import butterknife.Bind;
@@ -45,7 +46,7 @@ public class UserCenterViewHolder extends BaseViewHolder<ListBean> {
 
         if (!data.getTitle().equals("")&&!data.isButton()){
             title.setVisibility(View.VISIBLE);
-            line.setVisibility(View.VISIBLE);
+//            line.setVisibility(View.VISIBLE);
             title.setText(data.getTitle());
         }else {
             itemView.setBackgroundResource(R.color.mdColor_grey_light);
@@ -53,12 +54,19 @@ public class UserCenterViewHolder extends BaseViewHolder<ListBean> {
 
         if (!data.getSubtitle().equals("")){
             subtitle.setVisibility(View.VISIBLE);
-            line.setVisibility(View.VISIBLE);
+//            line.setVisibility(View.VISIBLE);
             subtitle.setText(data.getSubtitle());
         }
         if (!data.getImage().equals("")){
             head.setVisibility(View.VISIBLE);
-//            Picasso.with(getContext()).load(data.getImage()).into(head);
+            if (data.getSex()==-1){
+                head.setImageResource(R.mipmap.default_head);
+            }else if (data.getSex()==0){
+                head.setImageResource(R.mipmap.female);
+            }else if (data.getSex()==1){
+                head.setImageResource(R.mipmap.male);
+            }
+//
         }
         if (!data.getValue().equals("")){
             value.setVisibility(View.VISIBLE);
@@ -70,6 +78,10 @@ public class UserCenterViewHolder extends BaseViewHolder<ListBean> {
         if (data.isButton()){
             button.setVisibility(View.VISIBLE);
             button.setText(data.getTitle());
+        }
+
+        if (data.isLineShow()){
+            line.setVisibility(View.VISIBLE);
         }
 
     }

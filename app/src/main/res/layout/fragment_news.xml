@@ -73,16 +73,6 @@
             android:layout_margin="20dp">
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/user_center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/white"
-                app:fab_colorPressed="@color/white_pressed"
-                app:fab_icon="@mipmap/person"
-                app:fab_title="@string/user_center"
-                app:fab_size="mini"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/artical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,14 +93,24 @@
                 app:fab_size="mini"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/my_collection"
+                android:id="@+id/user_center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fab_colorNormal="@color/white"
                 app:fab_colorPressed="@color/white_pressed"
-                app:fab_icon="@mipmap/collection"
-                app:fab_title="@string/my_collection"
+                app:fab_icon="@mipmap/person"
+                app:fab_title="@string/user_center"
                 app:fab_size="mini"/>
+
+            <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+                <!--android:id="@+id/my_collection"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:fab_colorNormal="@color/white"-->
+                <!--app:fab_colorPressed="@color/white_pressed"-->
+                <!--app:fab_icon="@mipmap/collection"-->
+                <!--app:fab_title="@string/my_collection"-->
+                <!--app:fab_size="mini"/>-->
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/about_app"

@@ -12,6 +12,8 @@ public class ListBean {
     private String value;
     private boolean iconShow;
     private boolean isButton;
+    private boolean lineShow;
+    private int sex;
 
     public ListBean(){
         this.title="";
@@ -19,7 +21,9 @@ public class ListBean {
         this.image="";
         this.value="";
         this.iconShow=false;
-        isButton=false;
+        this.isButton=false;
+        this.lineShow=true;
+        this.sex=-1;
     }
 
     public boolean isIconShow() {
@@ -68,5 +72,21 @@ public class ListBean {
 
     public void setButton(boolean button) {
         isButton = button;
+    }
+
+    public boolean isLineShow() {
+        return lineShow;
+    }
+
+    public void setLineShow(boolean lineShow) {
+        this.lineShow = lineShow;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 }

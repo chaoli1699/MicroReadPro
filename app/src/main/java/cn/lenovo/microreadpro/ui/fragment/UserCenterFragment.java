@@ -28,6 +28,10 @@ import cn.lenovo.microreadpro.base.MRFragment;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.ListBean;
 import cn.lenovo.microreadpro.presenter.UserCenterPresenter;
+import cn.lenovo.microreadpro.ui.activity.CollectionActivity;
+import cn.lenovo.microreadpro.ui.activity.MainActivity;
+import cn.lenovo.microreadpro.ui.activity.MomentActivity;
+import cn.lenovo.microreadpro.ui.activity.UserInfoActivity;
 import cn.lenovo.microreadpro.utils.EventUtil;
 import cn.lenovo.microreadpro.utils.SystermParams;
 import cn.lenovo.microreadpro.view.UserCenterView;
@@ -36,7 +40,7 @@ import cn.lenovo.microreadpro.view.UserCenterView;
  * Created by Aaron on 2017/1/2.
  */
 
-public class UserCenterFragment extends MRFragment<UserCenterPresenter> implements UserCenterView{
+public class UserCenterFragment extends MRFragment<UserCenterPresenter> implements UserCenterView {
 
     @Bind(R.id.toolbar_for_c_u)
     Toolbar toolbar;
@@ -47,7 +51,6 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
     private static DrawerLayout drawer;
     private LinearLayoutManager mLinearLayoutManager;
     private UserCenterRecycleAdapter mUserCenterRecycleAdapter;
-    private MyApplication mApp;
     public static final int REQUEST_CODE_PICK_CITY = 0;
 
     public interface UserCenterFragmentExtra{
@@ -64,7 +67,6 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        return super.onCreateView(inflater, container, savedInstanceState);
-        mApp= (MyApplication) MyApplication.getInstance();
 
         if (rootView==null){
             rootView=inflater.inflate(R.layout.fragment_usercenter,container,false);
@@ -103,41 +105,32 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
             @Override
             public void onItemClick(int position) {
                 switch (position){
-                    case 1:
-                        new EditSexDialogFragment().show(getFragmentManager(),"edit_sex_fragment");
+                    case 0:
+                        startActivity(new Intent(getActivity(), UserInfoActivity.class));
+//                    case 1:
+//                        new EditSexDialogFragment().show(getFragmentManager(),"edit_sex_fragment");
                         break;
                     case 2:
                         //启动
-                        getActivity().startActivityForResult(new Intent(getActivity(), CityPickerActivity.class),
-                                REQUEST_CODE_PICK_CITY);
+                        startActivity(new Intent(getActivity(),MomentActivity.class));
+//                        getActivity().startActivityForResult(new Intent(getActivity(), CityPickerActivity.class),
+//                                REQUEST_CODE_PICK_CITY);
                         break;
                     case 3:
-                        new EditSignDialogFragment().show(getFragmentManager(),"edit_sign_fragment");
+                        startActivity(new Intent(getActivity(),CollectionActivity.class));
+//                        new EditSignDialogFragment().show(getFragmentManager(),"edit_sign_fragment");
                         break;
-                    case 5:
-                        Intent intent=new Intent(SystermParams.action);
-                        intent.putExtra("user","logout");
-                        getActivity().sendBroadcast(intent);
-                        break;
+//                    case 5:
+//                        Intent intent=new Intent(SystermParams.action);
+//                        intent.putExtra("user","logout");
+//                        getActivity().sendBroadcast(intent);
+//                        break;
                 }
 
             }
         });
 
-        mPresenter.getUserInfo();
-
-    }
-
-    @BusReceiver
-    public void onStringEvent(String event) {
-        // handle your event
-        if (event.equals("chansex")){
-            mPresenter.chan_sex();
-        }else if (event.equals("chancity")){
-            mPresenter.chan_city();
-        }else if (event.equals("chansign")){
-           mPresenter.chan_sign();
-        }
+        mPresenter.getMyList();
     }
 
     @Override
@@ -146,33 +139,19 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
     }
 
     @Override
-    public void getUserInfoSuccess(List<ListBean> listItems) {
-        mUserCenterRecycleAdapter.addAll(listItems);
-    }
-
-    @Override
-    public void chanInfoSuccess() {
-        Intent intent=new Intent(SystermParams.action);
-        intent.putExtra("user","change");
-        getActivity().sendBroadcast(intent);
-    }
-
-    @Override
-    public void chanInfoFail(String msg) {
-        EventUtil.showToast(getActivity(),msg);
+    public void getMyListSuccess(List<ListBean> beanList) {
+        mUserCenterRecycleAdapter.addAll(beanList);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Bus.getDefault().register(this);
         MobclickAgent.onPageStart("UserCenterFragment");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Bus.getDefault().unregister(this);
     }
 
     @Override

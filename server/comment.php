@@ -337,11 +337,11 @@ switch ($action) {
 		break;
 	case 'querym':
 		# code...
-	    get_moment_items($currentPage);
+	    get_moment_items();
 		break;
 	case 'querypm':
 		# code...
-        get_personal_moment_items($uid, $currentPage);
+        get_personal_moment_items($uid);
 		break;
 	case 'add':
 		# code...

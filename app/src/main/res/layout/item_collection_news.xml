@@ -28,22 +28,36 @@
 
         <ImageView
             android:id="@+id/item_collection_more"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/item_collection_img"
             android:layout_alignParentRight="true"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/more"/>
 
         <TextView
             android:id="@+id/item_collection_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/item_collection_more"
+            android:layout_alignBaseline="@id/item_collection_more"
             android:layout_below="@id/item_collection_img"
-            android:gravity="center_vertical"
+            android:layout_marginLeft="5dp"
             android:padding="2dp"
-            android:layout_margin="3dp"
             android:textColor="@color/mdColor_grey_dark"
             android:textSize="@dimen/text_caption"/>
+
+        <TextView
+            android:id="@+id/item_collection_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_collection_title"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="3dp"
+            android:textSize="12sp"
+            android:textColor="@color/mdColor_grey"/>
 
     </RelativeLayout>
 

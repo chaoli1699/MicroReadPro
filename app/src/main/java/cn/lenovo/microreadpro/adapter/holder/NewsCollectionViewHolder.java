@@ -34,9 +34,9 @@ public class NewsCollectionViewHolder extends BaseViewHolder<MCollection.Artical
     @Bind(R.id.item_collection_img)
     ImageView itemNewsImg;
     @Bind(R.id.item_collection_more)
-    ImageView more;
-//    @Bind(R.id.collection_container)
-//    CardView container;
+    ImageView itemNewsMore;
+    @Bind(R.id.item_collection_time)
+    TextView itemNewsTime;
     private Activity context;
 
     public NewsCollectionViewHolder(ViewGroup parent, @LayoutRes int res,Activity context) {
@@ -50,6 +50,7 @@ public class NewsCollectionViewHolder extends BaseViewHolder<MCollection.Artical
 //        super.setData(data);
         Glide.with(getContext()).load(data.getImage_path()).into(itemNewsImg);
         itemNewsTitle.setText(data.getTitle());
+        itemNewsTime.setText(data.getTime_to_now());
 
         final HintPopupWindow popupWindow=new HintPopupWindow(context);
 
@@ -67,7 +68,7 @@ public class NewsCollectionViewHolder extends BaseViewHolder<MCollection.Artical
 
         popupWindow.setActionList(strList,clickList);
 
-        more.setOnClickListener(new View.OnClickListener() {
+        itemNewsMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupWindow.showPopupWindow(view);
