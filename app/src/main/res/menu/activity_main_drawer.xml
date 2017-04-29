@@ -31,11 +31,18 @@
 
     <item android:title="@string/more">
         <menu>
+
             <item
-                android:id="@+id/nav_collect"
+                android:id="@+id/nav_mine"
                 android:checked="true"
-                android:icon="@mipmap/collection"
-                android:title="@string/my_collection" />
+                android:icon="@mipmap/person"
+                android:title="@string/user_center" />
+
+            <!--<item-->
+                <!--android:id="@+id/nav_collect"-->
+                <!--android:checked="true"-->
+                <!--android:icon="@mipmap/collection"-->
+                <!--android:title="@string/my_collection" />-->
             
             <item
                 android:id="@+id/nav_app"

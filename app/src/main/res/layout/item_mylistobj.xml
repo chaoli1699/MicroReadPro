@@ -2,24 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="50dp"
+    android:minHeight="25dp"
     android:gravity="center_vertical"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
     android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/item_usercenter_head"
+        android:layout_width="@dimen/userImageSize"
+        android:layout_height="@dimen/userImageSize"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="15dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/item_usercenter_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/item_usercenter_head"
+        android:layout_alignTop="@id/item_usercenter_head"
         android:gravity="center_vertical"
-        android:padding="2dp"
-        android:layout_margin="3dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:textColor="@color/mdColor_grey_dark"
         android:textSize="@dimen/text_body"
         android:visibility="gone"/>
@@ -28,24 +36,13 @@
         android:id="@+id/item_usercenter_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/item_usercenter_title"
+        android:layout_alignLeft="@id/item_usercenter_title"
+        android:layout_alignBottom="@id/item_usercenter_head"
         android:gravity="center_vertical"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:textColor="@color/mdColor_grey_dark"
         android:textSize="@dimen/text_caption"
-        android:visibility="gone"/>
-
-    <ImageView
-        android:id="@+id/item_usercenter_head"
-        android:src="@mipmap/default_head"
-        android:layout_width="@dimen/userImageSize"
-        android:layout_height="@dimen/userImageSize"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
         android:visibility="gone"/>
 
     <ImageView

@@ -64,17 +64,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     mApp.currentUser=null;
                     mApp.resetCurrentUsers(mApp.currentUser);
                     setMainDisplay("news");
-                }else if (user.equals("login")){
+                } else if (user.equals("login")){
                     mApp.isLogin=true;
                     EventUtil.showToast(MainActivity.this,"登录成功！");
                     mApp.resetCurrentUsers(mApp.currentUser);
                     setMainDisplay("news");
-                }else if (user.equals("change")){
-                    EventUtil.showToast(MainActivity.this,"修改成功！");
+                } else if (user.equals("change")){
+//                    EventUtil.showToast(MainActivity.this,"修改成功！");
                     mApp.resetCurrentUsers(mApp.currentUser);
-                    setMainDisplay("center");
+                    setMainDisplay("news");
                 }
-            }else if (page!=null){
+            } else if (page!=null){
                 setMainDisplay(page);
             }
 
@@ -83,8 +83,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public void setMainDisplay(String page){
         if (mApp.isLogin){
+            if (mApp.currentUser.getSex()==-1){
+                userHead.setImageResource(R.mipmap.default_head);
+            }else if (mApp.currentUser.getSex()==0){
+                userHead.setImageResource(R.mipmap.female);
+            }else if (mApp.currentUser.getSex()==1){
+                userHead.setImageResource(R.mipmap.male);
+            }
             userName.setText(mApp.currentUser.getUsername());
-//            userSign.setText(mApp.currentUser.getSign());
             userSign.setText((mApp.currentUser.getIntroduce().equals("")? getResources().getString(R.string.default_userSign):mApp.currentUser.getIntroduce()));
         }else {
             userName.setText(getResources().getString(R.string.default_userName));
@@ -131,9 +137,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     return drawer;
                 }
             });
-        }else if (page.equals("collection")){
-            startActivity(new Intent(MainActivity.this,CollectionActivity.class));
-        }else if (page.equals("app")){
+        }
+//        else if (page.equals("collection")){
+//            startActivity(new Intent(MainActivity.this,CollectionActivity.class));
+////            startActivity(new Intent(MainActivity.this,MomentActivity.class));
+//        }
+        else if (page.equals("app")){
             startActivity(new Intent(MainActivity.this,AboutAppActivity.class));
         }else if(page.equals("share")){
             String str="我在使用"+getResources().getString(R.string.app_name)
@@ -181,31 +190,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         userName= (TextView) headView.findViewById(R.id.user_name);
         userSign= (TextView) headView.findViewById(R.id.user_sign);
 
-        userHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mApp.isLogin){
-                    setMainDisplay("center");
-                }else {
-                    setMainDisplay("none");
-                }
-            }
-        });
+//        userHead.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (mApp.isLogin){
+//                    setMainDisplay("center");
+//                }else {
+//                    setMainDisplay("none");
+//                }
+//            }
+//        });
 
         setMainDisplay("news");
-    }
-
-    //重写onActivityResult方法
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_PICK_CITY && resultCode == RESULT_OK){
-            if (data != null){
-                String city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
-//                resultTV.setText("当前选择：" + city);
-                mApp.currentUser.setDistrict(city);
-                Bus.getDefault().post("chancity");
-            }
-        }
     }
 
     @Override
@@ -234,13 +230,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             page="artical";
         } else if (id==R.id.nav_game){
             page="game";
-        } else if (id == R.id.nav_collect){
+        } else if (id==R.id.nav_mine){
             if (mApp.isLogin){
-                page="collection";
+                page="center";
             }else {
                 page="none";
             }
-        } else if (id == R.id.nav_app){
+        }
+//        else if (id == R.id.nav_collect){
+//            if (mApp.isLogin){
+//                page="collection";
+//            }else {
+//                page="none";
+//            }
+//        }
+        else if (id == R.id.nav_app){
             page="app";
         } else if (id == R.id.nav_share) {
             page="share";

@@ -10,16 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -30,29 +30,28 @@ import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.MComment;
 import cn.lenovo.microreadpro.presenter.CommentPresenter;
+import cn.lenovo.microreadpro.presenter.MomentPresenter;
 import cn.lenovo.microreadpro.utils.EventUtil;
 import cn.lenovo.microreadpro.view.CommentView;
+import cn.lenovo.microreadpro.view.MomentView;
 
 /**
  * Created by Aaron on 2017/4/9.
  */
 
-public class CommentActivity extends MRActivity<CommentPresenter> implements CommentView, View.OnClickListener {
+public class MomentActivity extends MRActivity<MomentPresenter> implements MomentView, View.OnClickListener {
 
     @Bind(R.id.toolbar_for_c_u)
     Toolbar toolbar;
-    @Bind(R.id.activity_comment_recycleView)
+    @Bind(R.id.activity_moment_recycleView)
     EasyRecyclerView mRecyclerView;
     @Bind(R.id.content)
     EditText content;
-    @Bind(R.id.add_comment)
-    Button add_comment;
-    @Bind(R.id.comment_container)
+    @Bind(R.id.add_moment)
+    Button add_moment;
+    @Bind(R.id.moment_container)
     RelativeLayout container;
-    @Bind(R.id.activity_comment_comCount)
-    TextView com_ount;
 
-    private MCollection.Artical mcart;
     private LinearLayoutManager mLinearLayoutManager;
     private CommentRecyclerAdapter mCommentRecyclerAdapter;
     private MyApplication mApp;
@@ -62,17 +61,16 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment);
+        setContentView(R.layout.activity_moment);
 
         initView();
     }
 
     private void initView(){
 
-        mcart = (MCollection.Artical) getIntent().getSerializableExtra("mcart");
         mApp= (MyApplication) MyApplication.getInstance();
 
-        toolbar.setTitle(mcart.getTitle());
+        toolbar.setTitle("时光轴");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,8 +94,8 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
 //            }
 //        });
 
-        add_comment.setOnClickListener(this);
-        mPresenter.getComments(mcart.getDetail_path());
+        add_moment.setOnClickListener(this);
+        mPresenter.getMoments();
     }
 
     @BusReceiver
@@ -114,7 +112,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //        return super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.activity_comment_menu,menu);
+        getMenuInflater().inflate(R.menu.activity_moment_menu,menu);
         return true;
     }
 
@@ -123,7 +121,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
 
         int id=item.getItemId();
         switch (id){
-            case R.id.add_comment:
+            case R.id.add_moment:
                 acid=-1;
                 if (container.getVisibility()==View.GONE){
                     container.setVisibility(View.VISIBLE);
@@ -134,30 +132,25 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     }
 
     @Override
-    public void getCommentsSuccess(int comCount, List<MComment.PComment> commentList) {
-
-        com_ount.setText("最新评论("+comCount+")");
+    public void getMomentsSuccess(List<MComment.PComment> commentList) {
 
         if (container.getVisibility()==View.VISIBLE){
             content.setText("");
             container.setVisibility(View.GONE);
         }
 
-//        comments.clear();
-//        comments=commentList;
-
         mCommentRecyclerAdapter.clear();
         mCommentRecyclerAdapter.addAll(commentList);
     }
 
     @Override
-    public void getCommentsFail(String msg) {
+    public void getMomentsFail(String msg) {
 //        EventUtil.showToast(this,msg);
     }
 
     @Override
-    protected CommentPresenter createPresenter() {
-        return new CommentPresenter(this);
+    protected MomentPresenter createPresenter() {
+        return new MomentPresenter(this);
     }
 
     @Override
@@ -181,7 +174,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.add_comment:
+            case R.id.add_moment:
 
                 if (mApp.isLogin){
                     String str=content.getText().toString().trim();
@@ -189,9 +182,9 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
 //                        content.setError("评论内容为空！");
                         EventUtil.showSnackbar(view,"评论内容不能为空");
                     }else {
-                        EventUtil.closeInputKeyBoard(CommentActivity.this,content);
+                        EventUtil.closeInputKeyBoard(MomentActivity.this,content);
                         if (acid<0){
-                            mPresenter.addComment(mcart, str);
+                            mPresenter.addMoment(str);
                         }else {
                             mPresenter.addChildcom(acid, str);
                         }

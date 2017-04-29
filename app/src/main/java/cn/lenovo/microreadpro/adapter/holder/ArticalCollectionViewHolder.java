@@ -36,9 +36,9 @@ public class ArticalCollectionViewHolder extends BaseViewHolder<MCollection.Arti
     @Bind(R.id.item_collection_artical_author)
     TextView itemAuthor;
     @Bind(R.id.item_collection_actical_more)
-    ImageView more;
-//    @Bind(R.id.item_collection_actical_desc)
-//    TextView itemDesc;
+    ImageView itemMore;
+    @Bind(R.id.item_collection_actical_time)
+    TextView itemTime;
 //    @Bind(R.id.item_collection_actical_coltime)
 //    TextView itemTime;
 //    @Bind(R.id.collection_artical_container)
@@ -56,7 +56,7 @@ public class ArticalCollectionViewHolder extends BaseViewHolder<MCollection.Arti
 //        super.setData(data);
         itemTitle.setText(data.getTitle());
         itemAuthor.setText(data.getAuthor());
-//        itemDesc.setText(data.getShortDesc()+"...");
+        itemTime.setText(data.getTime_to_now());
 //        itemTime.setText(data.getCol_time());
 
         final HintPopupWindow popupWindow=new HintPopupWindow(context);
@@ -75,7 +75,7 @@ public class ArticalCollectionViewHolder extends BaseViewHolder<MCollection.Arti
 
         popupWindow.setActionList(strList,clickList);
 
-        more.setOnClickListener(new View.OnClickListener() {
+        itemMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupWindow.showPopupWindow(view);

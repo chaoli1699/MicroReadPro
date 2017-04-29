@@ -8,7 +8,10 @@ import cn.lenovo.microreadpro.model.ListBean;
  * Created by Aaron on 2017/1/2.
  */
 
-public interface UserCenterView {
+public interface UserInfoView {
 
-    void getMyListSuccess(List<ListBean> beanList);
+    void getUserInfoSuccess(List<ListBean> myListObjs);
+
+    void chanInfoSuccess();
+    void chanInfoFail(String msg);
 }

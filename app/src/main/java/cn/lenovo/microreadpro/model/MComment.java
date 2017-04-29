@@ -47,6 +47,7 @@ public class MComment {
 
     public static class CComment extends Comment {
         private int accid;
+        private String response_user;
 
         public int getAccid() {
             return accid;
@@ -55,11 +56,20 @@ public class MComment {
         public void setAccid(int accid) {
             this.accid = accid;
         }
+
+        public String getResponse_user() {
+            return response_user;
+        }
+
+        public void setResponse_user(String response_user) {
+            this.response_user = response_user;
+        }
     }
 
     public static class PComment extends Comment {
         private int acid;
         private List<CComment> child_com;
+        private int complate;
 
         public int getAcid() {
             return acid;
@@ -75,6 +85,14 @@ public class MComment {
 
         public void setChild_com(List<CComment> child_com) {
             this.child_com = child_com;
+        }
+
+        public int getComplate() {
+            return complate;
+        }
+
+        public void setComplate(int complate) {
+            this.complate = complate;
         }
     }
 
