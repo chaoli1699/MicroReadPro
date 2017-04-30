@@ -145,8 +145,8 @@ function update_artical_com_count($aid, $com_count){
 }
 
 
-function get_comment_time($uid, $aid){
-	$sql="SELECT com_time FROM md_comment WHERE uid='".$uid."' AND aid='".$aid."'";
+function get_comment_time($uid, $acid){
+	$sql="SELECT com_time FROM md_comment WHERE uid='".$uid."' AND acid='".$acid."'";
     $result=$GLOBALS['conn']->query($sql);
 
     if($result->num_rows>0){
@@ -160,9 +160,9 @@ function get_comment_time($uid, $aid){
     return "";
 }
 
-function get_childcom_time($uid, $acid){
+function get_childcom_time($uid, $accid){
 
-	$sql="SELECT com_time FROM md_childcom WHERE uid='".$uid."' AND acid='".$acid."'";
+	$sql="SELECT com_time FROM md_childcom WHERE uid='".$uid."' AND accid='".$accid."'";
     $result=$GLOBALS['conn']->query($sql);
 
     if($result->num_rows>0){
@@ -231,7 +231,7 @@ function get_personal_moment_items($uid){
 				'comment'=>$row["comment"], 
 				'response_user'=>get_moment_response_user($row["acid"]), 
 				'complate'=>$row["complate"], 
-				'time_to_now'=>time_to_now($row["uid"], -$row["uid"], "parent") , 
+				'time_to_now'=>time_to_now($row["uid"], $row['acid'], "parent") , 
 				'child_com'=>get_childcom_items($row["acid"]));
 		}
 
@@ -243,7 +243,7 @@ function get_personal_moment_items($uid){
 
 function get_moment_items(){
     
-    $sql="SELECT acid, uid, comment, com_time, complate FROM md_comment WHERE aid<0 AND can_use='0' ORDER BY com_time";
+    $sql="SELECT acid, uid, comment, com_time, complate FROM md_comment WHERE aid<0 AND can_use='0' ORDER BY com_time DESC";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -256,7 +256,7 @@ function get_moment_items(){
 			 'comment'=>$row["comment"],
 			 'response_user'=>get_moment_response_user($row["acid"]),
 			 'complate'=>$row["complate"], 
-			 'time_to_now'=>time_to_now($row["uid"], -$row["uid"], "parent") ,
+			 'time_to_now'=>time_to_now($row["uid"], $row['acid'], "parent") ,
 			 'child_com'=>get_childcom_items($row["acid"]));
 		}
 
@@ -268,7 +268,7 @@ function get_moment_items(){
 
 function get_childcom_items($acid){
 
-	$sql="SELECT accid, uid, comment, com_time FROM md_childcom WHERE acid='".$acid."' AND can_use='0' ORDER BY com_time DESC";
+	$sql="SELECT accid, uid, comment, com_time FROM md_childcom WHERE acid='".$acid."' AND can_use='0' ORDER BY com_time";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -276,7 +276,7 @@ function get_childcom_items($acid){
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
 			# code...
-			$arr[]=array('accid'=>$row["accid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $acid, "child"));
+			$arr[]=array('accid'=>$row["accid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $row['accid'], "child"));
 		}
 		
 		return $arr;
@@ -295,7 +295,7 @@ function get_comment_items($aid){
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
 			# code...
-			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $aid, "parent")
+			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $row['acid'], "parent")
 				, 'child_com'=>get_childcom_items($row["acid"])
 				);
 		}
@@ -328,7 +328,13 @@ function add_childcom_item($acid, $uid, $comment){
 	$sql="INSERT INTO md_childcom(acid, uid, comment) VALUES ('".$acid."','".$uid."','".$comment."')";
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 		# code...
-		get_comment_items(get_artical_aid_wacid($acid));
+		$aid=get_artical_aid_wacid($acid);
+		if ($aid<0) {
+			get_moment_items();
+		}else{
+			get_comment_items($aid);
+		}
+		
 	}else{
 		die ("Could not insert data: ". mysqli_error($GLOBALS['conn']));
 	}
