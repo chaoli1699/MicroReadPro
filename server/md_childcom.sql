@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `md_childcom` (
   `uid` int(8) NOT NULL,
   `comment` varchar(80) NOT NULL,
   `com_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `response` int(1) NOT NULL DEFAULT '0',
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`accid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

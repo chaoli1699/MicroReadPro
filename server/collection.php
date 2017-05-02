@@ -151,10 +151,11 @@ function get_collection_items($uid, $atid){
 
 function remove_collection_item($uid, $art){
 
-    if (if_collection_exists($uid, get_artical_aid($art->detail_path))) {
+    $aid=get_artical_aid($art->detail_path);
+    if (if_collection_exists($uid, $aid)) {
 
-    	if(!if_collection_abandon($uid, get_artical_aid($art->detail_path))){
-            update_collection_item($uid, get_artical_aid($art->detail_path), 1);
+    	if(!if_collection_abandon($uid, $aid)){
+            update_collection_item($uid, $aid, 1);
     	}
     }else{
         var_json("not collected",10005);
@@ -165,10 +166,11 @@ function remove_collection_item($uid, $art){
 
 function add_collection_item($uid,$art){
 
-	if(if_collection_exists($uid, get_artical_aid($art->detail_path))){
+    $aid=get_artical_aid($art->detail_path);
+	if(if_collection_exists($uid, $aid)){
        
-		if(if_collection_abandon($uid, get_artical_aid($art->detail_path))){
-			update_collection_item($uid, get_artical_aid($art->detail_path), 0);
+		if(if_collection_abandon($uid, $aid)){
+			update_collection_item($uid, $aid, 0);
 		}else{
 			var_json("has collected",10007);
 		}
@@ -187,7 +189,7 @@ function add_collection_item($uid,$art){
             }
 		}
 
-		$sql="INSERT INTO md_collection(uid, aid) VALUES ('".$uid."','".get_artical_aid($art->detail_path)."')";
+		$sql="INSERT INTO md_collection(uid, aid) VALUES ('".$uid."','".$aid."')";
       	if ($GLOBALS['conn']->query($sql) === TRUE) {
 			get_collection_items($uid ,$art->atid);
 		} else {
