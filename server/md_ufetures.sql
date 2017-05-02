@@ -8,7 +8,7 @@
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+00:08";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,16 +27,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `md_ufetures` (
-  `ufid` int(11) NOT NULL,
-  `main_title` int(11) NOT NULL,
-  `sub_title` int(11) NOT NULL,
-  `head_img` int(11) NOT NULL,
-  `icon_img` int(11) NOT NULL,
-  `right_row` int(11) NOT NULL,
-  `is_button` int(11) NOT NULL,
-  `can_use` int(11) NOT NULL,
-  `notify_num` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `ufid` int(8) NOT NULL AUTO_INCREMENT,
+  `title` varchar(10) NOT NULL,
+  `icon_path` text NOT NULL,
+  `show_rrow` int(1) NOT NULL,
+  `is_button` int(1) NOT NULL,
+  `can_use` int(1) NOT NULL DEFAULT '0',
+  `notify_num` int(4) NOT NULL,
+  PRIMARY KEY (`ufid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

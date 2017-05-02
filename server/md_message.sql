@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `md_message` (
   `to` int(8) NOT NULL,
   `acid` int(8) NOT NULL,
   `accid` int(8) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`mid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

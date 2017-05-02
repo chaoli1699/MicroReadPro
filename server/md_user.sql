@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `md_user` (
   `regist_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `district` varchar(8) NOT NULL,
-  `introduce` varchar(20) NOT NULL,
+  `introduce` text NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
-  `role` int(1) NOT NULL DEFAULT '0'
+  `role` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `md_user` (
 --
 
 INSERT INTO `md_user` (`uid`, `username`, `password`, `sex`, `regist_time`, `last_login_time`, `district`, `introduce`, `can_use`, `role`) VALUES
-(9999, 'admin', '123456', 1, '2017-03-31 03:10:08', '2017-03-31 08:19:59', '南京', '超级管理员', 0, 9);
+(9999, 'admin', '123456', 1, '2017-03-31 00:00:00', '2017-03-31 00:00:00', '南京', '超级管理员', 0, 9);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

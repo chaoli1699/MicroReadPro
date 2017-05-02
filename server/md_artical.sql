@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `md_artical` (
   `title` varchar(10) NOT NULL,
   `author` varchar(10) NOT NULL,
   `source` varchar(10) NOT NULL,
-  `atid` int(2) NOT NULL DEFAULT '0',
+  `atid` int(1) NOT NULL,
   `image_path` text NOT NULL,
   `detail_path` text NOT NULL,
   `content` text NOT NULL,

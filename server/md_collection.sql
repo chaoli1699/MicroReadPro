@@ -28,8 +28,8 @@ SET time_zone = "+00:08";
 
 CREATE TABLE IF NOT EXISTS `md_collection` (
   `cid` int(8) NOT NULL AUTO_INCREMENT,
-  `aid` varchar(8) NOT NULL,
-  `uid` varchar(8) NOT NULL,
+  `aid` int(8) NOT NULL,
+  `uid` int(8) NOT NULL,
   `col_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cid`)
