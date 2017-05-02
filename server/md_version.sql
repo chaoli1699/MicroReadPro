@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `md_version` (
   `introduce` varchar(30) NOT NULL,
   `download_path` text NOT NULL,
   `start_path` text NOT NULL,
-  `can_use` int(1) NOT NULL DEFAULT '0'
+  `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `md_version` (
 -- 转存表中的数据 `md_version`
 --
 
-INSERT INTO `md_version` (`vid`, `version_code`, `version_name`, `introduce`, `download_path`, `can_use`) VALUES
+INSERT INTO `md_version` (`vid`, `version_code`, `version_name`, `introduce`, `download_path`, `start_path`, `can_use`) VALUES
 (1, 10, 'v 1.0.10', '新增自建后台，修复已知bug.', '/apk/MicroRead(v 1.0.10).apk', 'img/start_may.png', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
