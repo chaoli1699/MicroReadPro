@@ -25,6 +25,7 @@ public class CommentPresenter extends BasePresenter<CommentView> {
 
     public void getComments(String detail_path){
 
+        view.showLoading();
         addSubscription(SystermParams.microReadApiStores.get_comments("query", detail_path), new ApiCallback<MComment>() {
             @Override
             public void onSuccess(MComment model) {
@@ -33,6 +34,7 @@ public class CommentPresenter extends BasePresenter<CommentView> {
                 }else {
                     view.getCommentsFail(model.getInfo());
                 }
+                view.hideLoading();
             }
 
             @Override
@@ -42,7 +44,7 @@ public class CommentPresenter extends BasePresenter<CommentView> {
 
             @Override
             public void onFinish() {
-
+                view.hideLoading();
             }
         });
     }
@@ -87,6 +89,29 @@ public class CommentPresenter extends BasePresenter<CommentView> {
             @Override
             public void onFailure(String msg) {
 
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    public void removeMoment(int acid){
+        addSubscription(SystermParams.microReadApiStores.remove_moment("mmtot", acid , 1), new ApiCallback<MComment>() {
+            @Override
+            public void onSuccess(MComment model) {
+                if (model.getCode().equals("0")||model.getCode().equals("10010")){
+                    view.getCommentsSuccess(model.getCom_count(),model.getComments());
+                }else {
+                    view.getCommentsFail(model.getInfo());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                view.getCommentsFail(msg);
             }
 
             @Override

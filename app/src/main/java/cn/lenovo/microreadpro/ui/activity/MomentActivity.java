@@ -2,6 +2,7 @@ package cn.lenovo.microreadpro.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -31,6 +32,7 @@ import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.MComment;
 import cn.lenovo.microreadpro.presenter.CommentPresenter;
 import cn.lenovo.microreadpro.presenter.MomentPresenter;
+import cn.lenovo.microreadpro.ui.fragment.SureToDelateDialogFragment;
 import cn.lenovo.microreadpro.utils.EventUtil;
 import cn.lenovo.microreadpro.view.CommentView;
 import cn.lenovo.microreadpro.view.MomentView;
@@ -39,7 +41,7 @@ import cn.lenovo.microreadpro.view.MomentView;
  * Created by Aaron on 2017/4/9.
  */
 
-public class MomentActivity extends MRActivity<MomentPresenter> implements MomentView, View.OnClickListener {
+public class MomentActivity extends MRActivity<MomentPresenter> implements MomentView, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.toolbar_for_c_u)
     Toolbar toolbar;
@@ -82,7 +84,7 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
 
 //        mNewsCollectionRecyclerAdapter.setMore(R.layout.view_more,this);
         mCommentRecyclerAdapter.setError(R.layout.view_error);
-//        mRecyclerView.setRefreshListener(this);
+        mRecyclerView.setRefreshListener(this);
         mRecyclerView.setEmptyView(R.layout.view_empty);
 //        mCommentRecyclerAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
 //            @Override
@@ -106,6 +108,16 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
             if (container.getVisibility()==View.GONE){
                 container.setVisibility(View.VISIBLE);
             }
+        }
+
+        if (event.contains("mmtot")){
+            acid=Integer.valueOf(event.substring(6));
+//            mPresenter.removeMoment(acid);
+            new SureToDelateDialogFragment().show(getSupportFragmentManager(),"SureToDelate");
+        }
+
+        if (event.equals("remove")){
+            mPresenter.removeMoment(acid);
         }
     }
 
@@ -151,6 +163,11 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
     @Override
     protected MomentPresenter createPresenter() {
         return new MomentPresenter(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.getMoments();
     }
 
     @Override

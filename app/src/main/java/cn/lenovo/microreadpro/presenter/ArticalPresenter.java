@@ -38,8 +38,8 @@ public class ArticalPresenter extends BasePresenter<ArticalView> {
                 Elements lm_box_w300_fl=doc.getElementsByClass("lm_box w300 fl");
                 //首栏-artical
                 Elements hdWrap_lm_box_fl=doc.getElementsByClass("hdWrap lm_box fl");
-                ArticalBox index_box=JsoupHelperForMW.getIndexArticalBox(lm_box_w300_fl,hdWrap_lm_box_fl);
-                articalBoxes.add(index_box);
+//                ArticalBox index_box=JsoupHelperForMW.getIndexArticalBox(lm_box_w300_fl,hdWrap_lm_box_fl);
+//                articalBoxes.add(index_box);
 
                 //精美图文
                 Elements lm_box_lm_meitu=doc.getElementsByClass("lm_box lm_meitu");

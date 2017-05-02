@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.mcxiaoke.bus.Bus;
 
@@ -60,14 +61,18 @@ public class CollectionActivity extends MRActivity<CollectionContainerPresenter>
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tabList.add("热门话题");
-        tabList.add("精美文章");
+//        tabList.add("精美文章");
 
         Fragment newsCollectionFragment = new NewsCollectionFragment();
-        Fragment articalCollectionFragment = new ArticalCollectionFragment();
+//        Fragment articalCollectionFragment = new ArticalCollectionFragment();
         fragmentList.add(newsCollectionFragment);
-        fragmentList.add(articalCollectionFragment);
+//        fragmentList.add(articalCollectionFragment);
 
 //        fragmentList.add(new TestFragment());
+
+        if (tabList.size()<2){
+            mTabLayout.setVisibility(View.GONE);
+        }
 
         mCollectionFragmentPageAdapter = new CollectionFragmentPageAdapter(getSupportFragmentManager(), tabList, fragmentList);
         mViewPager.setAdapter(mCollectionFragmentPageAdapter);

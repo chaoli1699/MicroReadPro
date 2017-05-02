@@ -226,9 +226,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         String page="news";
         if (id==R.id.nav_latest) {
             page="news";
-        } else if (id==R.id.nav_artical){
-            page="artical";
-        } else if (id==R.id.nav_game){
+        }
+//        else if (id==R.id.nav_artical){
+//            page="artical";
+//        }
+        else if (id==R.id.nav_game){
             page="game";
         } else if (id==R.id.nav_mine){
             if (mApp.isLogin){

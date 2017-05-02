@@ -189,6 +189,7 @@ function add_collection_item($uid,$art){
             }
 		}
 
+        $aid=get_artical_aid($art->detail_path);
 		$sql="INSERT INTO md_collection(uid, aid) VALUES ('".$uid."','".$aid."')";
       	if ($GLOBALS['conn']->query($sql) === TRUE) {
 			get_collection_items($uid ,$art->atid);

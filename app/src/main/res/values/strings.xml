@@ -33,6 +33,7 @@
     <string name="add_moment">新增状态</string>
     <string name="send_comment">发表</string>
     <string name="send_moment">发布</string>
+    <string name="remove_moment">删除</string>
     <string name="read_comments">查看评论</string>
     <string name="str_com_count">最新评论(0)</string>
     <string name="speaker0">小美</string>

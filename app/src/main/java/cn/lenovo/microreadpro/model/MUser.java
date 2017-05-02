@@ -41,7 +41,7 @@ public class MUser {
         private String last_login_time;
         private String district;
         private String introduce;
-        private String role;
+        private int role;
 
         public int getUid() {
             return uid;
@@ -91,11 +91,11 @@ public class MUser {
             this.introduce = introduce;
         }
 
-        public String getRole() {
+        public int getRole() {
             return role;
         }
 
-        public void setRole(String role) {
+        public void setRole(int role) {
             this.role = role;
         }
     }

@@ -30,6 +30,7 @@ import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.MComment;
 import cn.lenovo.microreadpro.presenter.CommentPresenter;
+import cn.lenovo.microreadpro.ui.fragment.SureToDelateDialogFragment;
 import cn.lenovo.microreadpro.utils.EventUtil;
 import cn.lenovo.microreadpro.view.CommentView;
 
@@ -108,6 +109,16 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
             if (container.getVisibility()==View.GONE){
                 container.setVisibility(View.VISIBLE);
             }
+        }
+
+        if (event.contains("mmtot")){
+            acid=Integer.valueOf(event.substring(6));
+//            mPresenter.removeMoment(acid);
+            new SureToDelateDialogFragment().show(getSupportFragmentManager(),"SureToDelate");
+        }
+
+        if (event.equals("remove")){
+            mPresenter.removeMoment(acid);
         }
     }
 

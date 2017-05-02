@@ -69,7 +69,6 @@ public class MComment {
     public static class PComment extends Comment {
         private int acid;
         private List<CComment> child_com;
-        private int complate;
 
         public int getAcid() {
             return acid;
@@ -86,21 +85,22 @@ public class MComment {
         public void setChild_com(List<CComment> child_com) {
             this.child_com = child_com;
         }
-
-        public int getComplate() {
-            return complate;
-        }
-
-        public void setComplate(int complate) {
-            this.complate = complate;
-        }
     }
 
     public static class Comment{
 
+        private int uid;
         private String username;
         private String comment;
         private String time_to_now;
+
+        public int getUid() {
+            return uid;
+        }
+
+        public void setUid(int uid) {
+            this.uid = uid;
+        }
 
         public String getUsername() {
             return username;

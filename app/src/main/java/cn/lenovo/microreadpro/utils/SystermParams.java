@@ -32,7 +32,7 @@ public class SystermParams {
 
     public static NewsApiStores nwesApiStores= AppClient.getRetrofit(NewsApiStores.API_ZHIHU_URL).create(NewsApiStores.class);
     public static GameApiStores gameApiStores=AppClient.getRetrofitForUTF_8HTML(GameApiStores.API_GAME_URL).create(GameApiStores.class);
-    public static ArticalMWApiStores articalMWApiStores= AppClientGB2312.getRetrofitForGB2312HTML(ArticalMWApiStores.API_MEIWEN_URL).create(ArticalMWApiStores.class);
+    public static ArticalMWApiStores articalMWApiStores= AppClient.getRetrofitForUTF_8HTML(ArticalMWApiStores.API_MEIWEN_URL).create(ArticalMWApiStores.class);
     public static AppInfoApiStores appInfoApiStores= AppClient.getRetrofitForUTF_8HTML(AppInfoApiStores.API_APPINFO_URL).create(AppInfoApiStores.class);
     public static MicroReadApiStores microReadApiStores =AppClient.getRetrofit(MicroReadApiStores.API_MICROREAD_URL).create(MicroReadApiStores.class);
 

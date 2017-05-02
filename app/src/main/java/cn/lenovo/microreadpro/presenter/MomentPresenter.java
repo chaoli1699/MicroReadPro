@@ -22,6 +22,7 @@ public class MomentPresenter extends BasePresenter<MomentView> {
 
     public void getMoments(){
 
+        view.showLoading();
         addSubscription(SystermParams.microReadApiStores.get_moments("querym"), new ApiCallback<MComment>() {
             @Override
             public void onSuccess(MComment model) {
@@ -30,6 +31,7 @@ public class MomentPresenter extends BasePresenter<MomentView> {
                 }else {
                     view.getMomentsFail(model.getInfo());
                 }
+                view.hideLoading();
             }
 
             @Override
@@ -39,7 +41,7 @@ public class MomentPresenter extends BasePresenter<MomentView> {
 
             @Override
             public void onFinish() {
-
+                view.hideLoading();
             }
         });
     }
@@ -83,6 +85,29 @@ public class MomentPresenter extends BasePresenter<MomentView> {
             @Override
             public void onFailure(String msg) {
 
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    public void removeMoment(int acid){
+        addSubscription(SystermParams.microReadApiStores.remove_moment("mmtot", acid , 1), new ApiCallback<MComment>() {
+            @Override
+            public void onSuccess(MComment model) {
+                if (model.getCode().equals("0")||model.getCode().equals("10010")){
+                    view.getMomentsSuccess(model.getComments());
+                }else {
+                    view.getMomentsFail(model.getInfo());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                view.getMomentsFail(msg);
             }
 
             @Override

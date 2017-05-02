@@ -9,11 +9,11 @@
             android:icon="@mipmap/latest"
             android:title="@string/latest_topic" />
 
-        <item
-            android:id="@+id/nav_artical"
-            android:checkable="true"
-            android:icon="@mipmap/artical"
-            android:title="@string/artical" />
+        <!--<item-->
+            <!--android:id="@+id/nav_artical"-->
+            <!--android:checkable="true"-->
+            <!--android:icon="@mipmap/artical"-->
+            <!--android:title="@string/artical" />-->
 
         <item
             android:id="@+id/nav_game"

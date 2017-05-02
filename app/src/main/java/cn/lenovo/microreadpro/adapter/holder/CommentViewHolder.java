@@ -25,6 +25,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.adapter.ChildcomRecyclerAdapter;
+import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.MComment;
 import cn.lenovo.microreadpro.widget.HintPopupWindow;
@@ -43,17 +44,21 @@ public class CommentViewHolder extends BaseViewHolder<MComment.PComment> {
     ImageView head;
     @Bind(R.id.item_comment_time)
     TextView time;
+    @butterknife.Bind(R.id.item_comment_remove)
+    TextView remove;
     @Bind(R.id.btn_comment_response)
     Button response;
     @Bind(R.id.item_comment_childcom)
     EasyRecyclerView childcom;
 
     private Context context;
+    private MyApplication mApp;
 
     public CommentViewHolder(ViewGroup parent, @LayoutRes int res, Context context) {
         super(parent, res);
         ButterKnife.bind(this,itemView);
         this.context=context;
+        mApp= (MyApplication) MyApplication.getInstance();
     }
 
     @Override
@@ -62,6 +67,18 @@ public class CommentViewHolder extends BaseViewHolder<MComment.PComment> {
         username.setText(data.getUsername());
         content.setText(data.getComment());
         time.setText(data.getTime_to_now());
+        remove.setVisibility(View.GONE);
+
+        if (data.getUid()==mApp.currentUser.getUid()||mApp.currentUser.getRole()>5){
+            remove.setVisibility(View.VISIBLE);
+        }
+
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bus.getDefault().post("mmtot,"+data.getAcid());
+            }
+        });
 
         response.setOnClickListener(new View.OnClickListener() {
             @Override
