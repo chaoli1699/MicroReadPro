@@ -101,17 +101,30 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
             @Override
             public void onItemClick(int position) {
                 switch (fetures.get(position).getUfid()){
-                    case 1:
-                        Intent intent=new Intent(getActivity(), UserInfoActivity.class);
+                    case 1: {
+                        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
                         intent.putExtra("head_path", fetures.get(position).getHead_path());
                         startActivity(intent);
                         break;
+                    }
                     case 2:
                         //启动
                         startActivity(new Intent(getActivity(),MomentActivity.class));
                         break;
                     case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
                         startActivity(new Intent(getActivity(),CollectionActivity.class));
+                        break;
+                    case 6:
+
+                        break;
+                    case 7:
+
                         break;
                 }
             }
