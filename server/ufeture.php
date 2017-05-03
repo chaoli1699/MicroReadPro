@@ -52,8 +52,9 @@ function get_ufeture_items($uid){
 
 			if ($row['ufid']==1) {
 				//get head_img form md_user
+				$username=get_user_name_wuid($uid);
+
 				if (get_user_sex_wuid($uid)>0) {
-					$username=get_user_name_wuid($uid);
 					$head_path="/img/male.png";
 				}else {
 					$head_path="/img/female.png";
