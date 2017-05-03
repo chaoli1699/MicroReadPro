@@ -16,7 +16,7 @@ import rx.Observer;
 
 public interface MicroReadApiStores {
 
-    String API_MICROREAD_URL="http://192.168.119.107:80/MicroRead/";
+    String API_MICROREAD_URL="http://192.168.1.104:80/MicroRead/";
 
     @GET("version.php")
     Observable<MVersion> check_version(@Query("action") String action);

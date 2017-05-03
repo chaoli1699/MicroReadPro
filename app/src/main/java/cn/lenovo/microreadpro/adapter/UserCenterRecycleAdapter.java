@@ -8,7 +8,6 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.adapter.holder.UserCenterViewHolder;
-import cn.lenovo.microreadpro.model.ListBean;
 import cn.lenovo.microreadpro.model.MUFeture;
 
 /**

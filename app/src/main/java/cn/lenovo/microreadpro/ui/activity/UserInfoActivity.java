@@ -20,7 +20,6 @@ import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.adapter.UserCenterRecycleAdapter;
 import cn.lenovo.microreadpro.base.MRActivity;
 import cn.lenovo.microreadpro.base.MyApplication;
-import cn.lenovo.microreadpro.model.ListBean;
 import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.presenter.UserInfoPresenter;
 import cn.lenovo.microreadpro.ui.fragment.EditSexDialogFragment;

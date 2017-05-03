@@ -17,7 +17,7 @@ public class SplashActivity extends MRActivity<SplashPresenter> implements Splas
 
     @Bind(R.id.activity_splash_start)
     ImageView start;
-    private static final int SPLASH_TIME=1000;
+    private static final int SPLASH_TIME=3000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,8 @@ public class SplashActivity extends MRActivity<SplashPresenter> implements Splas
         if (!isLatest){
             new UpdateVersionDialogFragment().show(getSupportFragmentManager(),"update_version_dialog");
         }else {
-//            Glide.with(this).load(MicroReadApiStores.API_MICROREAD_URL+start_page).into(start);
+            String url=MicroReadApiStores.API_MICROREAD_URL+start_page;
+            Glide.with(this).load(url).into(start);
             timeThread.start();
         }
     }
