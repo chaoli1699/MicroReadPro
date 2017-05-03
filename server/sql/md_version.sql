@@ -3,12 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-04-06 09:27:48
+-- Generation Time: 2017-05-03 17:26:11
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:08";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `md_version` (
 --
 
 INSERT INTO `md_version` (`vid`, `version_code`, `version_name`, `introduce`, `download_path`, `start_path`, `can_use`) VALUES
-(1, 10, 'v 1.0.10', '新增自建后台，修复已知bug.', '/apk/MicroRead(v 1.0.10).apk', 'img/start_may.png', 0);
+(1, 10, 'v 1.0.10', '新增自建后台，修复已知bug.', '/apk/MicroRead(v 1.0.10).apk', '/img/start_may.png', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
