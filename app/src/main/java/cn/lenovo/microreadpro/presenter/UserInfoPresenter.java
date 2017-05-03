@@ -5,7 +5,6 @@ import java.util.List;
 
 import cn.lenovo.microreadpro.base.BasePresenter;
 import cn.lenovo.microreadpro.base.MyApplication;
-import cn.lenovo.microreadpro.model.ListBean;
 import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.model.MUser;
 import cn.lenovo.microreadpro.net.ApiCallback;

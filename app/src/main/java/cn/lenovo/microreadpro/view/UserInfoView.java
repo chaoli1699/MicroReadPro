@@ -2,7 +2,6 @@ package cn.lenovo.microreadpro.view;
 
 import java.util.List;
 
-import cn.lenovo.microreadpro.model.ListBean;
 import cn.lenovo.microreadpro.model.MUFeture;
 
 /**

@@ -34,7 +34,7 @@
             android:layout_height="24dp"
             android:layout_toRightOf="@id/item_usercenter_head"
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"/>
+            android:layout_margin="8dp"/>
 
         <TextView
             android:id="@+id/item_usercenter_title"

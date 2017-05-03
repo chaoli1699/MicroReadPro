@@ -15,10 +15,7 @@ import android.view.ViewGroup;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.mcxiaoke.bus.Bus;
-import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.umeng.analytics.MobclickAgent;
-import com.zaaach.citypicker.CityPickerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +24,11 @@ import butterknife.Bind;
 import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.adapter.UserCenterRecycleAdapter;
 import cn.lenovo.microreadpro.base.MRFragment;
-import cn.lenovo.microreadpro.base.MyApplication;
-import cn.lenovo.microreadpro.model.ListBean;
 import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.presenter.UserCenterPresenter;
 import cn.lenovo.microreadpro.ui.activity.CollectionActivity;
-import cn.lenovo.microreadpro.ui.activity.MainActivity;
 import cn.lenovo.microreadpro.ui.activity.MomentActivity;
 import cn.lenovo.microreadpro.ui.activity.UserInfoActivity;
-import cn.lenovo.microreadpro.utils.EventUtil;
-import cn.lenovo.microreadpro.utils.SystermParams;
 import cn.lenovo.microreadpro.view.UserCenterView;
 
 /**

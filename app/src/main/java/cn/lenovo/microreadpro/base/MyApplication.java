@@ -24,6 +24,7 @@ import cn.lenovo.microreadpro.model.FontBean;
 import cn.lenovo.microreadpro.model.MUser;
 import cn.lenovo.microreadpro.model.UserBean;
 import cn.lenovo.microreadpro.utils.ACache;
+import cn.lenovo.microreadpro.utils.GlideCacheUtil;
 import cn.lenovo.microreadpro.utils.LogUtil;
 import cn.lenovo.microreadpro.utils.SystermParams;
 import cn.lenovo.microreadpro.utils.TTSpeaker;
@@ -220,6 +221,8 @@ public class MyApplication extends Application {
                 }
             }
         }
+
+//        GlideCacheUtil.getInstance().clearImageAllCache(this);
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
     }
