@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-05-03 17:26:06
+-- Generation Time: 2017-05-03 21:42:14
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `md_ufeture` (
   `group_top` int(1) NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ufid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- 转存表中的数据 `md_ufeture`
@@ -45,9 +45,12 @@ CREATE TABLE IF NOT EXISTS `md_ufeture` (
 
 INSERT INTO `md_ufeture` (`ufid`, `name_eg`, `name_cn`, `icon_path`, `show_rrow`, `is_button`, `group`, `group_top`, `can_use`) VALUES
 (1, 'acount', '账号', '', 1, 0, '', 1, 0),
-(2, 'moment', '时光轴', '/img/icon_moment.png', 1, 0, 'my_feture', 1, 0),
-(3, 'collection', '收藏', '/img/icon_collection.png', 1, 0, 'my_feture', 0, 0),
-(4, 'message', '消息', '/img/icon_message.png', 1, 0, 'my_feture', 0, 1);
+(2, 'moment', '时光轴', 'img/icon_moment.png', 1, 0, 'ab_moment', 1, 0),
+(3, 'camera', '我的时光', 'img/icon_camera.png', 1, 0, 'ab_moment', 0, 0),
+(4, 'trash', '回收站', 'img/icon_trash.png', 1, 0, 'ab_moment', 0, 0),
+(5, 'collection', '收藏', 'img/icon_collection.png', 1, 0, 'ab_collect', 1, 0),
+(6, 'notify', '消息', 'img/icon_message.png', 1, 0, 'ab_message', 1, 0),
+(7, 'setting', '设置', 'img/icon_setting.png', 1, 0, 'ab_setting', 1, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
