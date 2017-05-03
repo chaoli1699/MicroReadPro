@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_usercenter_group"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/mdColor_grey_light"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/item_usercenter_head"
+            android:layout_width="@dimen/userImageSize"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"/>
+
+        <ImageView
+            android:id="@+id/item_usercenter_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toRightOf="@id/item_usercenter_head"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/item_usercenter_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/item_usercenter_icon"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:textColor="@color/mdColor_grey_dark"
+            android:textSize="@dimen/text_body"/>
+
+        <TextView
+            android:id="@+id/item_usercenter_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/item_usercenter_title"
+            android:layout_alignBottom="@id/item_usercenter_head"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:textColor="@color/mdColor_grey_dark"
+            android:textSize="@dimen/text_caption"/>
+
+        <ImageView
+            android:id="@+id/item_usercenter_rrow"
+            android:src="@mipmap/right"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/item_usercenter_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:textColor="@color/mdColor_grey_dark"
+            android:textSize="@dimen/text_caption"/>
+
+        <TextView
+            android:id="@+id/item_usercenter_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/mdColor_red_accent"
+            android:gravity="center"
+            android:textSize="@dimen/text_subhead"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/item_usercenter_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/mdColor_grey_light"/>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -2,6 +2,7 @@ package cn.lenovo.microreadpro.net;
 
 import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.MComment;
+import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.model.MUser;
 import cn.lenovo.microreadpro.model.MVersion;
 import retrofit2.http.GET;
@@ -61,5 +62,8 @@ public interface MicroReadApiStores {
 
     @GET("comment.php")
     Observable<MComment> remove_moment(@Query("action") String action, @Query("acid") int acid, @Query("too") int too);
+
+    @GET("ufeture.php")
+    Observable<MUFeture> load_ufeture(@Query("action") String action, @Query("uid") int uid);
 
 }

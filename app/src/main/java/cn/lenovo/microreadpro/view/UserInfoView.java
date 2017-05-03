@@ -3,6 +3,7 @@ package cn.lenovo.microreadpro.view;
 import java.util.List;
 
 import cn.lenovo.microreadpro.model.ListBean;
+import cn.lenovo.microreadpro.model.MUFeture;
 
 /**
  * Created by Aaron on 2017/1/2.
@@ -10,7 +11,7 @@ import cn.lenovo.microreadpro.model.ListBean;
 
 public interface UserInfoView {
 
-    void getUserInfoSuccess(List<ListBean> myListObjs);
+    void getUserInfoSuccess(List<MUFeture.UFeture> fetureList);
 
     void chanInfoSuccess();
     void chanInfoFail(String msg);

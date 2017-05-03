@@ -41,6 +41,7 @@ public class MVersion {
         private String version_name;
         private String introduce;
         private String download_path;
+        private String start_path;
 
         public int getVid() {
             return vid;
@@ -80,6 +81,14 @@ public class MVersion {
 
         public void setDownload_path(String download_path) {
             this.download_path = download_path;
+        }
+
+        public String getStart_path() {
+            return start_path;
+        }
+
+        public void setStart_path(String start_path) {
+            this.start_path = start_path;
         }
     }
 

@@ -1,11 +1,10 @@
 package cn.lenovo.microreadpro.presenter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.lenovo.microreadpro.base.BasePresenter;
 import cn.lenovo.microreadpro.base.MyApplication;
-import cn.lenovo.microreadpro.model.ListBean;
+import cn.lenovo.microreadpro.model.MUFeture;
+import cn.lenovo.microreadpro.net.ApiCallback;
+import cn.lenovo.microreadpro.utils.SystermParams;
 import cn.lenovo.microreadpro.view.UserCenterView;
 
 /**
@@ -21,33 +20,25 @@ public class UserCenterPresenter extends BasePresenter<UserCenterView> {
         mApp= (MyApplication) MyApplication.getInstance();
     }
 
-    public void getMyList(){
+    public void getUFetures(){
+        addSubscription(SystermParams.microReadApiStores.load_ufeture("load", mApp.currentUser.getUid()), new ApiCallback<MUFeture>() {
+            @Override
+            public void onSuccess(MUFeture model) {
+                if (model.getCode()==0){
+                    view.getUFeturesSuccess(model.getUfetures());
+                }
+            }
 
-        List<ListBean> listItems=new ArrayList<>();
+            @Override
+            public void onFailure(String msg) {
 
-        ListBean myListObj=new ListBean();
-        myListObj.setTitle("账号");
-        myListObj.setSubtitle(mApp.currentUser.getUsername());
-        myListObj.setSex(mApp.currentUser.getSex());
-        myListObj.setImage("这里有图片");
-        myListObj.setIconShow(true);
-        myListObj.setLineShow(false);
-        listItems.add(myListObj);
+            }
 
-        ListBean myListObj2=new ListBean();
-        listItems.add(myListObj2);
+            @Override
+            public void onFinish() {
 
-        ListBean myListObj3=new ListBean();
-        myListObj3.setTitle("时光轴");
-        myListObj3.setIconShow(true);
-        listItems.add(myListObj3);
+            }
+        });
 
-        ListBean myListObj4=new ListBean();
-        myListObj4.setTitle("收藏");
-        myListObj4.setIconShow(true);
-        myListObj4.setLineShow(false);
-        listItems.add(myListObj4);
-
-        view.getMyListSuccess(listItems);
     }
 }

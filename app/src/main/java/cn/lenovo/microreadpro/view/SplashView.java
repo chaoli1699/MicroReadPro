@@ -8,5 +8,5 @@ import cn.lenovo.microreadpro.base.BaseView;
 
 public interface SplashView extends BaseView{
 
-    void isLatestVersion(boolean isLatest);
+    void isLatestVersion(boolean isLatest,String start_page);
 }

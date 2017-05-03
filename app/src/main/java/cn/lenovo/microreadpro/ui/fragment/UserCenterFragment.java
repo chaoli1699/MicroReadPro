@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.umeng.analytics.MobclickAgent;
 import com.zaaach.citypicker.CityPickerActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,6 +29,7 @@ import cn.lenovo.microreadpro.adapter.UserCenterRecycleAdapter;
 import cn.lenovo.microreadpro.base.MRFragment;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.ListBean;
+import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.presenter.UserCenterPresenter;
 import cn.lenovo.microreadpro.ui.activity.CollectionActivity;
 import cn.lenovo.microreadpro.ui.activity.MainActivity;
@@ -40,7 +43,7 @@ import cn.lenovo.microreadpro.view.UserCenterView;
  * Created by Aaron on 2017/1/2.
  */
 
-public class UserCenterFragment extends MRFragment<UserCenterPresenter> implements UserCenterView {
+public class UserCenterFragment extends MRFragment<UserCenterPresenter> implements UserCenterView, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.toolbar_for_c_u)
     Toolbar toolbar;
@@ -52,6 +55,7 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
     private LinearLayoutManager mLinearLayoutManager;
     private UserCenterRecycleAdapter mUserCenterRecycleAdapter;
     public static final int REQUEST_CODE_PICK_CITY = 0;
+    private List<MUFeture.UFeture> fetures=new ArrayList<>();
 
     public interface UserCenterFragmentExtra{
         DrawerLayout getDrawer();
@@ -99,38 +103,29 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
 
 //        mCollectionRecyclerAdapter.setMore(R.layout.view_more,this);
         mUserCenterRecycleAdapter.setError(R.layout.view_error);
-//        mRecyclerView.setRefreshListener(this);
+        mRecyclerView.setRefreshListener(this);
         mRecyclerView.setEmptyView(R.layout.view_empty);
         mUserCenterRecycleAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                switch (position){
-                    case 0:
-                        startActivity(new Intent(getActivity(), UserInfoActivity.class));
-//                    case 1:
-//                        new EditSexDialogFragment().show(getFragmentManager(),"edit_sex_fragment");
+                switch (fetures.get(position).getUfid()){
+                    case 1:
+                        Intent intent=new Intent(getActivity(), UserInfoActivity.class);
+                        intent.putExtra("head_path", fetures.get(position).getHead_path());
+                        startActivity(intent);
                         break;
                     case 2:
                         //启动
                         startActivity(new Intent(getActivity(),MomentActivity.class));
-//                        getActivity().startActivityForResult(new Intent(getActivity(), CityPickerActivity.class),
-//                                REQUEST_CODE_PICK_CITY);
                         break;
                     case 3:
                         startActivity(new Intent(getActivity(),CollectionActivity.class));
-//                        new EditSignDialogFragment().show(getFragmentManager(),"edit_sign_fragment");
                         break;
-//                    case 5:
-//                        Intent intent=new Intent(SystermParams.action);
-//                        intent.putExtra("user","logout");
-//                        getActivity().sendBroadcast(intent);
-//                        break;
                 }
-
             }
         });
 
-        mPresenter.getMyList();
+        mPresenter.getUFetures();
     }
 
     @Override
@@ -139,8 +134,15 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
     }
 
     @Override
-    public void getMyListSuccess(List<ListBean> beanList) {
-        mUserCenterRecycleAdapter.addAll(beanList);
+    public void getUFeturesSuccess(List<MUFeture.UFeture> fetureList) {
+        fetures.addAll(fetureList);
+        mUserCenterRecycleAdapter.addAll(fetureList);
+    }
+
+    @Override
+    public void onRefresh() {
+        mUserCenterRecycleAdapter.clear();
+        mPresenter.getUFetures();
     }
 
     @Override

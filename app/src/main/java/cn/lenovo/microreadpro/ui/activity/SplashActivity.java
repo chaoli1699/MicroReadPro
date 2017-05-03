@@ -2,15 +2,21 @@ package cn.lenovo.microreadpro.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import cn.lenovo.microreadpro.R;
 import cn.lenovo.microreadpro.base.MRActivity;
+import cn.lenovo.microreadpro.net.MicroReadApiStores;
 import cn.lenovo.microreadpro.presenter.SplashPresenter;
 import cn.lenovo.microreadpro.ui.fragment.UpdateVersionDialogFragment;
 import cn.lenovo.microreadpro.view.SplashView;
+import butterknife.Bind;
+import com.bumptech.glide.Glide;
 
 public class SplashActivity extends MRActivity<SplashPresenter> implements SplashView{
 
+    @Bind(R.id.activity_splash_start)
+    ImageView start;
     private static final int SPLASH_TIME=1000;
 
     @Override
@@ -41,11 +47,12 @@ public class SplashActivity extends MRActivity<SplashPresenter> implements Splas
     });
 
     @Override
-    public void isLatestVersion(boolean isLatest) {
+    public void isLatestVersion(boolean isLatest, String start_page) {
 
         if (!isLatest){
             new UpdateVersionDialogFragment().show(getSupportFragmentManager(),"update_version_dialog");
         }else {
+//            Glide.with(this).load(MicroReadApiStores.API_MICROREAD_URL+start_page).into(start);
             timeThread.start();
         }
     }

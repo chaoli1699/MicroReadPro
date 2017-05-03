@@ -6,6 +6,7 @@ import java.util.List;
 import cn.lenovo.microreadpro.base.BasePresenter;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.ListBean;
+import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.model.MUser;
 import cn.lenovo.microreadpro.net.ApiCallback;
 import cn.lenovo.microreadpro.utils.SystermParams;
@@ -105,45 +106,27 @@ public class UserInfoPresenter extends BasePresenter<UserInfoView> {
         });
     }
 
-    public void getUserInfo(){
+    public void getUserInfo(String head_path){
+        List<MUFeture.UFeture> fetures=new ArrayList<>();
 
-        List<ListBean> listItems=new ArrayList<>();
+        String username=mApp.currentUser.getUsername();
+        String sex=(mApp.currentUser.getSex()>0)? "男":"女";
+        String district=(mApp.currentUser.getDistrict().equals(""))? "未知":mApp.currentUser.getDistrict();
+        String sign=(mApp.currentUser.getIntroduce().equals(""))? "未填写":mApp.currentUser.getIntroduce();
 
-        ListBean myListObj=new ListBean();
-        myListObj.setTitle("账号");
-        myListObj.setSubtitle(mApp.currentUser.getUsername());
-        myListObj.setSex(mApp.currentUser.getSex());
-        myListObj.setImage("这里有图片");
-        myListObj.setLineShow(false);
-        listItems.add(myListObj);
+        MUFeture.UFeture feture=new MUFeture().new UFeture(1, "account", "账号", head_path, username, "", 0, 0, 0, "", 1, "");
+        MUFeture.UFeture feture2=new MUFeture().new UFeture(2, "sex", "性别", "", "", "", 0, 0, 0, "", 1, sex);
+        MUFeture.UFeture feture3=new MUFeture().new UFeture(3, "district", "地区", "", "", "", 0, 0, 0, "", 0, district);
+        MUFeture.UFeture feture4=new MUFeture().new UFeture(4, "sign", "签名", "", "", "", 0, 0, 0, "", 0, sign);
+        MUFeture.UFeture feture5=new MUFeture().new UFeture(5, "logout", "", "", "", "", 0, 1, 0, "", 1, "");
 
-        ListBean myListObj1=new ListBean();
-        listItems.add(myListObj1);
+        fetures.add(feture);
+        fetures.add(feture2);
+        fetures.add(feture3);
+        fetures.add(feture4);
+        fetures.add(feture5);
 
-        ListBean myListObj2=new ListBean();
-        myListObj2.setTitle("性别");
-        myListObj2.setValue((mApp.currentUser.getSex()>0)? "男": "女");
-        listItems.add(myListObj2);
+        view.getUserInfoSuccess(fetures);
 
-        ListBean myListObj3=new ListBean();
-        myListObj3.setTitle("地区");
-        myListObj3.setValue((mApp.currentUser.getDistrict().equals(""))? "未知":mApp.currentUser.getDistrict());
-        listItems.add(myListObj3);
-
-        ListBean myListObj4=new ListBean();
-        myListObj4.setTitle("签名");
-//        myListObj4.setValue(mApp.currentUser.getSign());
-        myListObj4.setValue((mApp.currentUser.getIntroduce().equals(""))? "此人很懒，暂无任何心情！":mApp.currentUser.getIntroduce());
-        listItems.add(myListObj4);
-
-        ListBean myListObj5=new ListBean();
-        listItems.add(myListObj5);
-
-        ListBean myListObj6=new ListBean();
-        myListObj6.setTitle("退出账号");
-        myListObj6.setButton(true);
-        listItems.add(myListObj6);
-
-        view.getUserInfoSuccess(listItems);
     }
 }

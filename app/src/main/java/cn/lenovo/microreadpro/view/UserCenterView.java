@@ -2,7 +2,7 @@ package cn.lenovo.microreadpro.view;
 
 import java.util.List;
 
-import cn.lenovo.microreadpro.model.ListBean;
+import cn.lenovo.microreadpro.model.MUFeture;
 
 /**
  * Created by Aaron on 2017/1/2.
@@ -10,5 +10,5 @@ import cn.lenovo.microreadpro.model.ListBean;
 
 public interface UserCenterView {
 
-    void getMyListSuccess(List<ListBean> beanList);
+    void getUFeturesSuccess(List<MUFeture.UFeture> fetureList);
 }

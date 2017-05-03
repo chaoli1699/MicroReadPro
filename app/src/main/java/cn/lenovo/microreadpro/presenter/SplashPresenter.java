@@ -28,39 +28,6 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     }
 
     public void checkVersion(){
-
-//        addSubscription(SystermParams.appInfoApiStores.getHtmlForUpdate("cn.lenovo.microreadpro"), new ApiCallback<String>() {
-//            @Override
-//            public void onSuccess(String model) {
-//                Document doc= Jsoup.parse(model);
-//                Elements apkInfo=doc.getElementsByClass("det-othinfo-data");
-//                String latestVersion=apkInfo.get(0).childNode(0)+"";
-//                latestVersion=latestVersion.replace("\n","");
-////                String apkAuthor=apkInfo.get(2).childNode(0)+"";
-//                LogUtil.i("latestVersion",latestVersion);
-//                String localVersion=mApp.getVersion();
-//                LogUtil.i("localVersion",localVersion);
-//
-//                if (!latestVersion.equals(localVersion)){
-//                    mApp.isLatest=false;
-//                    view.isLatestVersion(false);
-//                }else {
-//                    view.isLatestVersion(true);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(String msg) {
-//
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//
-//            }
-//        });
-
         addSubscription(SystermParams.microReadApiStores.check_version("latest"), new ApiCallback<MVersion>() {
             @Override
             public void onSuccess(MVersion model) {
@@ -73,12 +40,12 @@ public class SplashPresenter extends BasePresenter<SplashView> {
                     }
                 }
 
-                view.isLatestVersion(mApp.isLatest);
+                view.isLatestVersion(mApp.isLatest, model.getVersion().getStart_path());
             }
 
             @Override
             public void onFailure(String msg) {
-                view.isLatestVersion(mApp.isLatest);
+                view.isLatestVersion(mApp.isLatest,"");
             }
 
             @Override

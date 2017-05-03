@@ -14,7 +14,7 @@ function var_json($info='', $code=10000, $data=array()){
 
 function get_latest_version_info(){
 
-	$sql="SELECT vid, version_code, version_name, introduce, download_path FROM md_version ORDER BY vid LIMIT 1";
+	$sql="SELECT vid, version_code, version_name, introduce, download_path，start_path FROM md_version ORDER BY vid LIMIT 1";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if($result->num_rows>0){

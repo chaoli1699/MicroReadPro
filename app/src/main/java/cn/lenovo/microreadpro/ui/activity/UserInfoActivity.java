@@ -21,6 +21,7 @@ import cn.lenovo.microreadpro.adapter.UserCenterRecycleAdapter;
 import cn.lenovo.microreadpro.base.MRActivity;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.ListBean;
+import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.presenter.UserInfoPresenter;
 import cn.lenovo.microreadpro.ui.fragment.EditSexDialogFragment;
 import cn.lenovo.microreadpro.ui.fragment.EditSignDialogFragment;
@@ -44,6 +45,7 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
     private UserCenterRecycleAdapter mUserCenterRecycleAdapter;
     private MyApplication mApp;
     public static final int REQUEST_CODE_PICK_CITY = 0;
+    private String head_path;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,8 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
     private void initView(){
 
         mApp= (MyApplication) MyApplication.getInstance();
-
+        head_path=getIntent().getStringExtra("head_path")
+        ;
         toolbar.setTitle("个人信息");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -75,18 +78,18 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
             @Override
             public void onItemClick(int position) {
                 switch (position){
-                    case 2:
+                    case 1:
                         new EditSexDialogFragment().show(getSupportFragmentManager(),"edit_sex_fragment");
                         break;
-                    case 3:
+                    case 2:
                         //启动
                         startActivityForResult(new Intent(UserInfoActivity.this, CityPickerActivity.class),
                                 REQUEST_CODE_PICK_CITY);
                         break;
-                    case 4:
+                    case 3:
                         new EditSignDialogFragment().show(getSupportFragmentManager(),"edit_sign_fragment");
                         break;
-                    case 6:
+                    case 4:
                         Intent intent=new Intent(SystermParams.action);
                         intent.putExtra("user","logout");
                         sendBroadcast(intent);
@@ -97,7 +100,7 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
             }
         });
 
-        mPresenter.getUserInfo();
+        mPresenter.getUserInfo(head_path);
     }
 
     @BusReceiver
@@ -132,9 +135,9 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
     }
 
     @Override
-    public void getUserInfoSuccess(List<ListBean> myListObjs) {
+    public void getUserInfoSuccess(List<MUFeture.UFeture> fetureList) {
         mUserCenterRecycleAdapter.clear();
-        mUserCenterRecycleAdapter.addAll(myListObjs);
+        mUserCenterRecycleAdapter.addAll(fetureList);
     }
 
     @Override
@@ -142,7 +145,7 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
 //        Intent intent=new Intent(SystermParams.action);
 //        intent.putExtra("user","change");
 //        sendBroadcast(intent);
-        mPresenter.getUserInfo();
+        mPresenter.getUserInfo(head_path);
     }
 
     @Override
