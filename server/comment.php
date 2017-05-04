@@ -262,7 +262,10 @@ function get_childcom_items($acid){  //获取子评论
 		
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
-			$arr[]=array('accid'=>$row["accid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $row['accid'], "md_childcom"));
+			$arr[]=array('accid'=>$row["accid"],
+				'username'=>get_user_name($row["uid"]),
+				'comment'=>$row["comment"], 
+				'time_to_now'=>time_to_now($row["uid"], $row['accid'], "md_childcom"));
 		}
 		
 		return $arr;
@@ -309,9 +312,11 @@ function get_comment_items($aid){   //获取文章评论列表
 
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
-			$arr[]=array('acid'=>$row["acid"],'username'=>get_user_name($row["uid"]),'comment'=>$row["comment"], 'time_to_now'=>time_to_now($row["uid"], $row['acid'], "md_comment")
-				, 'child_com'=>get_childcom_items($row["acid"])
-				);
+			$arr[]=array('acid'=>$row["acid"],
+				'username'=>get_user_name($row["uid"]),
+				'comment'=>$row["comment"],
+				'time_to_now'=>time_to_now($row["uid"], $row['acid'], "md_comment"), 
+				'child_com'=>get_childcom_items($row["acid"]));
 		}
 
 		var_json("success", 0, get_artical_com_count($aid), $arr);

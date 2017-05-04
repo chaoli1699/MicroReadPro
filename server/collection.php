@@ -140,7 +140,16 @@ function get_collection_items($uid, $atid){
 	if ($result->num_rows>0) {
 		$arr=array();
 		while ( $row=$result->fetch_assoc()) {
-	        $arr[]=array('aid'=>$row["aid"], 'title'=>$row["title"], 'author'=>$row["author"] , 'source'=>$row["source"], 'atid'=>$atid, 'image_path'=>$row["image_path"], 'detail_path'=>$row["detail_path"], 'content'=>$row["content"], 'com_count'=>$row["com_count"], 'time_to_now'=>time_to_now($uid, $row["aid"]));
+	        $arr[]=array('aid'=>$row["aid"], 
+	        	'title'=>$row["title"], 
+	        	'author'=>$row["author"] , 
+	        	'source'=>$row["source"], 
+	        	'atid'=>$atid, 
+	        	'image_path'=>$row["image_path"], 
+	        	'detail_path'=>$row["detail_path"], 
+	        	'content'=>$row["content"], 
+	        	'com_count'=>$row["com_count"], 
+	        	'time_to_now'=>time_to_now($uid, $row["aid"]));
 		}
 
 		var_json("success",0,$arr);

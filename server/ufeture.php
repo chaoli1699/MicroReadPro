@@ -38,7 +38,22 @@ function get_user_sex_wuid($uid){
     return -1;
 }
 
+function get_user_role_wuid($uid){
+
+	$sql="SELECT role FROM md_user WHERE uid='".$uid."' AND can_use='0'";
+    $result=$GLOBALS['conn']->query($sql);
+
+    if ($result->num_rows>0) {
+    	while ($row=$result->fetch_assoc()) {
+    		return $row['role'];
+    	}
+    }
+
+    return -1;
+}
+
 function get_ufeture_items($uid){
+	
 	$sql="SELECT * FROM md_ufeture WHERE can_use='0'";
 	$result=$GLOBALS['conn']->query($sql);
 
@@ -65,6 +80,10 @@ function get_ufeture_items($uid){
 				//get notify_num from message
 			}
 
+			if (get_user_role_wuid($uid)<5&&$row['name_eg']=="trash") {
+				continue;
+			}
+
 			$arr[]=array('ufid'=>$row['ufid'],
 				'name_eg'=>$row['name_eg'],
 				'name_cn'=>$row['name_cn'],
@@ -75,7 +94,7 @@ function get_ufeture_items($uid){
 				'is_button'=>$row['is_button'],
 				'notify_num'=>$notify_num,
 				'group'=>$row['group'],
-				'group_top'=>$row["group_top"]);
+				'group_top'=>$row['group_top']);
 		}
 
 	    var_json("success", 0, $arr);

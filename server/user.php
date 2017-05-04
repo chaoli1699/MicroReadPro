@@ -54,6 +54,7 @@ function if_user_abandon($username){
 }
 
 function get_user_info($uid){
+	
 	$sql="SELECT uid, username, sex, last_login_time, district, introduce, role FROM md_user WHERE uid='".$uid."'";
 	$result=$GLOBALS['conn']->query($sql);
 	
@@ -68,7 +69,8 @@ function get_user_info($uid){
 	
 }
 
-function get_user_uid(){
+function create_user_uid(){
+
 	$pre_uid=rand(1000,9999);
 	$sql="SELECT uid FROM md_user LIMIT 0,9000";
 	$result=$GLOBALS['conn']->query($sql);
@@ -113,7 +115,6 @@ function verity_user($username,$password){
 				}else {
 					// 				echo "Password wrong!\n";
 					var_json("wrong password",10002,new user);
-					// throw new Exception("password error");
 				}
 			}
 		}
@@ -136,7 +137,7 @@ function regist_user($username,$password){
 	}else {
 		$uid=-1;
 		while ($uid==-1){
-			$uid=get_user_uid();
+			$uid=create_user_uid();
 		}
 		
 		$sql="INSERT INTO md_user(uid, username, password)
