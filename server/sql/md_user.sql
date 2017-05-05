@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-05-03 17:26:30
+-- Generation Time: 2017-05-05 15:48:44
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `md_user` (
 --
 
 INSERT INTO `md_user` (`uid`, `username`, `password`, `sex`, `regist_time`, `last_login_time`, `district`, `introduce`, `can_use`, `role`) VALUES
-(9999, 'admin', '123456', 1, '2017-03-31 00:00:00', '2017-05-03 16:28:27', '北京', '超级管理员', 0, 9),
-(3672, 'lichao', 'lichao', 1, '2017-05-03 17:06:49', '2017-05-03 17:14:47', '南京', '每天都是好心情！', 0, 0),
-(4139, 'muxiaolan', 'muxiaolan', 0, '2017-05-03 17:19:11', '2017-05-03 17:19:26', '上海', '没啥好说的', 0, 0);
+(9999, 'admin', '123456', 1, '2017-03-31 00:00:00', '2017-05-05 15:42:39', '北京', '超级管理员', 0, 9),
+(3672, 'lichao', 'lichao', 1, '2017-05-03 17:06:49', '2017-05-05 15:42:56', '南京', '每天都是好心情！', 0, 0),
+(4139, 'muxiaolan', 'muxiaolan', 0, '2017-05-03 17:19:11', '2017-05-03 17:37:51', '上海', '没啥好说的～', 0, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

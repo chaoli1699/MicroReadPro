@@ -16,7 +16,7 @@ import rx.Observer;
 
 public interface MicroReadApiStores {
 
-    String API_MICROREAD_URL="http://192.168.1.104:80/MicroRead/";
+    String API_MICROREAD_URL="http://192.168.119.107:80/MicroRead/";
 
     @GET("version.php")
     Observable<MVersion> check_version(@Query("action") String action);
@@ -49,7 +49,7 @@ public interface MicroReadApiStores {
     Observable<MComment> add_comment(@Query("action") String action, @Query("uid") int uid, @Query("artical") String artical, @Query("comment") String comment);
 
     @GET("comment.php")
-    Observable<MComment> add_childcom(@Query("action") String action, @Query("uid") int uid, @Query("acid") int acid, @Query("comment") String comment);
+    Observable<MComment> add_childcom(@Query("action") String action, @Query("uid") int uid, @Query("aim") int aim, @Query("acid") int acid, @Query("comment") String comment);
 
     @GET("comment.php")
     Observable<MComment> get_moments(@Query("action") String action);

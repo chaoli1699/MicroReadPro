@@ -1,4 +1,6 @@
-<?php
+<?php include 'funs/fun_user.php';
+  include 'funs/fun_message.php';
+
 header("Content-type: text/html; charset=utf-8");
 function var_json($info='', $code=10000, $data=array()){
 	$out['code']=$code ?: 0;
@@ -8,48 +10,6 @@ function var_json($info='', $code=10000, $data=array()){
 	echo json_encode($out, JSON_HEX_TAG);
 	$GLOBALS['conn']->close();
 	exit(0);
-}
-
-function get_user_name_wuid($uid){
-
-	$sql="SELECT username FROM md_user WHERE uid='".$uid."' AND can_use='0'";
-    $result=$GLOBALS['conn']->query($sql);
-
-    if ($result->num_rows>0) {
-    	while ($row=$result->fetch_assoc()) {
-    		return $row['username'];
-    	}
-    }
-
-    return "";
-}
-
-function get_user_sex_wuid($uid){
-
-	$sql="SELECT sex FROM md_user WHERE uid='".$uid."' AND can_use='0'";
-    $result=$GLOBALS['conn']->query($sql);
-
-    if ($result->num_rows>0) {
-    	while ($row=$result->fetch_assoc()) {
-    		return $row['sex'];
-    	}
-    }
-
-    return -1;
-}
-
-function get_user_role_wuid($uid){
-
-	$sql="SELECT role FROM md_user WHERE uid='".$uid."' AND can_use='0'";
-    $result=$GLOBALS['conn']->query($sql);
-
-    if ($result->num_rows>0) {
-    	while ($row=$result->fetch_assoc()) {
-    		return $row['role'];
-    	}
-    }
-
-    return -1;
 }
 
 function get_ufeture_items($uid){
@@ -76,8 +36,10 @@ function get_ufeture_items($uid){
 				}
 			}
 
-			if ($row['ufid']==4) {
+			if ($row['ufid']==6) {
 				//get notify_num from message
+				$notify_num=get_message_count($uid);
+			   
 			}
 
 			if (get_user_role_wuid($uid)<5&&$row['name_eg']=="trash") {

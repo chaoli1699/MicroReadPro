@@ -74,9 +74,9 @@ public class CommentPresenter extends BasePresenter<CommentView> {
         });
     }
 
-    public void addChildcom(int acid,String comment){
+    public void addChildcom(int acid, int aim, String comment){
 
-        addSubscription(SystermParams.microReadApiStores.add_childcom("addc", mApp.currentUser.getUid(), acid, comment), new ApiCallback<MComment>() {
+        addSubscription(SystermParams.microReadApiStores.add_childcom("addc", mApp.currentUser.getUid(), aim, acid, comment), new ApiCallback<MComment>() {
             @Override
             public void onSuccess(MComment model) {
                 if (model.getCode().equals("0")){

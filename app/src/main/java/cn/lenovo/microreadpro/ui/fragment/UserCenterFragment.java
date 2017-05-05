@@ -109,13 +109,19 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
                     }
                     case 2:
                         //启动
-                        startActivity(new Intent(getActivity(),MomentActivity.class));
+                        Intent intent=new Intent(getActivity(),MomentActivity.class);
+                        intent.putExtra("mom_type","moment");
+                        startActivity(intent);
                         break;
                     case 3:
-
+                        Intent intent2=new Intent(getActivity(),MomentActivity.class);
+                        intent2.putExtra("mom_type","pmoment");
+                        startActivity(intent2);
                         break;
                     case 4:
-
+                        Intent intent3=new Intent(getActivity(),MomentActivity.class);
+                        intent3.putExtra("mom_type","trash");
+                        startActivity(intent3);
                         break;
                     case 5:
                         startActivity(new Intent(getActivity(),CollectionActivity.class));

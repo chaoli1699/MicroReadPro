@@ -1,4 +1,9 @@
 ﻿<?php  include 'model/articalClass.php';
+ include 'funs/fun_user.php';
+ include 'funs/fun_artical.php';
+ include 'funs/fun_message.php';
+ include 'funs/fun_comment.php';
+
 header("Content-type: text/html; charset=utf-8");  
 /*
  * code = 0 操作成功
@@ -16,148 +21,6 @@ function var_json($info='', $code=10000, $com_count=0, $data=array()){
 	echo json_encode($out, JSON_HEX_TAG);
 	$GLOBALS['conn']->close();
 	exit(0);
-}
-
-function time_to_now($uid, $aid, $tab){
-
-    $begin_time=get_comment_time($uid, $aid, $tab);
-	$end_time=date("Y-m-d H:i:s");
-
-	$timediff = strtotime($end_time)-strtotime($begin_time);
-	$days = intval( $timediff / 86400 );
-	$remain = $timediff % 86400;
-	$hours = intval( $remain / 3600 );
-	$remain = $remain % 3600;
-	$mins = intval( $remain / 60 );
-	$secs = $remain % 60;
-
-	if($days>0){
-		return $days."天前";
-	}
-
-	if($hours>0){
-		return $hours."小时前";
-	}
-
-	if($mins>0){
-		return $mins."分钟前";
-	}
-
-	if($secs>0){
-		return "刚刚";
-	}
-
-	return "发送中";
-}
-
-function get_user_name($uid){
-
-	$sql="SELECT username FROM md_user WHERE uid='".$uid."'";
-    $result=$GLOBALS['conn']->query($sql);
-
-    if ($result->num_rows>0) {
-    	
-    	while ($row=$result->fetch_assoc()) {
-    		return $row["username"];
-    	}
-    }else{
-    	var_json("user not exists",10001);
-    }
-}
-
-function if_artical_exists($detail_path){
-
-	$sql="SELECT aid FROM md_artical WHERE detail_path='".$detail_path."'";
-	$result=$GLOBALS['conn']->query($sql);
-
-     //echo "result: ".$result->num_rows;
-	if($result->num_rows>0){
-		return true;
-	}
-
-	return false;
-}
-
-function get_artical_com_count($aid){ 
-
-	$sql="SELECT com_count FROM md_artical WHERE aid='".$aid."'";
-	$result=$GLOBALS['conn']->query($sql);
-
-	if ($result->num_rows>0) {
-		
-		while ($row=$result->fetch_assoc()) {
-			return $row["com_count"];	
-		}
-	}
-
-	return 0;
-}
-
-function update_artical_com_count($aid, $com_count, $fun){ 
-
-    if ($fun>0) {
-    	$com_count++;
-    }else{
-    	if ($com_count>0) {
-    		$com_count--;
-    	}
-    }
-
-    $sql="UPDATE md_artical SET com_count='".$com_count."' WHERE aid='".$aid."'";
-    $retval = mysqli_query($GLOBALS['conn'],$sql);
-	if(! $retval )
-	{
-		die ("Could not update data: " . mysqli_error($GLOBALS['conn']));
-	}
-}
-
-function get_artical_aid($detail_path){
-	$sql="SELECT aid FROM md_artical WHERE detail_path='".$detail_path."'";
-	$result=$GLOBALS['conn']->query($sql);
-
-	if ($result->num_rows>0) {
-		
-		while ($row=$result->fetch_assoc()) {
-			return $row["aid"];	
-		}
-	}
-
-	return null;
-}
-
-function get_artical_aid_wacid($acid){
-	$sql="SELECT aid FROM md_comment WHERE acid='".$acid."'";
-	$result=$GLOBALS['conn']->query($sql);
-
-	if ($result->num_rows>0) {
-		
-		while ($row=$result->fetch_assoc()) {
-			return $row["aid"];	
-		}
-	}
-
-	return null;
-}
-
-function get_comment_time($uid, $acid, $tab){
-
-	if ($tab=="md_comment") {
-		$lab="acid";
-	}else if ($tab=="md_childcom") {
-		$lab="accid";
-	}
-
-	$sql="SELECT com_time FROM ".$tab." WHERE uid='".$uid."' AND ".$lab."='".$acid."'";
-    $result=$GLOBALS['conn']->query($sql);
-
-    if($result->num_rows>0){
-
-    	while ($row=$result->fetch_assoc()) {
-    		return $row["com_time"];
-    	}
-    }
-
-    return "";
 }
 
 function add_moment_item($uid, $comment){   //新增时光轴状态
@@ -181,7 +44,7 @@ function get_moment_items(){  //获取时光轴列表
 		while ($row=$result->fetch_assoc()) {
 			$arr[]=array('acid'=>$row["acid"],
 			 'uid'=>$row["uid"],
-			 'username'=>get_user_name($row["uid"]),
+			 'username'=>get_user_name_wuid($row["uid"]),
 			 'comment'=>$row["comment"],
 			 'time_to_now'=>time_to_now($row["uid"], $row['acid'], "md_comment") ,
 			 'child_com'=>get_childcom_items($row["acid"]));
@@ -212,9 +75,14 @@ function move_moment_too_of_trash($acid, $too){ //回收站
 	}
 }
 
-function get_personal_moment_items($uid, $can_use){  //获取个人时光轴状态/回收站列表
+function get_pmoment_or_trash_items($uid, $can_use){  //获取个人时光轴状态/回收站列表
 
 	$sql="SELECT acid, uid, comment, com_time FROM md_comment WHERE aid='-".$uid."' AND can_use='".$can_use."' ORDER BY com_time DESC";
+
+	if ($can_use>0) {
+		$sql="SELECT acid, uid, comment, com_time FROM md_comment WHERE aid<0 AND can_use='".$can_use."' ORDER BY com_time DESC";
+	}
+	
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -223,7 +91,7 @@ function get_personal_moment_items($uid, $can_use){  //获取个人时光轴状�
 		while ($row=$result->fetch_assoc()) {		
 			$arr[]=array('acid'=>$row["acid"],
 				'uid'=>$row["uid"],
-				'username'=>get_user_name($row["uid"]),
+				'username'=>get_user_name_wuid($row["uid"]),
 				'comment'=>$row["comment"],
 				'time_to_now'=>time_to_now($row["uid"], $row['acid'], "md_comment") , 
 				'child_com'=>get_childcom_items($row["acid"]));
@@ -234,14 +102,16 @@ function get_personal_moment_items($uid, $can_use){  //获取个人时光轴状�
 	}
 }
 
-function add_childcom_item($acid, $uid, $comment){  //新增子评论
+function add_childcom_item($acid, $uid, $aim, $comment){  //新增子评论
 
     $aid=get_artical_aid_wacid($acid);
     update_artical_com_count($aid, get_artical_com_count($aid), 1);
 
 	$sql="INSERT INTO md_childcom(acid, uid, comment) VALUES ('".$acid."','".$uid."','".$comment."')";
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
-	
+	    
+	    add_message_item($uid, $aim, $acid, -1);
+
 		if ($aid<0) {
 			get_moment_items();
 		}else{
@@ -263,7 +133,8 @@ function get_childcom_items($acid){  //获取子评论
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
 			$arr[]=array('accid'=>$row["accid"],
-				'username'=>get_user_name($row["uid"]),
+				'uid'=>$row["uid"],
+				'username'=>get_user_name_wuid($row["uid"]),
 				'comment'=>$row["comment"], 
 				'time_to_now'=>time_to_now($row["uid"], $row['accid'], "md_childcom"));
 		}
@@ -313,7 +184,8 @@ function get_comment_items($aid){   //获取文章评论列表
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
 			$arr[]=array('acid'=>$row["acid"],
-				'username'=>get_user_name($row["uid"]),
+				'uid'=>$row["uid"],
+				'username'=>get_user_name_wuid($row["uid"]),
 				'comment'=>$row["comment"],
 				'time_to_now'=>time_to_now($row["uid"], $row['acid'], "md_comment"), 
 				'child_com'=>get_childcom_items($row["acid"]));
@@ -330,6 +202,7 @@ $detail_path=empty($_GET['detail_path'])?'':$_GET['detail_path'];
 $artical=empty($_GET['artical'])?'':$_GET['artical'];
 $acid=empty($_GET['acid'])?'':$_GET['acid'];
 $uid=empty($_GET['uid'])?'':$_GET['uid'];
+$aim=empty($_GET['aim'])?'':$_GET['aim'];
 $comment=empty($_GET['comment'])?'':$_GET['comment'];
 $too=empty($_GET['too'])?'':$_GET['too'];
 $can_use=empty($_GET['can_use'])?'':$_GET['can_use'];
@@ -356,13 +229,13 @@ switch ($action) {
 	    get_moment_items();
 		break;
 	case 'querypm':
-        get_personal_moment_items($uid, $can_use);
+        get_pmoment_or_trash_items($uid, $can_use);
 		break;
 	case 'add':
 	    add_comment_item($art, $uid, $comment);
 		break;
 	case 'addc':
-	    add_childcom_item($acid, $uid, $comment);
+	    add_childcom_item($acid, $uid, $aim, $comment);
 		break;
 	case 'addm':
         add_moment_item($uid, $comment);

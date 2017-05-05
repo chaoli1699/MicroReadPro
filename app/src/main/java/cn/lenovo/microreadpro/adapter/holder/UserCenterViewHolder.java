@@ -39,6 +39,8 @@ public class UserCenterViewHolder extends BaseViewHolder<MUFeture.UFeture> {
     TextView button;
     @Bind(R.id.item_usercenter_line)
     TextView line;
+    @Bind(R.id.item_usercenter_notify_num)
+    TextView notify_num;
 
     public UserCenterViewHolder(ViewGroup parent, @LayoutRes int res) {
         super(parent, res);
@@ -56,6 +58,7 @@ public class UserCenterViewHolder extends BaseViewHolder<MUFeture.UFeture> {
         rrow.setVisibility(View.GONE);
         button.setVisibility(View.GONE);
         line.setVisibility(View.VISIBLE);
+        notify_num.setVisibility(View.GONE);
 
         if (data.getGroup_top()==1){
             group.setVisibility(View.VISIBLE);
@@ -74,6 +77,10 @@ public class UserCenterViewHolder extends BaseViewHolder<MUFeture.UFeture> {
         if (!data.getUsername().equals("")){
             subtitle.setVisibility(View.VISIBLE);
             subtitle.setText(data.getUsername());
+        }
+        if (data.getNotify_num()>0){
+            notify_num.setVisibility(View.VISIBLE);
+            notify_num.setText(data.getNotify_num()+"");
         }
         if (data.getValue()!=null){
             value.setVisibility(View.VISIBLE);

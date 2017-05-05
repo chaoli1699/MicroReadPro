@@ -59,6 +59,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     private MyApplication mApp;
 //    private List<MComment.Comment> comments=new ArrayList<>();
     private int acid=-1;
+    private int aim_uid=-1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
 
         mLinearLayoutManager=new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mCommentRecyclerAdapter =new CommentRecyclerAdapter(this);
+        mCommentRecyclerAdapter =new CommentRecyclerAdapter(this, "comment");
         mRecyclerView.setAdapter(mCommentRecyclerAdapter);
 
 //        mNewsCollectionRecyclerAdapter.setMore(R.layout.view_more,this);
@@ -105,7 +106,9 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
     public void onStringEvent(String event) {
         // handle your event
         if (event.contains("addc")){
-            acid=Integer.valueOf(event.substring(5));
+            String[] msplit=event.split(",");
+            acid=Integer.valueOf(msplit[1]);
+            aim_uid=Integer.valueOf(msplit[2]);
             if (container.getVisibility()==View.GONE){
                 container.setVisibility(View.VISIBLE);
             }
@@ -204,7 +207,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
                         if (acid<0){
                             mPresenter.addComment(mcart, str);
                         }else {
-                            mPresenter.addChildcom(acid, str);
+                            mPresenter.addChildcom(acid, aim_uid, str);
                         }
                     }
                 }else {

@@ -1,4 +1,6 @@
 <?php include 'model/userClass.php';
+ include 'funs/fun_user.php';
+
 header("Content-type: text/html; charset=utf-8");
 
 /*
@@ -21,38 +23,6 @@ function var_json($info='', $code=10000, $data=array()){
 	exit(0);
 }
 
-function if_user_exists($username){
-	
-	$sql="SELECT username FROM md_user";
-	$result=$GLOBALS['conn']->query($sql);
-	
-	if ($result->num_rows>0) {
-		# code...
-		while ($row=$result->fetch_assoc()){
-		    if ($row["username"]==$username){
-			    return true;
-		    }
-	    }
-	}
-	return false;
-}
-
-function if_user_abandon($username){
-	
-	$sql="SELECT can_use FROM md_user WHERE username='".$username."'";
-	$result=$GLOBALS['conn']->query($sql);
-	
-	if ($result->num_rows>0) {
-		# code...
-		while ($row=$result->fetch_assoc()){
-		    if ($row["can_use"]==1){
-			    return true;
-		    }
-	    }
-	}
-	return false;
-}
-
 function get_user_info($uid){
 	
 	$sql="SELECT uid, username, sex, last_login_time, district, introduce, role FROM md_user WHERE uid='".$uid."'";
@@ -66,25 +36,7 @@ function get_user_info($uid){
 // 		echo "0 result.";
 		var_json("user not exists",10001,new user);
 	}
-	
 }
-
-function create_user_uid(){
-
-	$pre_uid=rand(1000,9999);
-	$sql="SELECT uid FROM md_user LIMIT 0,9000";
-	$result=$GLOBALS['conn']->query($sql);
-	
-	if ($result->num_rows>0) {
-		while ($row=$result->fetch_assoc()){
-			if ($row["uid"]==$pre_uid){
-				return -1;
-			}else {
-				return $pre_uid;
-			}
-		}
-	}
-} 
 
 function update_user_info($uid, $label, $value){
 	

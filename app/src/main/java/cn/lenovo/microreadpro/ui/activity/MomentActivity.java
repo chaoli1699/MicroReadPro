@@ -59,6 +59,8 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
     private MyApplication mApp;
 //    private List<MComment.Comment> comments=new ArrayList<>();
     private int acid=-1;
+    private int aim_uid=-1;
+    private String mom_type="moment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,16 +72,12 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
 
     private void initView(){
 
+        mom_type=getIntent().getStringExtra("mom_type");
         mApp= (MyApplication) MyApplication.getInstance();
-
-        toolbar.setTitle("时光轴");
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mLinearLayoutManager=new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mCommentRecyclerAdapter =new CommentRecyclerAdapter(this);
+        mCommentRecyclerAdapter =new CommentRecyclerAdapter(this, mom_type);
         mRecyclerView.setAdapter(mCommentRecyclerAdapter);
 
 //        mNewsCollectionRecyclerAdapter.setMore(R.layout.view_more,this);
@@ -97,14 +95,30 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
 //        });
 
         add_moment.setOnClickListener(this);
-        mPresenter.getMoments();
+        if (mom_type.equals("moment")){
+            toolbar.setTitle("时光轴");
+            mPresenter.getMoments();
+        }else if (mom_type.equals("pmoment")){
+            toolbar.setTitle("我的时光");
+            mPresenter.getPMomentOrTrash(mApp.currentUser.getUid(), 0);
+        }else if (mom_type.equals("trash")){
+            toolbar.setTitle("回收站");
+            mPresenter.getPMomentOrTrash(mApp.currentUser.getUid(), 1);
+        }
+//        mPresenter.getMoments();
+
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @BusReceiver
     public void onStringEvent(String event) {
         // handle your event
         if (event.contains("addc")){
-            acid=Integer.valueOf(event.substring(5));
+            String[] msplit=event.split(",");
+            acid=Integer.valueOf(msplit[1]);
+            aim_uid=Integer.valueOf(msplit[2]);
             if (container.getVisibility()==View.GONE){
                 container.setVisibility(View.VISIBLE);
             }
@@ -167,7 +181,14 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
 
     @Override
     public void onRefresh() {
-        mPresenter.getMoments();
+        if (mom_type.equals("moment")){
+            mPresenter.getMoments();
+        }else if (mom_type.equals("pmoment")){
+            mPresenter.getPMomentOrTrash(mApp.currentUser.getUid(), 0);
+        }else if (mom_type.equals("trash")){
+            mPresenter.getPMomentOrTrash(mApp.currentUser.getUid(), 1);
+        }
+//        mPresenter.getMoments();
     }
 
     @Override
@@ -203,7 +224,7 @@ public class MomentActivity extends MRActivity<MomentPresenter> implements Momen
                         if (acid<0){
                             mPresenter.addMoment(str);
                         }else {
-                            mPresenter.addChildcom(acid, str);
+                            mPresenter.addChildcom(acid, aim_uid, str);
                         }
                     }
                 }else {

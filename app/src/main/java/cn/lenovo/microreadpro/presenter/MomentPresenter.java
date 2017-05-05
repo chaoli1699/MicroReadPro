@@ -46,6 +46,31 @@ public class MomentPresenter extends BasePresenter<MomentView> {
         });
     }
 
+    public void getPMomentOrTrash(int uid, int can_use){
+        view.showLoading();
+        addSubscription(SystermParams.microReadApiStores.get_pmoment_or_trash("querypm", uid, can_use), new ApiCallback<MComment>() {
+            @Override
+            public void onSuccess(MComment model) {
+                if (model.getCode().equals("0")){
+                    view.getMomentsSuccess(model.getComments());
+                }else {
+                    view.getMomentsFail(model.getInfo());
+                }
+                view.hideLoading();
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                view.getMomentsFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+                view.hideLoading();
+            }
+        });
+    }
+
     public void addMoment(String comment){
 
         addSubscription(SystermParams.microReadApiStores.add_moment("addm", mApp.currentUser.getUid(), comment), new ApiCallback<MComment>() {
@@ -70,9 +95,9 @@ public class MomentPresenter extends BasePresenter<MomentView> {
         });
     }
 
-    public void addChildcom(int acid,String comment){
+    public void addChildcom(int acid,int aim, String comment){
 
-        addSubscription(SystermParams.microReadApiStores.add_childcom("addc", mApp.currentUser.getUid(), acid, comment), new ApiCallback<MComment>() {
+        addSubscription(SystermParams.microReadApiStores.add_childcom("addc", mApp.currentUser.getUid(), aim, acid, comment), new ApiCallback<MComment>() {
             @Override
             public void onSuccess(MComment model) {
                 if (model.getCode().equals("0")){

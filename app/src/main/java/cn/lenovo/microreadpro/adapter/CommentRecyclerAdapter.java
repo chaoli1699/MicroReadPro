@@ -20,15 +20,17 @@ import cn.lenovo.microreadpro.model.MComment;
 public class CommentRecyclerAdapter extends RecyclerArrayAdapter<MComment.PComment> {
 
     private Context context;
+    private String mom_type;
 
-    public CommentRecyclerAdapter(Context context) {
+    public CommentRecyclerAdapter(Context context, String mom_type) {
         super(context);
         this.context=context;
+        this.mom_type=mom_type;
     }
 
     @Override
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CommentViewHolder(parent,R.layout.item_comment,context);
+        return new CommentViewHolder(parent,R.layout.item_comment,context,mom_type);
     }
 
 }

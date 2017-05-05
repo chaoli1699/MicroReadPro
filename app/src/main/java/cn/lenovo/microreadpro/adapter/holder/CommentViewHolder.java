@@ -53,11 +53,13 @@ public class CommentViewHolder extends BaseViewHolder<MComment.PComment> {
 
     private Context context;
     private MyApplication mApp;
+    private String mom_type;
 
-    public CommentViewHolder(ViewGroup parent, @LayoutRes int res, Context context) {
+    public CommentViewHolder(ViewGroup parent, @LayoutRes int res, Context context, String mom_type) {
         super(parent, res);
         ButterKnife.bind(this,itemView);
         this.context=context;
+        this.mom_type=mom_type;
         mApp= (MyApplication) MyApplication.getInstance();
     }
 
@@ -68,9 +70,16 @@ public class CommentViewHolder extends BaseViewHolder<MComment.PComment> {
         content.setText(data.getComment());
         time.setText(data.getTime_to_now());
         remove.setVisibility(View.GONE);
+        response.setVisibility(View.GONE);
 
-        if (data.getUid()==mApp.currentUser.getUid()||mApp.currentUser.getRole()>5){
-            remove.setVisibility(View.VISIBLE);
+        if (!mom_type.equals("trash")){
+            if (data.getUid()==mApp.currentUser.getUid()||mApp.currentUser.getRole()>5){
+                remove.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (mom_type.equals("moment")){
+            response.setVisibility(View.VISIBLE);
         }
 
         remove.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +92,7 @@ public class CommentViewHolder extends BaseViewHolder<MComment.PComment> {
         response.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bus.getDefault().post("addc,"+data.getAcid());
+                Bus.getDefault().post("addc,"+data.getAcid()+","+data.getUid());
             }
         });
 
