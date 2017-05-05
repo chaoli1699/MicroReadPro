@@ -91,4 +91,19 @@ function get_user_role_wuid($uid){
     return -1;
 }
 
+function get_user_info($uid){
+	
+	$sql="SELECT uid, username, sex, last_login_time, district, introduce, role FROM md_user WHERE uid='".$uid."'";
+	$result=$GLOBALS['conn']->query($sql);
+	
+	if ($result->num_rows>0){
+		while ($row=$result->fetch_assoc()){
+		    var_json("success",0,$row);
+		}
+	}else {
+// 		echo "0 result.";
+		var_json("user not exists",10001,new user);
+	}
+}
+
 ?>

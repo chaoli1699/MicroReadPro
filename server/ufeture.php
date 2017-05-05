@@ -12,16 +12,14 @@ function var_json($info='', $code=10000, $data=array()){
 	exit(0);
 }
 
-function get_ufeture_items_wgroup($group){
-
-	$sql="SELECT * FROM md_ufeture WHERE can_use='0'";
+function get_ufeture_items_wgid($gid){
+	$sql="SELECT * FROM md_ufeture WHERE can_use='0' AND group_id=$gid";
 	$result=$GLOBALS['conn']->query($sql);
-
+    
 	if ($result->num_rows>0) {
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
-			if ($group==$row["group"]) {
-			    $arr[]=array('ufid'=>$row["ufid"],
+			$arr[]=array('ufid'=>$row['ufid'],
 				'name_eg'=>$row['name_eg'],
 				'name_cn'=>$row['name_cn'],
 				'head_path'=>"",
@@ -30,18 +28,17 @@ function get_ufeture_items_wgroup($group){
 				'show_rrow'=>$row['show_rrow'],
 				'is_button'=>$row['is_button'],
 				'notify_num'=>0,
-				'group'=>$row['group'],
+				'group'=>$row['group_id'],
 				'group_top'=>$row['group_top']);
-			}
 		}
 
-		var_json("", 0, $arr);
+		var_json("success", 0, $arr);
 	}
 }
 
 function get_ufeture_items_wuid($uid){
 	
-	$sql="SELECT * FROM md_ufeture WHERE can_use='0'";
+	$sql="SELECT * FROM md_ufeture WHERE can_use='0' AND group_id<10";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -62,20 +59,13 @@ function get_ufeture_items_wuid($uid){
 					$head_path="/img/female.png";
 				}
 			}
-
 			if ($row['ufid']==6) {
 				//get notify_num from message
-				$notify_num=get_message_count($uid);
-			   
+				$notify_num=get_message_count($uid);		   
 			}
-
 			if (get_user_role_wuid($uid)<5&&$row['name_eg']=="trash") {
 				continue;
 			}
-			
-			// if (strpbrk("m_", $row["group"])) {
-			// 	continue;
-			// }
 
 			$arr[]=array('ufid'=>$row['ufid'],
 				'name_eg'=>$row['name_eg'],
@@ -86,7 +76,7 @@ function get_ufeture_items_wuid($uid){
 				'show_rrow'=>$row['show_rrow'],
 				'is_button'=>$row['is_button'],
 				'notify_num'=>$notify_num,
-				'group'=>$row['group'],
+				'group'=>$row['group_id'],
 				'group_top'=>$row['group_top']);
 		}
 
@@ -97,7 +87,7 @@ function get_ufeture_items_wuid($uid){
 
 $action=empty($_GET['action'])? "":$_GET['action'];
 $uid=empty($_GET['uid'])? "":$_GET['uid'];
-$gname=empty($_GET['gname'])? "":$_GET['gname'];
+$gid=empty($_GET['gid'])? "":$_GET['gid'];
 
 $conn = mysqli_connect('localhost', 'root', '', 'md_db');
 if (!$conn) {
@@ -109,7 +99,7 @@ switch ($action) {
 		get_ufeture_items_wuid($uid);
 		break;
 	case 'group':
-		get_ufeture_items_wgroup($gname);
+		get_ufeture_items_wgid($gid);
 		break;
 	default:
 
