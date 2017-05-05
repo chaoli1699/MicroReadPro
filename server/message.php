@@ -21,11 +21,15 @@ function get_message_items($uid){
 		
 		$arr=array();
 		while ($row=$result->fetch_assoc()) {
+             
 			$arr[]=array('mid'=>$row["mid"],
 			 'acid'=>$row["acid"],
 			 'username'=>get_user_name_wuid($row["source_uid"]),
 			 'comment'=>get_comment_wacid($row["acid"]),
+			 'status'=>$row["status"],
 			 'time_to_now'=>time_to_now($row["source_uid"], $row['acid'], "md_childcom"));
+
+			update_message_status($row["mid"]);
 		}
 
 		var_json("success", 0, $arr);

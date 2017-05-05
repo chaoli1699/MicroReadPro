@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-05-05 15:49:45
+-- Generation Time: 2017-05-05 17:39:49
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `md_ufeture` (
   `ufid` int(8) NOT NULL AUTO_INCREMENT,
-  `name_eg` varchar(10) NOT NULL,
+  `name_eg` varchar(11) NOT NULL,
   `name_cn` varchar(10) NOT NULL,
   `icon_path` text NOT NULL,
   `show_rrow` int(1) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `md_ufeture` (
   `group_top` int(1) NOT NULL,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ufid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- 转存表中的数据 `md_ufeture`
@@ -50,7 +50,9 @@ INSERT INTO `md_ufeture` (`ufid`, `name_eg`, `name_cn`, `icon_path`, `show_rrow`
 (4, 'trash', '回收站', 'img/icon_trash.png', 1, 0, 'ab_moment', 0, 0),
 (5, 'collection', '收藏', 'img/icon_collection.png', 1, 0, 'ab_collect', 1, 0),
 (6, 'notify', '消息', 'img/icon_message.png', 1, 0, 'ab_message', 1, 0),
-(7, 'setting', '设置', 'img/icon_setting.png', 1, 0, 'ab_setting', 1, 0);
+(7, 'setting', '设置', 'img/icon_setting.png', 1, 0, 'ab_setting', 1, 0),
+(8, 'change_pwd', '修改密码', '', 1, 0, 'm_setting', 1, 0),
+(9, 'clear_cache', '清理缓存', '', 0, 0, 'm_setting', 1, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

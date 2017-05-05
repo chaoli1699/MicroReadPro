@@ -11,6 +11,18 @@ function add_message_item($source, $aim, $acid){
 	}
 }
 
+function update_message_status($mid){
+
+	$sql="UPDATE md_message SET status=0 WHERE mid='".$mid."'";
+
+	$retval=sqli_query($GLOBALS['conn'], $sql);
+	
+	if(! $retval )
+	{
+		die ("Could not update data: " . mysqli_error($GLOBALS['conn']));
+	}
+}
+
 function get_message_count($uid){
 
 	$sql="SELECT * FROM md_message WHERE aim_uid='".$uid."' AND status='1' AND can_use='0'";

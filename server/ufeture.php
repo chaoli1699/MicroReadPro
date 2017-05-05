@@ -12,7 +12,34 @@ function var_json($info='', $code=10000, $data=array()){
 	exit(0);
 }
 
-function get_ufeture_items($uid){
+function get_ufeture_items_wgroup($group){
+
+	$sql="SELECT * FROM md_ufeture WHERE can_use='0'";
+	$result=$GLOBALS['conn']->query($sql);
+
+	if ($result->num_rows>0) {
+		$arr=array();
+		while ($row=$result->fetch_assoc()) {
+			if ($group==$row["group"]) {
+			    $arr[]=array('ufid'=>$row["ufid"],
+				'name_eg'=>$row['name_eg'],
+				'name_cn'=>$row['name_cn'],
+				'head_path'=>"",
+				'username'=>"",
+				'icon_path'=>$row['icon_path'],
+				'show_rrow'=>$row['show_rrow'],
+				'is_button'=>$row['is_button'],
+				'notify_num'=>0,
+				'group'=>$row['group'],
+				'group_top'=>$row['group_top']);
+			}
+		}
+
+		var_json("", 0, $arr);
+	}
+}
+
+function get_ufeture_items_wuid($uid){
 	
 	$sql="SELECT * FROM md_ufeture WHERE can_use='0'";
 	$result=$GLOBALS['conn']->query($sql);
@@ -66,6 +93,7 @@ function get_ufeture_items($uid){
 
 $action=empty($_GET['action'])? "":$_GET['action'];
 $uid=empty($_GET['uid'])? "":$_GET['uid'];
+$gname=empty($_GET['gname'])? "":$_GET['gname'];
 
 $conn = mysqli_connect('localhost', 'root', '', 'md_db');
 if (!$conn) {
@@ -74,9 +102,11 @@ if (!$conn) {
 
 switch ($action) {
 	case 'load':
-		get_ufeture_items($uid);
+		get_ufeture_items_wuid($uid);
 		break;
-	
+	case 'group':
+		get_ufeture_items_wgroup($gname);
+		break;
 	default:
 
 		break;
