@@ -72,6 +72,10 @@ function get_ufeture_items_wuid($uid){
 			if (get_user_role_wuid($uid)<5&&$row['name_eg']=="trash") {
 				continue;
 			}
+			
+			if (strpbrk("m_", $row["group"])) {
+				continue;
+			}
 
 			$arr[]=array('ufid'=>$row['ufid'],
 				'name_eg'=>$row['name_eg'],
