@@ -72,13 +72,13 @@ public class CommentViewHolder extends BaseViewHolder<MComment.PComment> {
         remove.setVisibility(View.GONE);
         response.setVisibility(View.GONE);
 
-        if (!mom_type.equals("trash")){
+        if (!mom_type.equals("trash")&&mApp.currentUser!=null){
             if (data.getUid()==mApp.currentUser.getUid()||mApp.currentUser.getRole()>5){
                 remove.setVisibility(View.VISIBLE);
             }
         }
 
-        if (mom_type.equals("moment")){
+        if (mom_type.equals("moment")||mom_type.equals("comment")){
             response.setVisibility(View.VISIBLE);
         }
 

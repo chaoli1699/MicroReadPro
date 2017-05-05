@@ -98,7 +98,7 @@ public class CommentPresenter extends BasePresenter<CommentView> {
         });
     }
 
-    public void removeMoment(int acid){
+    public void removeComent(int acid){
         addSubscription(SystermParams.microReadApiStores.remove_moment("mmtot", acid , 1), new ApiCallback<MComment>() {
             @Override
             public void onSuccess(MComment model) {

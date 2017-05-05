@@ -121,7 +121,7 @@ public class CommentActivity extends MRActivity<CommentPresenter> implements Com
         }
 
         if (event.equals("remove")){
-            mPresenter.removeMoment(acid);
+            mPresenter.removeComent(acid);
         }
     }
 
