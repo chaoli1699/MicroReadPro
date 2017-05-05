@@ -73,9 +73,9 @@ function get_ufeture_items_wuid($uid){
 				continue;
 			}
 			
-			if (strpbrk("m_", $row["group"])) {
-				continue;
-			}
+			// if (strpbrk("m_", $row["group"])) {
+			// 	continue;
+			// }
 
 			$arr[]=array('ufid'=>$row['ufid'],
 				'name_eg'=>$row['name_eg'],
