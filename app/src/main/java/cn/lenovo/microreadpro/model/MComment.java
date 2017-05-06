@@ -90,6 +90,7 @@ public class MComment {
     public static class Comment{
 
         private int uid;
+        private String head_path;
         private String username;
         private String comment;
         private String time_to_now;
@@ -100,6 +101,14 @@ public class MComment {
 
         public void setUid(int uid) {
             this.uid = uid;
+        }
+
+        public String getHead_path() {
+            return head_path;
+        }
+
+        public void setHead_path(String head_path) {
+            this.head_path = head_path;
         }
 
         public String getUsername() {

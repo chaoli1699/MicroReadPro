@@ -36,12 +36,13 @@ public class MUser {
 
     public static class User{
         private int uid;
+        private String head_path;
         private String username;
         private int sex;
-        private String last_login_time;
         private String district;
         private String introduce;
         private int role;
+        private String last_login_time;
 
         public int getUid() {
             return uid;
@@ -49,6 +50,14 @@ public class MUser {
 
         public void setUid(int uid) {
             this.uid = uid;
+        }
+
+        public String getHead_path() {
+            return head_path;
+        }
+
+        public void setHead_path(String head_path) {
+            this.head_path = head_path;
         }
 
         public String getUsername() {

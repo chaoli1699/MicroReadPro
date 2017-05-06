@@ -27,6 +27,7 @@ import cn.lenovo.microreadpro.base.MRFragment;
 import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.presenter.UserCenterPresenter;
 import cn.lenovo.microreadpro.ui.activity.CollectionActivity;
+import cn.lenovo.microreadpro.ui.activity.MessageActivity;
 import cn.lenovo.microreadpro.ui.activity.MomentActivity;
 import cn.lenovo.microreadpro.ui.activity.UserInfoActivity;
 import cn.lenovo.microreadpro.view.UserCenterView;
@@ -102,9 +103,7 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
             public void onItemClick(int position) {
                 switch (fetures.get(position).getUfid()){
                     case 1: {
-                        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                        intent.putExtra("head_path", fetures.get(position).getHead_path());
-                        startActivity(intent);
+                        startActivity(new Intent(getActivity(), UserInfoActivity.class));
                         break;
                     }
                     case 2:
@@ -127,7 +126,7 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
                         startActivity(new Intent(getActivity(),CollectionActivity.class));
                         break;
                     case 6:
-
+                        startActivity(new Intent(getActivity(), MessageActivity.class));
                         break;
                     case 7:
 
@@ -136,7 +135,7 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
             }
         });
 
-        mPresenter.getUFetures();
+//        mPresenter.getUFetures();
     }
 
     @Override
@@ -160,6 +159,8 @@ public class UserCenterFragment extends MRFragment<UserCenterPresenter> implemen
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("UserCenterFragment");
+        mUserCenterRecycleAdapter.clear();
+        mPresenter.getUFetures();
     }
 
     @Override

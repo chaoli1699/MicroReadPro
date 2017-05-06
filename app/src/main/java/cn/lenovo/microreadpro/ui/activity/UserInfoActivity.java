@@ -44,7 +44,6 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
     private UserCenterRecycleAdapter mUserCenterRecycleAdapter;
     private MyApplication mApp;
     public static final int REQUEST_CODE_PICK_CITY = 0;
-    private String head_path;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +56,7 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
     private void initView(){
 
         mApp= (MyApplication) MyApplication.getInstance();
-        head_path=getIntent().getStringExtra("head_path")
-        ;
+
         toolbar.setTitle("个人信息");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -99,7 +97,7 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
             }
         });
 
-        mPresenter.getUserInfo(head_path);
+        mPresenter.getUserInfo();
     }
 
     @BusReceiver
@@ -141,10 +139,7 @@ public class UserInfoActivity extends MRActivity<UserInfoPresenter> implements U
 
     @Override
     public void chanInfoSuccess() {
-//        Intent intent=new Intent(SystermParams.action);
-//        intent.putExtra("user","change");
-//        sendBroadcast(intent);
-        mPresenter.getUserInfo(head_path);
+        mPresenter.getUserInfo();
     }
 
     @Override

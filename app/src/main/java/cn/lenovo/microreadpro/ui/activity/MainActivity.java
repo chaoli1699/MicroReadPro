@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mcxiaoke.bus.Bus;
 import com.umeng.analytics.MobclickAgent;
 import com.zaaach.citypicker.CityPickerActivity;
@@ -26,6 +27,7 @@ import cn.lenovo.microreadpro.base.BaseActivity;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.MUser;
 import cn.lenovo.microreadpro.model.ShareBean;
+import cn.lenovo.microreadpro.net.MicroReadApiStores;
 import cn.lenovo.microreadpro.ui.fragment.ArticalFragment;
 import cn.lenovo.microreadpro.ui.fragment.GameFragment;
 import cn.lenovo.microreadpro.ui.fragment.NewsFragment;
@@ -83,12 +85,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public void setMainDisplay(String page){
         if (mApp.isLogin){
-            if (mApp.currentUser.getSex()==-1){
-                userHead.setImageResource(R.mipmap.default_head);
-            }else if (mApp.currentUser.getSex()==0){
-                userHead.setImageResource(R.mipmap.female);
-            }else if (mApp.currentUser.getSex()==1){
-                userHead.setImageResource(R.mipmap.male);
+            if (mApp.currentUser.getHead_path()!=null&&mApp.currentUser.getHead_path().length()>0){
+                Glide.with(this).load(MicroReadApiStores.API_MICROREAD_URL+mApp.currentUser.getHead_path()).into(userHead);
             }
             userName.setText(mApp.currentUser.getUsername());
             userSign.setText((mApp.currentUser.getIntroduce().equals("")? getResources().getString(R.string.default_userSign):mApp.currentUser.getIntroduce()));

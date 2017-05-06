@@ -46,11 +46,11 @@ public class MUFeture {
         private int show_rrow;
         private int is_button;
         private int notify_num;
-        private String group;
+        private int group_id;
         private int group_top;
         private String value;
 
-        public UFeture(int ufid, String name_eg, String name_cn, String head_path, String username, String icon_path, int show_rrow, int is_button, int notify_num, String group, int group_top, String value) {
+        public UFeture(int ufid, String name_eg, String name_cn, String head_path, String username, String icon_path, int show_rrow, int is_button, int notify_num, int group_id, int group_top, String value) {
             this.ufid = ufid;
             this.name_eg = name_eg;
             this.name_cn = name_cn;
@@ -60,7 +60,7 @@ public class MUFeture {
             this.show_rrow = show_rrow;
             this.is_button = is_button;
             this.notify_num = notify_num;
-            this.group = group;
+            this.group_id = group_id;
             this.group_top = group_top;
             this.value=value;
         }
@@ -137,12 +137,12 @@ public class MUFeture {
             this.notify_num = notify_num;
         }
 
-        public String getGroup() {
-            return group;
+        public int getGroup() {
+            return group_id;
         }
 
-        public void setGroup(String group) {
-            this.group = group;
+        public void setGroup(int group_id) {
+            this.group_id = group_id;
         }
 
         public int getGroup_top() {

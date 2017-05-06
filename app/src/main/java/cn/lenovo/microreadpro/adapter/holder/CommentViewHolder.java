@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -28,6 +29,7 @@ import cn.lenovo.microreadpro.adapter.ChildcomRecyclerAdapter;
 import cn.lenovo.microreadpro.base.MyApplication;
 import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.MComment;
+import cn.lenovo.microreadpro.net.MicroReadApiStores;
 import cn.lenovo.microreadpro.widget.HintPopupWindow;
 
 /**
@@ -66,6 +68,7 @@ public class CommentViewHolder extends BaseViewHolder<MComment.PComment> {
     @Override
     public void setData(final MComment.PComment data) {
 //        super.setData(data);
+        Glide.with(context).load(MicroReadApiStores.API_MICROREAD_URL+data.getHead_path()).into(head);
         username.setText(data.getUsername());
         content.setText(data.getComment());
         time.setText(data.getTime_to_now());

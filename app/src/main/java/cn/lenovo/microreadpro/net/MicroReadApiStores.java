@@ -2,6 +2,7 @@ package cn.lenovo.microreadpro.net;
 
 import cn.lenovo.microreadpro.model.MCollection;
 import cn.lenovo.microreadpro.model.MComment;
+import cn.lenovo.microreadpro.model.MMessage;
 import cn.lenovo.microreadpro.model.MUFeture;
 import cn.lenovo.microreadpro.model.MUser;
 import cn.lenovo.microreadpro.model.MVersion;
@@ -16,7 +17,7 @@ import rx.Observer;
 
 public interface MicroReadApiStores {
 
-    String API_MICROREAD_URL="http://192.168.119.107:80/MicroRead/";
+    String API_MICROREAD_URL="http://192.168.1.104:80/MicroRead/";
 
     @GET("version.php")
     Observable<MVersion> check_version(@Query("action") String action);
@@ -65,5 +66,8 @@ public interface MicroReadApiStores {
 
     @GET("ufeture.php")
     Observable<MUFeture> load_ufeture(@Query("action") String action, @Query("uid") int uid);
+
+    @GET("message.php")
+    Observable<MMessage> get_messages(@Query("action") String action, @Query("uid") int uid);
 
 }
