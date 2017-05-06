@@ -53,9 +53,25 @@ function get_comment_time($uid, $acid, $tab){
     return "";
 }
 
-function get_comment_wacid($acid){
+function create_childcom_accid(){
 
-	$sql="SELECT * FROM md_childcom WHERE acid='".$acid."' AND can_use='0'";
+	$pre_uid=rand(10000000,99999999);
+	$sql="SELECT accid FROM md_childcom LIMIT 10000000,99999999";
+	$result=$GLOBALS['conn']->query($sql);
+	
+	if ($result->num_rows>0) {
+		while ($row=$result->fetch_assoc()){
+			if ($row["accid"]==$pre_uid){
+				return -1;
+			}
+		}
+	}
+	return $pre_uid;
+} 
+
+function get_comment_waccid($accid){
+
+	$sql="SELECT * FROM md_childcom WHERE accid='".$accid."' AND can_use='0'";
 
 	$result=$GLOBALS['conn']->query($sql);
 

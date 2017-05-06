@@ -1,8 +1,8 @@
 <?php
 
-function add_message_item($source, $aim, $acid){
+function add_message_item($source, $aim, $acid, $accid){
 
-	$sql="INSERT INTO md_message(source_uid, aim_uid, acid, status) VALUES ('".$source."', '".$aim."' ,'".$acid."', '1')";
+	$sql="INSERT INTO md_message(source_uid, aim_uid, acid, accid, status) VALUES ('".$source."', '".$aim."' ,'".$acid."', '".$accid."', '1')";
 
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 		
@@ -15,7 +15,7 @@ function update_message_status($mid){
 
 	$sql="UPDATE md_message SET status=0 WHERE mid='".$mid."'";
 
-	$retval=sqli_query($GLOBALS['conn'], $sql);
+	$retval=mysqli_query($GLOBALS['conn'], $sql);
 	
 	if(! $retval )
 	{

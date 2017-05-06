@@ -1,5 +1,6 @@
 <?php  include 'funs/fun_comment.php';
   include 'funs/fun_user.php';
+  include 'funs/fun_message.php';
 
 header("Content-type: text/html; charset=utf-8");
 function var_json($info='', $code=10000, $data=array()){
@@ -14,7 +15,7 @@ function var_json($info='', $code=10000, $data=array()){
 
 function get_message_items($uid){
 
-	$sql="SELECT * FROM md_message WHERE aim_uid='".$uid."' AND can_use='0'";
+	$sql="SELECT * FROM md_message WHERE aim_uid='".$uid."' AND can_use='0' ORDER BY msg_time DESC";
 	$result=$GLOBALS['conn']->query($sql);
 
 	if ($result->num_rows>0) {
@@ -24,10 +25,11 @@ function get_message_items($uid){
              
 			$arr[]=array('mid'=>$row["mid"],
 			 'acid'=>$row["acid"],
+			 'head_path'=>get_user_headpath_wuid($row["source_uid"]),
 			 'username'=>get_user_name_wuid($row["source_uid"]),
-			 'comment'=>get_comment_wacid($row["acid"]),
+			 'comment'=>get_comment_waccid($row["accid"]),
 			 'status'=>$row["status"],
-			 'time_to_now'=>time_to_now($row["source_uid"], $row['acid'], "md_childcom"));
+			 'time_to_now'=>time_to_now($row["source_uid"], $row['accid'], "md_childcom"));
 
 			update_message_status($row["mid"]);
 		}

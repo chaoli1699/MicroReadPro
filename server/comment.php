@@ -44,6 +44,7 @@ function get_moment_items(){  //获取时光轴列表
 		while ($row=$result->fetch_assoc()) {
 			$arr[]=array('acid'=>$row["acid"],
 			 'uid'=>$row["uid"],
+			 'head_path'=>get_user_headpath_wuid($row["uid"]),
 			 'username'=>get_user_name_wuid($row["uid"]),
 			 'comment'=>$row["comment"],
 			 'time_to_now'=>time_to_now($row["uid"], $row['acid'], "md_comment") ,
@@ -91,10 +92,11 @@ function get_pmoment_or_trash_items($uid, $can_use){  //获取个人时光轴状
 		while ($row=$result->fetch_assoc()) {		
 			$arr[]=array('acid'=>$row["acid"],
 				'uid'=>$row["uid"],
+				'head_path'=>get_user_headpath_wuid($row["uid"]),
 				'username'=>get_user_name_wuid($row["uid"]),
 				'comment'=>$row["comment"],
 				'time_to_now'=>time_to_now($row["uid"], $row['acid'], "md_comment") , 
-				'child_com'=>get_childcom_items($row["acid"]));
+				'child_com'=>array());
 		}
 		var_json("success", 0 , 0, $arr);
 	}else{
@@ -107,10 +109,18 @@ function add_childcom_item($acid, $uid, $aim, $comment){  //新增子评论
     $aid=get_artical_aid_wacid($acid);
     update_artical_com_count($aid, get_artical_com_count($aid), 1);
 
-	$sql="INSERT INTO md_childcom(acid, uid, comment) VALUES ('".$acid."','".$uid."','".$comment."')";
+    $accid=-1;
+	while ($accid==-1){
+		$accid=create_childcom_accid();
+	}
+
+	$sql="INSERT INTO md_childcom(accid, acid, uid, comment) VALUES ('".$accid."', '".$acid."','".$uid."','".$comment."')";
+	
 	if ($GLOBALS['conn']->query($sql)===TRUE) {
 	    
-	    add_message_item($uid, $aim, $acid, -1);
+	    if ($uid!=$aim) {
+	    	add_message_item($uid, $aim, $acid, $accid, -1);
+	    }
 
 		if ($aid<0) {
 			get_moment_items();
@@ -185,6 +195,7 @@ function get_comment_items($aid){   //获取文章评论列表
 		while ($row=$result->fetch_assoc()) {
 			$arr[]=array('acid'=>$row["acid"],
 				'uid'=>$row["uid"],
+				'head_path'=>get_user_headpath_wuid($row["uid"]),
 				'username'=>get_user_name_wuid($row["uid"]),
 				'comment'=>$row["comment"],
 				'time_to_now'=>time_to_now($row["uid"], $row['acid'], "md_comment"), 

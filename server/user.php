@@ -23,6 +23,31 @@ function var_json($info='', $code=10000, $data=array()){
 	exit(0);
 }
 
+function get_user_info($uid){
+	
+	$sql="SELECT * FROM md_user WHERE uid='".$uid."'";
+	$result=$GLOBALS['conn']->query($sql);
+	
+	if ($result->num_rows>0){
+		$u=new user;
+		while ($row=$result->fetch_assoc()){
+			$u->uid=$row["uid"];
+		    $u->head_path=get_user_headpath_wuid($uid);
+			$u->username=$row["username"];
+			$u->sex=$row["sex"];
+			$u->district=$row["district"];
+			$u->introduce=$row["introduce"];
+			$u->role=$row["role"];
+			$u->last_login_time=$row["last_login_time"];		    
+		}
+
+		var_json("success",0,$u);
+	}else {
+// 		echo "0 result.";
+		var_json("user not exists",10001,new user);
+	}
+}
+
 function update_user_info($uid, $label, $value){
 	
 	$sql = "UPDATE md_user SET ".$label."='".$value."' WHERE uid='".$uid."'";

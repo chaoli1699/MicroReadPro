@@ -28,7 +28,7 @@ function get_ufeture_items_wgid($gid){
 				'show_rrow'=>$row['show_rrow'],
 				'is_button'=>$row['is_button'],
 				'notify_num'=>0,
-				'group'=>$row['group_id'],
+				'group_id'=>$row['group_id'],
 				'group_top'=>$row['group_top']);
 		}
 
@@ -52,12 +52,7 @@ function get_ufeture_items_wuid($uid){
 			if ($row['ufid']==1) {
 				//get head_img form md_user
 				$username=get_user_name_wuid($uid);
-
-				if (get_user_sex_wuid($uid)>0) {
-					$head_path="/img/male.png";
-				}else {
-					$head_path="/img/female.png";
-				}
+				$head_path=get_user_headpath_wuid($uid);
 			}
 			if ($row['ufid']==6) {
 				//get notify_num from message
@@ -76,7 +71,7 @@ function get_ufeture_items_wuid($uid){
 				'show_rrow'=>$row['show_rrow'],
 				'is_button'=>$row['is_button'],
 				'notify_num'=>$notify_num,
-				'group'=>$row['group_id'],
+				'group_id'=>$row['group_id'],
 				'group_top'=>$row['group_top']);
 		}
 

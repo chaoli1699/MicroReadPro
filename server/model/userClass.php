@@ -1,15 +1,16 @@
 <?php
 
 class user{
-	private $uid;
-	private $username;
-	private $password;
-	private $sex;
-	private $regist_time;
-	private $last_login_time;
-	private $district;
-	private $can_use;
-	private $role;
+	var $uid;
+	var $head_path;
+	var $username;
+	var $password;
+	var $sex;
+	var $regist_time;
+	var $last_login_time;
+	var $district;
+	var $can_use;
+	var $role;
 
     function __construct(){}	
 }

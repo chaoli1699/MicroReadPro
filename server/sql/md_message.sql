@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-05-05 15:48:37
+-- Generation Time: 2017-05-06 09:55:36
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -31,7 +31,9 @@ CREATE TABLE IF NOT EXISTS `md_message` (
   `source_uid` int(8) NOT NULL,
   `aim_uid` int(8) NOT NULL,
   `acid` int(8) NOT NULL,
+  `accid` int(8) NOT NULL,
   `status` int(1) NOT NULL,
+  `msg_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `can_use` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`mid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
