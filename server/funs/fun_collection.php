@@ -14,6 +14,9 @@ function time_to_now($uid, $aid){
 	$secs = $remain % 60;
 
 	if($days>0){
+		if ($days>5) {
+			return  date_format(date_create($begin_time), "Y年m月d日 H:i");
+		}
 		return $days."天前";
 	}
 
