@@ -30,11 +30,7 @@ public class ManagerPresenter extends BasePresenter<ManagerView>{
 
     public void getUsers(){
         users= mApp.getUsers();
-//        if (users.size()>0){
-            view.getUsersSuccess(users);
-//        }else {
-//            view.getUsersFail("用户列表为空");
-//        }
+        view.getUsersSuccess(users);
     }
 
     public boolean userExist(User mUser){
@@ -74,42 +70,34 @@ public class ManagerPresenter extends BasePresenter<ManagerView>{
                     view.removeUserSuccess();
                 }
             }
-        }else {
-            view.removeUserFail("所选用户不存在");
         }
     }
 
     public void calculate(float total_fee){
 
-        if (users==null){
-            getUsers();
-        }
-
-        float air_total=0;
-        float aver_fee=0;
+        float left_fee=total_fee;
+        float aver_fee;
+        float should_pay;
         if (users.size()>0){
             for (User u:users){
-                if (total_fee<=u.getAir_fee()){
+                if (left_fee<u.getAir_fee()){
                     view.calculateFail("费用不合理，请核查后再计算！");
                     return;
                 }
-                air_total+=u.getAir_fee();
+                left_fee-=u.getAir_fee();
             }
-            LogUtil.d(air_total+"");
 
-            aver_fee=(total_fee-air_total)/(users.size());
+            aver_fee=left_fee/users.size();
 
-            for (int i=0;i<users.size();i++){
-                User user=users.get(i);
-                float should_pay=user.getAir_fee()+aver_fee;
+            for (User u:users){
+                should_pay=u.getAir_fee()+aver_fee;
                 should_pay=(Math.round(should_pay*100))/100;
-                user.setShould_pay(should_pay);
+                u.setShould_pay(should_pay);
 
-                mApp.resetUser(user);
+                mApp.resetUser(u);
             }
+
             view.calculaeSuccess();
-        }else {
-            view.calculateFail("用户列表为空");
         }
     }
 

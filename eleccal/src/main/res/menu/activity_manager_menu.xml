@@ -17,8 +17,8 @@
     <item
         android:id="@+id/setting"
         android:title="@string/setting"
-        android:icon="@android:drawable/ic_partial_secure"
-        app:showAsAction="ifRoom"/>
+        android:icon="@android:drawable/ic_lock_lock"
+        app:showAsAction="never"/>
 
 
 

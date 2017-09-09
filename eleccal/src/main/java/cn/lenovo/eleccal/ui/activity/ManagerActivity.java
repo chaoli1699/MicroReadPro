@@ -123,21 +123,45 @@ public class ManagerActivity extends MRActivity<ManagerPresenter> implements Man
         inputUser.setText("");
         if (id==R.id.insert){
             input_type=0;
-            inputUser.setHint("输入用户名");
-            inputUser.setInputType(InputType.TYPE_CLASS_TEXT);
-            container.setVisibility(View.VISIBLE);
+            //inputUser.setHint("输入用户名");
+            //inputUser.setInputType(InputType.TYPE_CLASS_TEXT);
+            //container.setVisibility(View.VISIBLE);
         }else if (id==R.id.calculate){
             input_type=1;
-            inputUser.setHint("输入总电费");
-            inputUser.setInputType(InputType.TYPE_CLASS_NUMBER);
-            container.setVisibility(View.VISIBLE);
+            //inputUser.setHint("输入总电费");
+            //inputUser.setInputType(InputType.TYPE_CLASS_NUMBER);
+            //container.setVisibility(View.VISIBLE);
         }else if (id==R.id.setting){
-            input_type=3;
-            inputUser.setHint("输入用户数量上限");
-            inputUser.setInputType(InputType.TYPE_CLASS_NUMBER);
-            container.setVisibility(View.VISIBLE);
+            input_type=2;
+            //inputUser.setHint("输入用户数量上限");
+            //inputUser.setInputType(InputType.TYPE_CLASS_NUMBER);
+            //container.setVisibility(View.VISIBLE);
         }
+        Intent intent=new Intent(ManagerActivity.this,InputActivity.class);
+        intent.putExtra("type",input_type);
+        startActivityForResult(intent,input_type);
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==0){
+            switch (requestCode){
+                case 0:
+                    User user=new User();
+                    user.setName(data.getStringExtra("result"));
+                    mPresenter.inseretUser(user);
+                    break;
+                case 1:
+                    mPresenter.calculate(Float.valueOf(data.getStringExtra("result")));
+                    break;
+                case 2:
+                    mPresenter.resetUserMax(data.getStringExtra("result"));
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -231,7 +255,7 @@ public class ManagerActivity extends MRActivity<ManagerPresenter> implements Man
                 }else {
                     mPresenter.calculate(Float.valueOf(string));
                 }
-            }else if (input_type==3){
+            }else if (input_type==2){
                 if (string.length()<1){
                     inputUser.setError("用户上限为空");
                 }else {
