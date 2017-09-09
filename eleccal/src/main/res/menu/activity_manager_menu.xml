@@ -14,4 +14,12 @@
         android:icon="@android:drawable/ic_dialog_dialer"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/setting"
+        android:title="@string/setting"
+        android:icon="@android:drawable/ic_partial_secure"
+        app:showAsAction="ifRoom"/>
+
+
+
 </menu>

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ElecCal</string>
-    <string name="account">账号</string>
+    <string name="account">用户</string>
 
     <string name="empty_data">暂无数据</string>
     <string name="net_error">网络错误，点击重试...</string>
@@ -17,5 +17,6 @@
     <string name="total_fee">电费总计</string>
     <string name="submit">提交</string>
     <string name="calculate">计算</string>
+    <string name="setting">设置</string>
     <string name="should_pay">应付</string>
 </resources>

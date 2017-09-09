@@ -33,6 +33,7 @@ public class MyApplication extends Application{
     public Set<Activity> allActivities;
     public ACache aCache;
     public List<User> users;
+    public int user_max=4;
 
     /**
      * 屏幕宽度
@@ -55,6 +56,9 @@ public class MyApplication extends Application{
         mContext = getApplicationContext();
         mInstance = this;
         initScreenSize();
+        if (aCache.getAsString("user_max")!=null){
+            user_max=Integer.valueOf(aCache.getAsString("user_max"));
+        }
     }
 
     public static Context getInstance() {

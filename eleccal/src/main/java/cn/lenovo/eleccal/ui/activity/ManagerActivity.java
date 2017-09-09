@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -25,6 +26,7 @@ import butterknife.Bind;
 import cn.lenovo.eleccal.R;
 import cn.lenovo.eleccal.adapter.ManagerRecycleAdapter;
 import cn.lenovo.eleccal.base.MRActivity;
+import cn.lenovo.eleccal.base.MyApplication;
 import cn.lenovo.eleccal.model.User;
 import cn.lenovo.eleccal.presenter.ManagerPresenter;
 import cn.lenovo.eleccal.ui.fragment.RemoveUserDialogFragment;
@@ -50,6 +52,7 @@ public class ManagerActivity extends MRActivity<ManagerPresenter> implements Man
     private User removeUser;
 
     private int input_type;
+    //private MyApplication mApp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class ManagerActivity extends MRActivity<ManagerPresenter> implements Man
     }
 
     private void initView(){
+        //mApp= (MyApplication) MyApplication.getInstance();
 
         mToolbar.setTitle(getResources().getString(R.string.app_name));
         setSupportActionBar(mToolbar);
@@ -127,6 +131,11 @@ public class ManagerActivity extends MRActivity<ManagerPresenter> implements Man
             inputUser.setHint("输入总电费");
             inputUser.setInputType(InputType.TYPE_CLASS_NUMBER);
             container.setVisibility(View.VISIBLE);
+        }else if (id==R.id.setting){
+            input_type=3;
+            inputUser.setHint("输入用户数量上限");
+            inputUser.setInputType(InputType.TYPE_CLASS_NUMBER);
+            container.setVisibility(View.VISIBLE);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -146,6 +155,7 @@ public class ManagerActivity extends MRActivity<ManagerPresenter> implements Man
     @Override
     public void insertUserSuccess() {
         EventUtil.showToast(this,"新增用户成功");
+        container.setVisibility(View.GONE);
         inputUser.setText("");
         mPresenter.getUsers();
     }
@@ -158,8 +168,15 @@ public class ManagerActivity extends MRActivity<ManagerPresenter> implements Man
 
     @Override
     public void calculaeSuccess() {
-        EventUtil.showToast(this,"应付电费计算成功，点击用户查看详情");
+        EventUtil.showToast(this,"应付电费计算成功!");
+        container.setVisibility(View.GONE);
         mPresenter.getUsers();
+    }
+
+    @Override
+    public void resetUserMacSuccess() {
+        EventUtil.showToast(this,"重置用户上限成功！");
+        container.setVisibility(View.GONE);
     }
 
     @Override
@@ -213,6 +230,12 @@ public class ManagerActivity extends MRActivity<ManagerPresenter> implements Man
                     inputUser.setError("总电费为空");
                 }else {
                     mPresenter.calculate(Float.valueOf(string));
+                }
+            }else if (input_type==3){
+                if (string.length()<1){
+                    inputUser.setError("用户上限为空");
+                }else {
+                    mPresenter.resetUserMax(string);
                 }
             }
         }

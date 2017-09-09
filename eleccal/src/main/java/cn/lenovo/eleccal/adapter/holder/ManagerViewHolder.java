@@ -11,6 +11,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.lenovo.eleccal.R;
 import cn.lenovo.eleccal.model.User;
+import cn.lenovo.eleccal.utils.LogUtil;
 
 /**
  * Created by Aaron on 2017/1/9.
@@ -30,6 +31,10 @@ public class ManagerViewHolder extends BaseViewHolder<User> {
     @Override
     public void setData(User data) {
         super.setData(data);
-        name.setText(data.getName());
+        if (data.getShould_pay()>0){
+            name.setText(data.getName()+"(本期应付："+data.getShould_pay()+")");
+        }else {
+            name.setText(data.getName());
+        }
     }
 }

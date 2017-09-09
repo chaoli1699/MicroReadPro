@@ -51,12 +51,12 @@ public class ManagerPresenter extends BasePresenter<ManagerView>{
 
     public void inseretUser(User mUser){
         if (!userExist(mUser)){
-            if (users.size()<4){
+            if (users.size()<mApp.user_max){
                 users.add(mUser);
                 mApp.aCache.put("users",new Gson().toJson(users));
                 view.insertUserSuccess();
             }else {
-                view.insertUserFail("添加用户超过上限（4户）");
+                view.insertUserFail("添加用户超过上限（"+mApp.user_max+"户）");
             }
         }else {
             view.insertUserFail("用户已存在");
@@ -89,6 +89,10 @@ public class ManagerPresenter extends BasePresenter<ManagerView>{
         float aver_fee=0;
         if (users.size()>0){
             for (User u:users){
+                if (total_fee<=u.getAir_fee()){
+                    view.calculateFail("费用不合理，请核查后再计算！");
+                    return;
+                }
                 air_total+=u.getAir_fee();
             }
             LogUtil.d(air_total+"");
@@ -107,5 +111,11 @@ public class ManagerPresenter extends BasePresenter<ManagerView>{
         }else {
             view.calculateFail("用户列表为空");
         }
+    }
+
+    public void resetUserMax(String user_max){
+        mApp.aCache.put("user_max",user_max);
+        mApp.user_max=Integer.valueOf(user_max);
+        view.resetUserMacSuccess();
     }
 }

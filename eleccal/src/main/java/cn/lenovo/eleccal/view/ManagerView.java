@@ -15,6 +15,7 @@ public interface ManagerView extends BaseView{
     void insertUserSuccess();
     void removeUserSuccess();
     void calculaeSuccess();
+    void resetUserMacSuccess();
 
     void getUsersFail(String msg);
     void insertUserFail(String msg);

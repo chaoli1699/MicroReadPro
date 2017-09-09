@@ -58,13 +58,18 @@ public class MainActivity extends MRActivity<MainPresenter> implements MainView,
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        last_date.setText(user.getLast_data()+"");
-
         lastString=last_date.getText().toString();
         currentString=current_data.getText().toString();
 //        totalString=total_fee.getText().toString();
 
-        should_pay.setText(user.getShould_pay()+"元");
+        if (user.getShould_pay()>0){
+            last_date.setText(user.getLast_data()+"");
+            current_data.setText(user.getCurrent_data()+"");
+            air_count.setText(user.getCurrent_data()-user.getLast_data()+"");
+            air_fee.setText(user.getAir_fee()+"");
+            should_pay.setText(user.getShould_pay()+"元");
+        }
+        //should_pay.setText(user.getShould_pay()+"元");
 
         submit.setOnClickListener(this);
         last_date.addTextChangedListener(new TextWatcher() {
